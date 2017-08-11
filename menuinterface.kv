@@ -1,6 +1,6 @@
 #:kivy 1.10.0
 
-<MenuButton@Button>
+<MenuButton>
 	color: self.custom_text_c
 	background_color: self.custom_back
 	size_hint: .95,1
@@ -10,12 +10,12 @@
 	halign: 'center'
 	valign: 'center'
 
-<MainMenuButton@MenuButton>
+<MainMenuButton>
 	text: "Main Menu"
 	font_size: self.height*0.2
     on_release: app.root.children[0].current = "mainmenu"
 
-<MenuBoxLayout@BoxLayout>
+<MenuBoxLayout>
 	orientation: "vertical"
 	padding: 4,4,4,4
 	canvas.before:
@@ -27,7 +27,7 @@
 
 	
 	
-<StorylineLabel@Label>
+<StorylineLabel>
 
 	markup: True
 	text_size: self.size
@@ -44,7 +44,7 @@
 			pos: self.pos
 			size: self.size
 
-<ActionPopup@Popup>
+<ActionPopup>
 
 	size_hint: .5,.5
 	auto_dismiss: False

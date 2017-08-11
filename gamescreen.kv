@@ -46,7 +46,7 @@
 		size_hint: .8,.8
 		on_ref_press:  root.useReference(args)
 		
-<InspectPopup@ActionPopup>
+<InspectPopup>
 
 	referenceDescription: ref_desc
 	
@@ -64,14 +64,14 @@
 			on_press: root.dismiss()
 			
 		
-<InteractPopup@ActionPopup>
+<InteractPopup>
 
 	interactPopupLayout: int_pop
 
 	MenuBoxLayout:
         id: int_pop
 
-<InteractResultPopup@ActionPopup>
+<InteractResultPopup>
 
 	interactResultPopupLayout: int_r_pop
 
