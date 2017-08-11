@@ -1,0 +1,27 @@
+#:kivy 1.10.0
+
+<OptionsScreen>
+
+	name: "options"
+	
+	MenuBoxLayout:
+					
+		Label:
+			text: "Options"
+			font_size: self.height*0.6
+
+		MenuButton:
+		    text: "Theme"
+		    on_release:
+		        root.changeTheme()
+
+		MainMenuButton:
+		    on_release: root.manager.current = "mainmenu"
+
+
+<ThemesPopup@ActionPopup>
+
+    themesPopupLayout: themes_pop
+
+    MenuBoxLayout:
+	    id: themes_pop

@@ -1,0 +1,20 @@
+#:kivy 1.10.0
+
+#: include menuinterface.kv
+#: include mainmenuscreen.kv
+#: include gamescreen.kv
+#: include optionsscreen.kv
+
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<ScreenChanger@ScreenManager>
+    transition: FadeTransition()
+
+    MainMenuScreen:
+	GameScreen:
+	OptionsScreen:
+
+
+
+
+			

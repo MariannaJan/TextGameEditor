@@ -1,0 +1,52 @@
+#:kivy 1.10.0
+
+<MenuButton@Button>
+	color: self.custom_text_c
+	background_color: self.custom_back
+	size_hint: .95,1
+	pos_hint: {"center_x":.5,"y":0}
+	font_size: min(self.height*0.4,self.width*0.4)
+	text_size: self.size
+	halign: 'center'
+	valign: 'center'
+
+<MainMenuButton@MenuButton>
+	text: "Main Menu"
+	font_size: self.height*0.2
+
+
+<MenuBoxLayout@BoxLayout>
+	orientation: "vertical"
+	padding: 4,4,4,4
+	canvas.before:
+		Color:
+			rgba: self.custom_canvas
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	
+	
+<StorylineLabel@Label>
+
+	markup: True
+	text_size: self.size
+	font_size: self.height/20
+	halign: 'justify'
+	valign: 'top'
+	padding_x: 15
+	padding_y: 30
+
+	canvas.before:
+		Color:
+			rgba: self.custom_canvas
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+<ActionPopup@Popup>
+
+	size_hint: .5,.5
+	auto_dismiss: False
+	separator_color: 1,1,1,0
+

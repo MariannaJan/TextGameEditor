@@ -1,0 +1,39 @@
+#:kivy 1.10.0
+
+#: include menuinterface.kv
+#: include mainmenuscreen.kv
+#: include gamescreen.kv
+#: include optionsscreen.kv
+
+
+<MainMenuScreen>
+
+    name: "mainmenu"
+
+	MenuBoxLayout:
+		
+		Label:
+			text: "Main Menu"
+			font_size: self.height*0.6
+		
+		MenuButton:
+		    id: new_game
+			text: "New Game"
+			on_release:
+			    app.startingPage = 'page1'
+			    root.manager.current = "gamescreen"
+			
+		MenuButton:
+			text: "Continue"
+			
+		MenuButton:
+			text: "Options"
+			on_release: root.manager.current = "options"
+			
+		MenuButton:
+			text: "Previous Attempts"
+			
+		MenuButton:
+			text: "Quit"
+			on_release: app.get_running_app().stop()
+

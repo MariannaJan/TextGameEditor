@@ -1,0 +1,91 @@
+#:kivy 1.10.0
+
+<GameScreen>
+	name: "gamescreen"
+	on_enter:
+	    pageNo=app.startingPage
+	    root.setStoryline(pageNo)
+		
+	storylinePageText: reference_text_label
+
+	MainMenuButton:
+		pos_hint:{'x': .8, 'y': 0}
+		size_hint: .2,.2
+		on_release: root.manager.current = "mainmenu"
+
+	GridLayout:
+		pos_hint: {'x': 0, 'y':0}
+		size_hint: .8, .2
+		cols: 2
+		
+		MenuBoxLayout
+		
+			MenuButton:
+				text: "Inspect"
+				on_release: root.clickInspect()
+
+			MenuButton:
+				text: "Interact"
+				on_release: root.clickInteract()
+					
+		MenuBoxLayout
+		
+			MenuButton:
+				text: "Inventory"
+				on_release: root.clickInventory()
+				
+			MenuButton:
+				text: "Interface"
+				on_release: root.clickInterface()
+				
+	StorylineLabel:
+		 
+		id: reference_text_label
+		flag: None
+		pos_hint: {'x': 0, 'y': .2}
+		size_hint: .8,.8
+		on_ref_press:  root.useReference(args)
+		
+<InspectPopup@ActionPopup>
+
+	referenceDescription: ref_desc
+	
+	MenuBoxLayout:
+
+		StorylineLabel:
+			
+			id: ref_desc
+			size_hint: 1,.8
+	
+		MenuButton:
+			text: "Close"
+			size_hint: 1,.2
+
+			on_press: root.dismiss()
+			
+		
+<InteractPopup@ActionPopup>
+
+	interactPopupLayout: int_pop
+
+	MenuBoxLayout:
+        id: int_pop
+
+<InteractResultPopup@ActionPopup>
+
+	interactResultPopupLayout: int_r_pop
+
+	MenuBoxLayout:
+	    id: int_r_pop
+
+
+
+
+		
+			
+	
+		
+				
+		
+		
+		
