@@ -29,7 +29,7 @@ class Themes:
 
 	def updateTheme(self,themeName,*args):
 		DataAccess.setTheme(self,themeName)
-		ThemeSetter.setupTheme(self)
+		#ThemeSetter.setupTheme()
 		print(themeName)
 
 class ThemesPopup(ActionPopup):

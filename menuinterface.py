@@ -7,7 +7,7 @@ from dataaccess import DataAccess
 
 class ThemeSetter:
 
-
+    @classmethod
     def setupTheme(self):
         da = DataAccess()
         themeSettings = da.getTheme(da.getThemeName())
@@ -15,20 +15,19 @@ class ThemeSetter:
 
 class MenuButton(Button):
 
-    themeSettings=ThemeSetter()
-    custom_text_c = (themeSettings.setupTheme())['customButtonTextColor']
-    custom_back = (themeSettings.setupTheme())['customButtonBackgrondColor']
+    custom_text_c = (ThemeSetter.setupTheme())['customButtonTextColor']
+    custom_back = (ThemeSetter.setupTheme())['customButtonBackgrondColor']
 
 class MainMenuButton(MenuButton):
     pass
 
 class MenuBoxLayout(BoxLayout):
-    themeSettings = ThemeSetter()
-    custom_canvas = (themeSettings.setupTheme())['customLayoutCanvasColor']
+
+    custom_canvas = (ThemeSetter.setupTheme())['customLayoutCanvasColor']
 
 class StorylineLabel(Label):
-    themeSettings = ThemeSetter()
-    custom_canvas = (themeSettings.setupTheme())['customLayoutCanvasColor']
+
+    custom_canvas = (ThemeSetter.setupTheme())['customLayoutCanvasColor']
 
 class ActionPopup(Popup):
 
