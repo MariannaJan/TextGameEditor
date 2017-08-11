@@ -9,6 +9,4 @@ from optionsscreen import OptionsScreen
 
 
 class ScreenChanger(ScreenManager):
-
-
 	pass

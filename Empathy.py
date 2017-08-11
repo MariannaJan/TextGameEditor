@@ -2,11 +2,9 @@
 from kivy.app import App
 from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
-from kivy.lang.builder import Builder
 from screenchanger import ScreenChanger
-from mainmenuscreen import MainMenuScreen
-from optionsscreen import OptionsScreen
-from gamescreen import GameScreen
+
+from kivy.uix.label import Label
 
 Window.size = (600,800)
 Window.minimum_width = 600
@@ -23,9 +21,6 @@ class Empathy(App):
 		self.title = 'Empathy'
 		masterWidget = BoxLayout()
 		screenChanger = ScreenChanger()
-		screenChanger.add_widget(MainMenuScreen(name='mainmenu'))
-		screenChanger.add_widget(GameScreen(name='gamescreen'))
-		screenChanger.add_widget(OptionsScreen(name='options'))
 		masterWidget.add_widget(screenChanger)
 		masterWidget.size = Window.size
 		return masterWidget
@@ -34,12 +29,9 @@ class Empathy(App):
 		ap = App.get_running_app()
 		lol = ap.root
 		lol.clear_widgets()
-		#lol.add_widget(Label(text = 'zoo'))
-		# screenChanger = ScreenChanger()
-		# screenChanger.add_widget(MainMenuScreen(name='mainmenu'))
-		# screenChanger.add_widget(GameScreen(name='gamescreen'))
-		# screenChanger.add_widget(OptionsScreen(name='options'))
-		# lol.add_widget(screenChanger)
+		lol.add_widget(Label(text = 'zoo'))
+		screenChanger = ScreenChanger()
+		lol.add_widget(screenChanger)
 
 if __name__=="__main__":
 	Empathy().run()
