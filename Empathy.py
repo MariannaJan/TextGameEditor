@@ -22,7 +22,6 @@ class Empathy(App):
 		masterWidget = BoxLayout()
 		screenChanger = ScreenChanger()
 		masterWidget.add_widget(screenChanger)
-		masterWidget.size = Window.size
 		return masterWidget
 
 	def _restartApp(self):
@@ -30,8 +29,7 @@ class Empathy(App):
 		lol = ap.root
 		lol.clear_widgets()
 		lol.add_widget(Label(text = 'zoo'))
-		screenChanger = ScreenChanger()
-		lol.add_widget(screenChanger)
+		lol.add_widget(ScreenChanger())
 
 if __name__=="__main__":
 	Empathy().run()
