@@ -32,7 +32,9 @@
 			
 		MenuButton:
 			text: "Previous Attempts"
-			
+			on_release: root.restartApp()
+
+
 		MenuButton:
 			text: "Quit"
 			on_release: app.get_running_app().stop()
