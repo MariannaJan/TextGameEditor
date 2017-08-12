@@ -2,6 +2,7 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
+from kivy.graphics import Color
 
 from dataaccess import DataAccess
 
@@ -15,23 +16,32 @@ class ThemeSetter:
 
 class MenuButton(Button):
 
-    custom_text_c = (ThemeSetter.setupTheme())['customButtonTextColor']
-    custom_back = (ThemeSetter.setupTheme())['customButtonBackgrondColor']
+    def __init__(self,**kwargs):
+        super(MenuButton,self).__init__()
+        self.background_color = (ThemeSetter.setupTheme())['customButtonBackgrondColor']
+        self.color = (ThemeSetter.setupTheme())['customButtonTextColor']
 
 class MainMenuButton(MenuButton):
     pass
 
 class MenuBoxLayout(BoxLayout):
 
-    custom_canvas = (ThemeSetter.setupTheme())['customLayoutCanvasColor']
+    def __init__(self,**kwargs):
+        super(MenuBoxLayout,self).__init__()
+        with self.canvas.before:
+            Color(rgba=((ThemeSetter.setupTheme())['customLayoutCanvasColor']))
 
 class StorylineLabel(Label):
 
-    custom_canvas = (ThemeSetter.setupTheme())['customLayoutCanvasColor']
+    def __init__(self,**kwargs):
+        super(StorylineLabel,self).__init__()
+        with self.canvas.before:
+            Color(rgba=((ThemeSetter.setupTheme())['customLayoutCanvasColor']))
 
 class ActionPopup(Popup):
 
     def closePopupButton(self, popup):
-        closeButton = MenuButton(text='Close')
+        closeButton = MenuButton()
+        closeButton.text='Close'
         closeButton.bind(on_press=popup.dismiss)
         return closeButton

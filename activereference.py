@@ -36,11 +36,13 @@ class ActiveReference:
 	def interactButtonsGeneration(self,intPop):
 		interactions=self.activeObjectInteractions.keys()
 		if self.activeObjectInteractions == {}:
-			noInteractionInfo = StorylineLabel(text="I can't do anything with that")
+			noInteractionInfo = StorylineLabel()
+			noInteractionInfo.text="I can't do anything with that"
 			intPop.interactPopupLayout.add_widget(noInteractionInfo)
 		for interaction in interactions:
 			interactButtonTitle = interaction
-			interactButton = MenuButton(text=interactButtonTitle)
+			interactButton = MenuButton()
+			interactButton.text=interactButtonTitle
 			interactButton.bind(on_press=partial(self.interactButtonFunction,interaction,self.activeObjectName))
 			intPop.interactPopupLayout.add_widget(interactButton)
 
@@ -50,8 +52,10 @@ class ActiveReference:
 	def open_interact_result_popup(self, interaction, interactee):
 		interactResultTitle= interaction + ' ' + interactee
 		interactionResultDescription=(self.activeObjectInteractions[interaction])[4]
-		intResPop=InteractResultPopup(title=interactResultTitle)
-		interactionResultLabel=StorylineLabel(text=interactionResultDescription)
+		intResPop=InteractResultPopup()
+		intResPop.title =interactResultTitle
+		interactionResultLabel=StorylineLabel()
+		interactionResultLabel.text=interactionResultDescription
 		intResPop.interactResultPopupLayout.add_widget(interactionResultLabel)
 		closeButton=ActionPopup.closePopupButton(self, intResPop)
 		closeButton.size_hint = (1,0.3)

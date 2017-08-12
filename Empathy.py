@@ -4,8 +4,6 @@ from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
 from screenchanger import ScreenChanger
 
-from kivy.uix.label import Label
-
 Window.size = (600,800)
 Window.minimum_width = 600
 Window.minimum_height = 800
@@ -28,7 +26,6 @@ class Empathy(App):
 		ap = App.get_running_app()
 		lol = ap.root
 		lol.clear_widgets()
-		lol.add_widget(Label(text = 'zoo'))
 		lol.add_widget(ScreenChanger())
 
 if __name__=="__main__":

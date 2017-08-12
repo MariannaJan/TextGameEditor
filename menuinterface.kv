@@ -1,8 +1,6 @@
 #:kivy 1.10.0
 
 <MenuButton>
-	color: self.custom_text_c
-	background_color: self.custom_back
 	size_hint: .95,1
 	pos_hint: {"center_x":.5,"y":0}
 	font_size: min(self.height*0.4,self.width*0.4)
@@ -19,8 +17,6 @@
 	orientation: "vertical"
 	padding: 4,4,4,4
 	canvas.before:
-		Color:
-			rgba: self.custom_canvas
 		Rectangle:
 			pos: self.pos
 			size: self.size
@@ -38,8 +34,6 @@
 	padding_y: 30
 
 	canvas.before:
-		Color:
-			rgba: self.custom_canvas
 		Rectangle:
 			pos: self.pos
 			size: self.size
