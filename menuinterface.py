@@ -6,20 +6,12 @@ from kivy.graphics import Color
 
 from dataaccess import DataAccess
 
-class ThemeSetter:
-
-    @classmethod
-    def setupTheme(self):
-        da = DataAccess()
-        themeSettings = da.getTheme(da.getThemeName())
-        return themeSettings
-
 class MenuButton(Button):
 
     def __init__(self,**kwargs):
         super(MenuButton,self).__init__()
-        self.background_color = (ThemeSetter.setupTheme())['customButtonBackgrondColor']
-        self.color = (ThemeSetter.setupTheme())['customButtonTextColor']
+        self.background_color = (DataAccess.setupTheme())['customButtonBackgrondColor']
+        self.color = (DataAccess.setupTheme())['customButtonTextColor']
 
 class MainMenuButton(MenuButton):
     pass
@@ -29,14 +21,14 @@ class MenuBoxLayout(BoxLayout):
     def __init__(self,**kwargs):
         super(MenuBoxLayout,self).__init__()
         with self.canvas.before:
-            Color(rgba=((ThemeSetter.setupTheme())['customLayoutCanvasColor']))
+            Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
 
 class StorylineLabel(Label):
 
     def __init__(self,**kwargs):
         super(StorylineLabel,self).__init__()
         with self.canvas.before:
-            Color(rgba=((ThemeSetter.setupTheme())['customLayoutCanvasColor']))
+            Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
 
 class ActionPopup(Popup):
 

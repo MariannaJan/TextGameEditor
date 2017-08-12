@@ -78,6 +78,7 @@ class DataAccess(DataAccessInterface):
         c = base.query("update SavedSettings set themes_themeName=(?)",(themeName,))
         print(themeName)
 
+    @classmethod
     def getThemeChooser(self):
         themeChooser={}
         base=DataAccess()
@@ -85,5 +86,11 @@ class DataAccess(DataAccessInterface):
         for theme in themes.fetchall():
             themeChooser[theme[0]] = (theme[1])
         return themeChooser
+
+    @classmethod
+    def setupTheme(self):
+        base = DataAccess()
+        themeSettings = base.getTheme(base.getThemeName())
+        return themeSettings
 
 

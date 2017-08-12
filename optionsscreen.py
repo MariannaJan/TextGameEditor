@@ -16,7 +16,7 @@ class Themes:
 
 	def chooseTheme(self):
 		themePop = ThemesPopup(title = 'Choose theme')
-		themes = DataAccess.getThemeChooser(self)
+		themes = DataAccess.getThemeChooser()
 
 		for theme in themes:
 			themeButtonTitle = themes[theme]
