@@ -1,8 +1,11 @@
 from functools import partial
 from kivy.uix.screenmanager import Screen
+from kivy.app import App
+
 from dataaccess import DataAccess
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
+
 
 
 class OptionsScreen(Screen):
@@ -30,7 +33,9 @@ class Themes:
 
 	def updateTheme(self,themeName,*args):
 		DataAccess.setTheme(self,themeName)
-		print(themeName)
+		ap=App.get_running_app()
+		ap._restartApp()
+
 
 class ThemesPopup(ActionPopup):
 	pass
