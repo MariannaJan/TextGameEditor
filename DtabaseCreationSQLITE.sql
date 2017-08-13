@@ -92,12 +92,18 @@ INSERT INTO Colors VALUES('light_green',0.1,0.3, 0.06, 1);
 INSERT INTO Colors VALUES('dark_green',0.03,0.07,0.01,1);
 INSERT INTO Colors VALUES('light_blue',0,0,0.5,1);
 INSERT INTO Colors VALUES('dark_blue',0,0,0.1,1);
+INSERT INTO Colors VALUES('black',0,0,0,1);
+INSERT INTO Colors VALUES('light_grey',0.88,0.88,0.88,1);
+INSERT INTO Colors VALUES('dark_grey',0.94,0.94,0.94,1);
 
 INSERT INTO Themes
 VALUES('Green_Theme','Green Theme','white','light_green','dark_green'
 );
 INSERT INTO Themes
 VALUES('Blue_Theme','Blue Theme','white','light_blue','dark_blue'
+);
+INSERT INTO Themes
+VALUES('Grey_Theme','Grey Theme','black','light_grey','dark_grey'
 );
 
 /*testowe zapytania*/

@@ -27,6 +27,7 @@ class StorylineLabel(Label):
 
     def __init__(self,**kwargs):
         super(StorylineLabel,self).__init__()
+        self.color = (DataAccess.setupTheme())['customButtonTextColor']
         with self.canvas.before:
             Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
 
