@@ -70,7 +70,6 @@ class DataAccess(DataAccessInterface):
             colorName = ((tuple(result))[startingColumn])
             themeColors[coloredObject] = base.getColor(colorName)
             startingColumn += 1
-        print(themeColors)
         return themeColors
 
     def setTheme(self,themeName):
