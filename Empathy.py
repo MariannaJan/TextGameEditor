@@ -3,13 +3,19 @@ from kivy.app import App
 from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
 from screenchanger import ScreenChanger
+from kivy.core.text import LabelBase
+
+LabelBase.register(name="Playfair",
+				   fn_regular="PlayfairDisplay-Regular.ttf",
+				   fn_bold="PlayfairDisplay-Bold.ttf",
+				   fn_italic="PlayfairDisplay-Italic.ttf",
+				   fn_bolditalic="PlayfairDisplay-BoldItalic.ttf")
+
 
 Window.size = (600,800)
 Window.minimum_width = 600
 Window.minimum_height = 800
 #Window.fullscreen = 'auto'
-#Window.clearcolor = (0.03,0.07,0.01,1)
-
 
 class Empathy(App):
 

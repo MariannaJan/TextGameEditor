@@ -56,8 +56,8 @@ INSERT INTO Storyline
 VALUES('page1','[ref=here]Here[/ref] goes the [ref=story][b][color=0000ff]story [/color][/b][/ref]lololol \nlol [ref=aegis][b][color=0000ff]aegis[/color][/b][/ref] Non [ref=lol][b][color=0000ff]existing[/color][/b][/ref] reference ','This is first milestone journal entry'); 
 
 UPDATE Storyline
-SET PageText = '[ref=here]Here[/ref] goes the [ref=story][b][color=0000ff]story [/color][/b][/ref]lololol 
-lol [ref=aegis][b][color=0000ff]aegis[/color][/b][/ref] Non [ref=lol][b][color=0000ff]existing[/color][/b][/ref] reference.'
+SET PageText = '[ref=here][b]Here[/b][/ref] goes the [ref=story][b]story [/b][/ref]lololol 
+lol [ref=aegis][b]aegis[/b][/ref] Non [ref=lol][b]existing[/b][/ref] reference.'
 WHERE PageNo = 'page1';
 
 INSERT INTO Storyline
@@ -94,7 +94,7 @@ INSERT INTO Colors VALUES('light_blue',0,0,0.5,1);
 INSERT INTO Colors VALUES('dark_blue',0,0,0.1,1);
 INSERT INTO Colors VALUES('black',0,0,0,1);
 INSERT INTO Colors VALUES('light_grey',0.88,0.88,0.88,1);
-INSERT INTO Colors VALUES('dark_grey',0.94,0.94,0.94,1);
+INSERT INTO Colors VALUES('dark_grey',0.97,0.97,0.97,1);
 
 INSERT INTO Themes
 VALUES('Green_Theme','Green Theme','white','light_green','dark_green'
@@ -110,3 +110,5 @@ VALUES('Grey_Theme','Grey Theme','black','light_grey','dark_grey'
 
 UPDATE SavedSettings
 SET themes_themeName='Blue_Theme';
+
+DELETE FROM Colors WHERE Name='dark_grey';
