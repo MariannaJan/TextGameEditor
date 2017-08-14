@@ -35,7 +35,7 @@ class CustomToggleButton(ToggleButton):
     def on_press(self):
         self.audio_button_click.play()
 
-    def toggleText(self):
+    def toggle(self):
         if self.state == 'normal':
             self.text = self.text_normal
 

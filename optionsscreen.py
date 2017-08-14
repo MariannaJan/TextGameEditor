@@ -17,10 +17,18 @@ class OptionsScreen(Screen):
 
 	def adjustSound(self):
 		soundPop = SoundPopup(title = 'Adjust sound')
-		soundPop.soundPopupLayout.add_widget(CustomToggleButton('Sound is ON','Sound is OFF'))
+		soundToggleButton = SoundToggleButton('Sound is ON','Sound is OFF')
+		soundPop.soundPopupLayout.add_widget(soundToggleButton)
 		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
 		soundPop.open()
 
+class SoundToggleButton(CustomToggleButton):
+
+	def toggle(self):
+		def toggleSound(self):
+			super(SoundToggleButton,self).toggle()
+			print("super")
+		return toggleSound(self)
 
 class Themes:
 
