@@ -5,11 +5,12 @@ from kivy.uix.boxlayout import BoxLayout
 from screenchanger import ScreenChanger
 from kivy.core.text import LabelBase
 
+
 LabelBase.register(name="Playfair",
-				   fn_regular="PlayfairDisplay-Regular.ttf",
-				   fn_bold="PlayfairDisplay-Bold.ttf",
-				   fn_italic="PlayfairDisplay-Italic.ttf",
-				   fn_bolditalic="PlayfairDisplay-BoldItalic.ttf")
+				   fn_regular="Fonts/PlayfairDisplay-Regular.ttf",
+				   fn_bold="Fonts/PlayfairDisplay-Bold.ttf",
+				   fn_italic="Fonts/PlayfairDisplay-Italic.ttf",
+				   fn_bolditalic="Fonts/PlayfairDisplay-BoldItalic.ttf")
 
 
 Window.size = (600,800)
