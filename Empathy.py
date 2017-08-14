@@ -20,7 +20,7 @@ Window.minimum_height = 800
 #Window.fullscreen = 'auto'
 
 class Empathy(App):
-	audio_close_sound = SoundLoader.load("Audio/opensound.wav")
+	audio_open_sound = SoundLoader.load("Audio/opensound.wav")
 	startingPage=''
 
 	def build(self):
@@ -37,7 +37,7 @@ class Empathy(App):
 		lol.add_widget(ScreenChanger())
 
 	def on_start(self):
-		self.audio_close_sound.play()
+		self.audio_open_sound.play()
 
 
 
