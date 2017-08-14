@@ -16,16 +16,24 @@
 		    on_release:
 		        root.changeTheme()
 
+	    MenuButton:
+	        text: "Sound"
+	        on_release:
+	            root.adjustSound()
+
 		MainMenuButton:
-
-
-
 
 <ThemesPopup>
 
     themesPopupLayout: themes_pop
-    font_name: 'Playfair'
-	foreground_color: 1,1,1,1
 
     MenuBoxLayout:
 	    id: themes_pop
+
+<SoundPopup>
+
+    soundPopupLayout: sound_pop
+
+    MenuBoxLayout:
+        id: sound_pop
+

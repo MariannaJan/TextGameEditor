@@ -5,6 +5,7 @@ from kivy.app import App
 from dataaccess import DataAccess
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
+from menuinterface import CustomToggleButton
 
 
 
@@ -13,6 +14,12 @@ class OptionsScreen(Screen):
 	def changeTheme(self):
 		th=Themes()
 		th.chooseTheme()
+
+	def adjustSound(self):
+		soundPop = SoundPopup(title = 'Adjust sound')
+		soundPop.soundPopupLayout.add_widget(CustomToggleButton('Sound is ON','Sound is OFF'))
+		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
+		soundPop.open()
 
 
 class Themes:
@@ -38,6 +45,9 @@ class Themes:
 
 
 class ThemesPopup(ActionPopup):
+	pass
+
+class SoundPopup(ActionPopup):
 	pass
 
 #TODO: User defined Themes
