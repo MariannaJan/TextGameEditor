@@ -30,7 +30,7 @@ class CustomToggleButton(ToggleButton):
         self.color = (DataAccess.setupTheme())['customButtonTextColor']
         self.text_normal = text_normal
         self.text_down = text_down
-        self.text = self.toggleText()
+        self.text = self.text_normal
 
     def on_press(self):
         self.audio_button_click.play()
@@ -38,10 +38,10 @@ class CustomToggleButton(ToggleButton):
     def toggleText(self):
         if self.state == 'normal':
             self.text = self.text_normal
-            return self.text_normal
+
         elif self.state == 'down':
             self.text = self.text_down
-            return self.text_down
+
 
 
 class MenuBoxLayout(BoxLayout):
