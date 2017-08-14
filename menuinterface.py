@@ -17,7 +17,6 @@ class MenuButton(Button):
 
     def on_press(self):
         self.audio_button_click.play()
-        print('sound')
 
 class MainMenuButton(MenuButton):
     pass

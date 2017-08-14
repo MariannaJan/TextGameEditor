@@ -4,6 +4,7 @@ from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
 from screenchanger import ScreenChanger
 from kivy.core.text import LabelBase
+from kivy.core.audio import SoundLoader
 
 
 LabelBase.register(name="Playfair",
@@ -19,7 +20,7 @@ Window.minimum_height = 800
 #Window.fullscreen = 'auto'
 
 class Empathy(App):
-
+	audio_close_sound = SoundLoader.load("Audio/opensound.wav")
 	startingPage=''
 
 	def build(self):
@@ -34,6 +35,11 @@ class Empathy(App):
 		lol = ap.root
 		lol.clear_widgets()
 		lol.add_widget(ScreenChanger())
+
+	def on_start(self):
+		self.audio_close_sound.play()
+
+
 
 if __name__=="__main__":
 	Empathy().run()
