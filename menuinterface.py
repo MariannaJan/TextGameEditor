@@ -15,8 +15,9 @@ class SoundSettings():
 
     @staticmethod
     def getAudioFilePath(requestedSound):
-        audioFilePaths = {'mainmenu': "Audio/mainmenu.wav", 'gamescreen': "Audio/game.wav",'': "Audio/mainmenu.wav",'opening_sound':"Audio/opensound.wav"}
-        filePath = audioFilePaths.get(requestedSound,'')
+        audioFilePaths = {'mainmenu': "mainmenu.wav", 'gamescreen': "game.wav", '': "mainmenu.wav",
+                          'opening_sound': "opensound.wav", 'button_sound': "buttonclick.wav"}
+        filePath = ''.join(('Audio/',audioFilePaths.get(requestedSound,'')))
         return filePath
 
 
@@ -48,7 +49,7 @@ class MenuButton(Button):
 
     def __init__(self,**kwargs):
         super(MenuButton,self).__init__()
-        self.audio_button_click = SoundLoader.load("Audio/buttonclick.wav")
+        self.audio_button_click =SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='button_sound'))
         self.background_color = (DataAccess.setupTheme())['customButtonBackgrondColor']
         self.color = (DataAccess.setupTheme())['customButtonTextColor']
 
