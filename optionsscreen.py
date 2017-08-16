@@ -1,6 +1,7 @@
 from functools import partial
 from kivy.uix.screenmanager import Screen
 from kivy.app import App
+from kivy.uix.slider import Slider
 
 from dataaccess import DataAccess
 from menuinterface import ActionPopup
@@ -16,15 +17,16 @@ class OptionsScreen(Screen):
 
 	def adjustSound(self):
 		soundPop = SoundPopup(title = 'Adjust sound')
-
 		soundToggleButton = MuteButton()
 		soundToggleButton.text = soundToggleButton.createMuteButtonText(int(SoundSettings.soundVolume))
+		soundPop.soundPopupLayout.add_widget(Slider())
 		soundPop.soundPopupLayout.add_widget(soundToggleButton)
 		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
 		soundPop.open()
 
 
 class MuteButton(MenuButton):
+
 	def muteSound(self):
 		print(SoundSettings.soundVolume)
 		ss = int(SoundSettings.soundVolume)
