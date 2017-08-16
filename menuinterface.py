@@ -15,7 +15,7 @@ class SoundSettings():
 
     @staticmethod
     def getAudioFilePath(requestedSound):
-        audioFilePaths = {'mainmenu': "Audio/mainmenu.wav", 'gamescreen': "Audio/game.wav",'': "Audio/mainmenu.wav"}
+        audioFilePaths = {'mainmenu': "Audio/mainmenu.wav", 'gamescreen': "Audio/game.wav",'': "Audio/mainmenu.wav",'opening_sound':"Audio/opensound.wav"}
         filePath = audioFilePaths.get(requestedSound,'')
         return filePath
 

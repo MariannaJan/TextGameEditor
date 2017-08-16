@@ -39,7 +39,7 @@ class Empathy(App):
 		lol.add_widget(ScreenChanger())
 
 	def on_start(self):
-		audio_open_sound = SoundLoader.load("Audio/opensound.wav")
+		audio_open_sound = SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='opening_sound'))
 		audio_open_sound.volume = SoundSettings.soundVolume
 		audio_open_sound.play()
 
