@@ -5,6 +5,8 @@ from kivy.uix.popup import Popup
 from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
 from kivy.properties import NumericProperty
+from kivy.uix.screenmanager import Screen
+from kivy.app import App
 
 from dataaccess import DataAccess
 
@@ -19,6 +21,20 @@ class SoundSettings():
         sound.loop = True
         sound.volume = SoundSettings.soundVolume
         sound.play()
+
+class BasicScreen(Screen):
+
+    def __init__(self,**kwargs):
+        super(BasicScreen,self).__init__()
+
+    def on_enter(self, *args):
+        screenName = self.manager.current
+        self.backgroundSound = SoundSettings.audio_mainmenu_sound
+        SoundSettings.playMusic(self.backgroundSound)
+        print(screenName)
+
+    def on_leave(self, *args):
+        self.backgroundSound.stop()
 
 
 class MenuButton(Button):

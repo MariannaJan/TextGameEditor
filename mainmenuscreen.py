@@ -2,15 +2,17 @@ from kivy.uix.screenmanager import Screen
 
 from menuinterface import SoundSettings
 
-class MainMenuScreen(Screen):
+from menuinterface import BasicScreen
 
-	audio_mainmenu_sound = SoundSettings.audio_mainmenu_sound
-
-	def on_enter(self,*args):
-		SoundSettings.playMusic(self.audio_mainmenu_sound)
-
-	def on_leave(self, *args):
-		self.audio_mainmenu_sound.stop()
+class MainMenuScreen(BasicScreen):
+	pass
+	# audio_mainmenu_sound = SoundSettings.audio_mainmenu_sound
+    #
+	# def on_enter(self,*args):
+	# 	SoundSettings.playMusic(self.audio_mainmenu_sound)
+    #
+	# def on_leave(self, *args):
+	# 	self.audio_mainmenu_sound.stop()
 
 
 
