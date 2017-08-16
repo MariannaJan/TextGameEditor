@@ -7,8 +7,9 @@ from dataaccess import DataAccess
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
 from menuinterface import SoundSettings
+from menuinterface import BasicScreen
 
-class OptionsScreen(Screen):
+class OptionsScreen(BasicScreen):
 
 
 	def changeTheme(self):

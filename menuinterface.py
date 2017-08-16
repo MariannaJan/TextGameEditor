@@ -6,7 +6,6 @@ from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
-from kivy.app import App
 
 from dataaccess import DataAccess
 
@@ -14,8 +13,13 @@ class SoundSettings():
     soundVolume= NumericProperty(0)
     soundVolume=DataAccess.getToggleSound()
 
+    @staticmethod
+    def getAudioFilePath(requestedSound):
+        audioFilePaths = {'mainmenu': "Audio/mainmenu.wav", 'gamescreen': "Audio/game.wav",'': "Audio/mainmenu.wav"}
+        filePath = audioFilePaths.get(requestedSound,'')
+        return filePath
 
-    mainmenu = "Audio/mainmenu.wav"
+
     @staticmethod
     def playMusic(sound):
         sound.loop = True
@@ -26,12 +30,19 @@ class BasicScreen(Screen):
 
     def on_enter(self, *args):
         screenName = self.manager.current
-        self.backgroundSound = SoundLoader.load(SoundSettings.mainmenu)
-        SoundSettings.playMusic(self.backgroundSound)
-        print(screenName,str(self.backgroundSound))
+        path = SoundSettings.getAudioFilePath(screenName)
+        self.backgroundSound = SoundLoader.load(path)
+        try:
+            SoundSettings.playMusic(self.backgroundSound)
+        except:
+            print("no audio file to load on this path!")
+
 
     def on_leave(self, *args):
-        self.backgroundSound.stop()
+        try:
+            self.backgroundSound.stop()
+        except:
+            print("no audio file to be stopped")
 
 
 class MenuButton(Button):
