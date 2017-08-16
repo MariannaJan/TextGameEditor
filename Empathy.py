@@ -2,9 +2,11 @@
 from kivy.app import App
 from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
-from screenchanger import ScreenChanger
 from kivy.core.text import LabelBase
 from kivy.core.audio import SoundLoader
+
+from screenchanger import ScreenChanger
+from menuinterface import SoundSettings
 
 
 LabelBase.register(name="Playfair",
@@ -37,6 +39,7 @@ class Empathy(App):
 		lol.add_widget(ScreenChanger())
 
 	def on_start(self):
+		self.audio_open_sound.volume = SoundSettings.soundVolume
 		self.audio_open_sound.play()
 
 

@@ -1,12 +1,17 @@
 from kivy.uix.screenmanager import Screen
-from kivy.core.audio import SoundLoader
 
-from dataaccess import DataAccess
+from menuinterface import SoundSettings
 
 class MainMenuScreen(Screen):
 
-	audio_mainmenu_sound = SoundLoader.load("Audio/mainmenu.wav")
-	audio_mainmenu_sound.loop = True
+	audio_mainmenu_sound = SoundSettings.audio_mainmenu_sound
+
+	def on_enter(self,*args):
+		SoundSettings.playMusic(self.audio_mainmenu_sound)
+
+	def on_leave(self, *args):
+		self.audio_mainmenu_sound.stop()
+
 
 
 

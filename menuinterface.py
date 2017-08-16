@@ -4,7 +4,6 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
-from kivy.uix.togglebutton import ToggleButton
 from kivy.properties import NumericProperty
 
 from dataaccess import DataAccess
@@ -12,6 +11,15 @@ from dataaccess import DataAccess
 class SoundSettings():
     soundVolume= NumericProperty(0)
     soundVolume=DataAccess.getToggleSound()
+
+    audio_mainmenu_sound = SoundLoader.load("Audio/mainmenu.wav")
+
+    @staticmethod
+    def playMusic(sound):
+        sound.loop = True
+        sound.volume = SoundSettings.soundVolume
+        sound.play()
+
 
 class MenuButton(Button):
 
