@@ -54,8 +54,11 @@ class MenuButton(Button):
         self.color = (DataAccess.setupTheme())['customButtonTextColor']
 
     def on_press(self):
-        self.audio_button_click.volume = SoundSettings.soundVolume
-        self.audio_button_click.play()
+        try:
+            self.audio_button_click.volume = SoundSettings.soundVolume
+            self.audio_button_click.play()
+        except:
+            print("no audio file to load on this path!")
 
 class MainMenuButton(MenuButton):
     pass
