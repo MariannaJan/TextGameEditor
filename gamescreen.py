@@ -4,11 +4,17 @@ from activereference import ActiveReference
 from kivy.core.audio import SoundLoader
 from dataaccess import DataAccess
 
-class GameScreen(Screen):
+from menuinterface import BasicScreen
+
+class GameScreen(BasicScreen):
 
 	storylinePageText = ObjectProperty(None)
-	audio_gamescreen_sound = SoundLoader.load("Audio/game.wav")
-	audio_gamescreen_sound.loop = True
+	# audio_gamescreen_sound = SoundLoader.load("Audio/game.wav")
+	# audio_gamescreen_sound.loop = True
+
+	def on_enter(self, *args):
+		super(GameScreen,self).on_enter()
+		print('super called')
 	
 	def setStoryline(self,pageNo):
 		self.storylinePageText.text = DataAccess.getStorylinePageText(self,pageNo)

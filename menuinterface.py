@@ -14,8 +14,8 @@ class SoundSettings():
     soundVolume= NumericProperty(0)
     soundVolume=DataAccess.getToggleSound()
 
-    audio_mainmenu_sound = SoundLoader.load("Audio/mainmenu.wav")
 
+    mainmenu = "Audio/mainmenu.wav"
     @staticmethod
     def playMusic(sound):
         sound.loop = True
@@ -24,14 +24,11 @@ class SoundSettings():
 
 class BasicScreen(Screen):
 
-    def __init__(self,**kwargs):
-        super(BasicScreen,self).__init__()
-
     def on_enter(self, *args):
         screenName = self.manager.current
-        self.backgroundSound = SoundSettings.audio_mainmenu_sound
+        self.backgroundSound = SoundLoader.load(SoundSettings.mainmenu)
         SoundSettings.playMusic(self.backgroundSound)
-        print(screenName)
+        print(screenName,str(self.backgroundSound))
 
     def on_leave(self, *args):
         self.backgroundSound.stop()
