@@ -30,8 +30,7 @@ class BasicScreen(Screen):
 
     def on_enter(self, *args):
         screenName = self.manager.current
-        path = SoundSettings.getAudioFilePath(screenName)
-        self.backgroundSound = SoundLoader.load(path)
+        self.backgroundSound = SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound=screenName))
         try:
             SoundSettings.playMusic(self.backgroundSound)
         except:
