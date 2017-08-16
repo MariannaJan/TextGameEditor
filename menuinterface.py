@@ -5,8 +5,13 @@ from kivy.uix.popup import Popup
 from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
 from kivy.uix.togglebutton import ToggleButton
+from kivy.properties import NumericProperty
 
 from dataaccess import DataAccess
+
+class SoundSettings():
+    soundVolume= NumericProperty(0)
+    soundVolume=DataAccess.getToggleSound()
 
 class MenuButton(Button):
 
@@ -17,32 +22,11 @@ class MenuButton(Button):
         self.color = (DataAccess.setupTheme())['customButtonTextColor']
 
     def on_press(self):
+        self.audio_button_click.volume = SoundSettings.soundVolume
         self.audio_button_click.play()
 
 class MainMenuButton(MenuButton):
     pass
-
-class CustomToggleButton(ToggleButton):
-    def __init__(self,text_normal,text_down,**kwargs):
-        super(CustomToggleButton,self).__init__()
-        self.audio_button_click = SoundLoader.load("Audio/buttonclick.wav")
-        self.background_color = (DataAccess.setupTheme())['customButtonBackgrondColor']
-        self.color = (DataAccess.setupTheme())['customButtonTextColor']
-        self.text_normal = text_normal
-        self.text_down = text_down
-        self.text = self.text_normal
-
-    def on_press(self):
-        self.audio_button_click.play()
-
-    def toggle(self):
-        if self.state == 'normal':
-            self.text = self.text_normal
-
-        elif self.state == 'down':
-            self.text = self.text_down
-
-
 
 class MenuBoxLayout(BoxLayout):
 

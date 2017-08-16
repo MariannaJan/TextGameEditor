@@ -33,7 +33,18 @@
 <SoundPopup>
 
     soundPopupLayout: sound_pop
+    soundLabel: sound_label
 
     MenuBoxLayout:
         id: sound_pop
+
+        StorylineLabel:
+            id: sound_label
+            font_size: self.height/10
+
+
+<MuteButton>
+    on_press: self.muteSound()
+
+
 

@@ -5,11 +5,10 @@ from kivy.app import App
 from dataaccess import DataAccess
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
-from menuinterface import CustomToggleButton
-
-
+from menuinterface import SoundSettings
 
 class OptionsScreen(Screen):
+
 
 	def changeTheme(self):
 		th=Themes()
@@ -17,18 +16,36 @@ class OptionsScreen(Screen):
 
 	def adjustSound(self):
 		soundPop = SoundPopup(title = 'Adjust sound')
-		soundToggleButton = SoundToggleButton('Sound is ON','Sound is OFF')
+
+		soundToggleButton = MuteButton()
+		soundToggleButton.text = soundToggleButton.createMuteButtonText(int(SoundSettings.soundVolume))
 		soundPop.soundPopupLayout.add_widget(soundToggleButton)
 		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
 		soundPop.open()
 
-class SoundToggleButton(CustomToggleButton):
 
-	def toggle(self):
-		def toggleSound(self):
-			super(SoundToggleButton,self).toggle()
-			print("super")
-		return toggleSound(self)
+class MuteButton(MenuButton):
+	def muteSound(self):
+		print(SoundSettings.soundVolume)
+		ss = int(SoundSettings.soundVolume)
+		if ss == 1:
+			SoundSettings.soundVolume = 0
+			DataAccess.setToggleSound(0)
+			print(ss)
+			self.text = 'Turn the sound ON'
+		elif ss == 0:
+			SoundSettings.soundVolume = 1
+			DataAccess.setToggleSound(1)
+			self.text = 'Turn the sound OFF'
+			print(ss)
+
+	def createMuteButtonText(self,vol):
+		if vol == 1:
+			text = 'Turn the sound OFF'
+		elif vol == 0:
+			text = 'Turn the sound ON'
+		return text
+
 
 class Themes:
 

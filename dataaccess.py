@@ -1,7 +1,7 @@
 import sqlite3
-from dataaccessinterface import DataAccessInterface
 
-class DataAccess(DataAccessInterface):
+
+class DataAccess:
 
     def __init__(self):
         self.conn = sqlite3.connect('Empathy.db')
@@ -48,8 +48,9 @@ class DataAccess(DataAccessInterface):
         storylineMilestonJournal=DataAccess.getSingleString(self,"select MilestoneJournalEntry from Storyline where pageNo = (?)",(pageNo,))
         return storylineMilestonJournal
 
-    def getThemeName(self):
-        themeName=DataAccess.getSingleString(self,'select themes_themeName from SavedSettings')
+    @classmethod
+    def getThemeName(cls):
+        themeName=DataAccess.getSingleString(cls,'select themes_themeName from SavedSettings')
         return themeName
 
     def getColor(self,colorName):
@@ -74,11 +75,11 @@ class DataAccess(DataAccessInterface):
 
     def setTheme(self,themeName):
         base = DataAccess()
-        c = base.query("update SavedSettings set themes_themeName=(?)",(themeName,))
+        base.query("update SavedSettings set themes_themeName=(?)",(themeName,))
         print(themeName)
 
     @classmethod
-    def getThemeChooser(self):
+    def getThemeChooser(cls):
         themeChooser={}
         base=DataAccess()
         themes = base.query("select themeName,themeDescription from Themes")
@@ -87,9 +88,18 @@ class DataAccess(DataAccessInterface):
         return themeChooser
 
     @classmethod
-    def setupTheme(self):
+    def setupTheme(cls):
         base = DataAccess()
         themeSettings = base.getTheme(base.getThemeName())
         return themeSettings
 
+    @classmethod
+    def getToggleSound(cls):
+        soundState = DataAccess.getSingleString(cls, 'select soundToggle from SavedSettings')
+        return soundState
+
+    @classmethod
+    def setToggleSound(cls,soundState):
+        base = DataAccess()
+        base.query('update SavedSettings set soundToggle=(?)',(soundState,))
 
