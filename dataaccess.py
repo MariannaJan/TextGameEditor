@@ -94,12 +94,12 @@ class DataAccess:
         return themeSettings
 
     @classmethod
-    def getToggleSound(cls):
-        soundState = DataAccess.getSingleString(cls, 'select soundToggle from SavedSettings')
-        return soundState
+    def getSoundVolume(cls):
+        soundVolume = DataAccess.getSingleString(cls, 'select soundVolume from SavedSettings')
+        return soundVolume
 
     @classmethod
-    def setToggleSound(cls,soundState):
+    def setSoundVolume(cls, soundVolume):
         base = DataAccess()
-        base.query('update SavedSettings set soundToggle=(?)',(soundState,))
+        base.query('update SavedSettings set soundVolume=(?)', (soundVolume,))
 

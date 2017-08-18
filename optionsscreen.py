@@ -1,13 +1,14 @@
+from decimal import *
+
 from functools import partial
-from kivy.uix.screenmanager import Screen
 from kivy.app import App
-from kivy.uix.slider import Slider
 
 from dataaccess import DataAccess
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
 from menuinterface import SoundSettings
 from menuinterface import BasicScreen
+from menuinterface import CustomSlider
 
 class OptionsScreen(BasicScreen):
 
@@ -18,9 +19,9 @@ class OptionsScreen(BasicScreen):
 
 	def adjustSound(self):
 		soundPop = SoundPopup(title = 'Adjust sound')
-		soundToggleButton = MuteButton()
-		soundToggleButton.text = soundToggleButton.createMuteButtonText(int(SoundSettings.soundVolume))
-		soundPop.soundPopupLayout.add_widget(Slider())
+		soundToggleButton = MuteButton(id='stb')
+		soundToggleButton.text = soundToggleButton.createMuteButtonText(float(SoundSettings.soundVolume))
+		soundPop.soundPopupLayout.add_widget(SoundVolumeSlider())
 		soundPop.soundPopupLayout.add_widget(soundToggleButton)
 		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
 		soundPop.open()
@@ -29,25 +30,40 @@ class OptionsScreen(BasicScreen):
 class MuteButton(MenuButton):
 
 	def muteSound(self):
-		print(SoundSettings.soundVolume)
-		ss = int(SoundSettings.soundVolume)
-		if ss == 1:
+		soundVolume = float(SoundSettings.soundVolume)
+		if soundVolume >= 0.1:
 			SoundSettings.soundVolume = 0
-			DataAccess.setToggleSound(0)
-			print(ss)
+			DataAccess.setSoundVolume(0)
+			print(soundVolume)
 			self.text = 'Turn the sound ON'
-		elif ss == 0:
+		elif soundVolume < 0.1:
 			SoundSettings.soundVolume = 1
-			DataAccess.setToggleSound(1)
+			DataAccess.setSoundVolume(1)
 			self.text = 'Turn the sound OFF'
-			print(ss)
+			print(soundVolume)
 
 	def createMuteButtonText(self,vol):
-		if vol == 1:
+		if vol >=0.1:
 			text = 'Turn the sound OFF'
-		elif vol == 0:
+		elif vol < 0.1:
 			text = 'Turn the sound ON'
 		return text
+
+class SoundVolumeSlider(CustomSlider):
+
+	def __init__(self):
+		super(SoundVolumeSlider,self).__init__()
+		soundVolume = float(SoundSettings.soundVolume)
+		self.value = soundVolume
+
+	def adjustSoundVolume(self):
+		newSoundVolume = self.value_normalized
+		print(newSoundVolume)
+		SoundSettings.soundVolume = newSoundVolume
+		DataAccess.setSoundVolume(newSoundVolume)
+
+	def on_value(self,*args):
+		self.adjustSoundVolume()
 
 
 class Themes:
@@ -76,6 +92,7 @@ class ThemesPopup(ActionPopup):
 	pass
 
 class SoundPopup(ActionPopup):
+
 	pass
 
 #TODO: User defined Themes

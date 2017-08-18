@@ -6,12 +6,13 @@ from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
+from kivy.uix.slider import Slider
 
 from dataaccess import DataAccess
 
 class SoundSettings():
     soundVolume= NumericProperty(0)
-    soundVolume=DataAccess.getToggleSound()
+    soundVolume=DataAccess.getSoundVolume()
 
     @staticmethod
     def getAudioFilePath(requestedSound):
@@ -85,3 +86,11 @@ class ActionPopup(Popup):
         closeButton.text='Close'
         closeButton.bind(on_press=popup.dismiss)
         return closeButton
+
+class CustomSlider(Slider):
+
+    def __init__(self,**kwargs):
+        super(CustomSlider,self).__init__()
+        self.value_track_color = (DataAccess.setupTheme())['customButtonTextColor']
+
+    pass
