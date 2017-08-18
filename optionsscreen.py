@@ -1,5 +1,3 @@
-from decimal import *
-
 from functools import partial
 from kivy.app import App
 
@@ -19,13 +17,12 @@ class OptionsScreen(BasicScreen):
 
 	def adjustSound(self):
 		soundPop = SoundPopup(title = 'Adjust sound')
-		soundToggleButton = MuteButton(id='stb')
+		soundToggleButton = MuteButton()
 		soundToggleButton.text = soundToggleButton.createMuteButtonText(float(SoundSettings.soundVolume))
 		soundPop.soundPopupLayout.add_widget(SoundVolumeSlider())
 		soundPop.soundPopupLayout.add_widget(soundToggleButton)
 		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
 		soundPop.open()
-
 
 class MuteButton(MenuButton):
 
@@ -34,11 +31,13 @@ class MuteButton(MenuButton):
 		if soundVolume >= 0.1:
 			SoundSettings.soundVolume = 0
 			DataAccess.setSoundVolume(0)
+			self.parent.children[2].value = 0 #value of soundVolumeSlider
 			print(soundVolume)
 			self.text = 'Turn the sound ON'
 		elif soundVolume < 0.1:
 			SoundSettings.soundVolume = 1
 			DataAccess.setSoundVolume(1)
+			self.parent.children[2].value = 1 #value of soundVolumeSlider
 			self.text = 'Turn the sound OFF'
 			print(soundVolume)
 
@@ -48,6 +47,11 @@ class MuteButton(MenuButton):
 		elif vol < 0.1:
 			text = 'Turn the sound ON'
 		return text
+
+	def on_press(self):
+		self.muteSound()
+
+
 
 class SoundVolumeSlider(CustomSlider):
 
@@ -61,10 +65,17 @@ class SoundVolumeSlider(CustomSlider):
 		print(newSoundVolume)
 		SoundSettings.soundVolume = newSoundVolume
 		DataAccess.setSoundVolume(newSoundVolume)
+		try:
+			muteButtonReference = self.parent.children[1]
+		except:
+			print('no parent on init')
+		else:
+			print(muteButtonReference)
+			muteButtonReference.text = muteButtonReference.createMuteButtonText(newSoundVolume)
+
 
 	def on_value(self,*args):
 		self.adjustSoundVolume()
-
 
 class Themes:
 
