@@ -103,3 +103,12 @@ class DataAccess:
         base = DataAccess()
         base.query('update SavedSettings set soundVolume=(?)', (soundVolume,))
 
+    @classmethod
+    def getSoundFilesNames(cls):
+        base = DataAccess()
+        c = base.query('select * from Sounds')
+        soundFilesNames = {}
+        for soundName, fileName in c.fetchall():
+            soundFilesNames[soundName]=fileName
+        return soundFilesNames
+

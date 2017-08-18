@@ -16,8 +16,7 @@ class SoundSettings():
 
     @staticmethod
     def getAudioFilePath(requestedSound):
-        audioFilePaths = {'mainmenu': "mainmenu.wav", 'gamescreen': "game.wav", '': "mainmenu.wav",
-                          'opening_sound': "opensound.wav", 'button_sound': "buttonclick.wav"}
+        audioFilePaths = DataAccess.getSoundFilesNames()
         filePath = ''.join(('Audio/',audioFilePaths.get(requestedSound,'')))
         return filePath
 
