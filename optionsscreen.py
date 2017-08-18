@@ -1,5 +1,6 @@
 from functools import partial
 from kivy.app import App
+from kivy.core.audio import SoundLoader
 
 from dataaccess import DataAccess
 from menuinterface import ActionPopup
@@ -28,18 +29,18 @@ class MuteButton(MenuButton):
 
 	def muteSound(self):
 		soundVolume = float(SoundSettings.soundVolume)
+		soundVolumeSlider = self.parent.children[2]
 		if soundVolume >= 0.1:
 			SoundSettings.soundVolume = 0
 			DataAccess.setSoundVolume(0)
-			self.parent.children[2].value = 0 #value of soundVolumeSlider
-			print(soundVolume)
+			soundVolumeSlider.value = 0
 			self.text = 'Turn the sound ON'
 		elif soundVolume < 0.1:
 			SoundSettings.soundVolume = 1
 			DataAccess.setSoundVolume(1)
-			self.parent.children[2].value = 1 #value of soundVolumeSlider
+			soundVolumeSlider.value = 1
 			self.text = 'Turn the sound OFF'
-			print(soundVolume)
+
 
 	def createMuteButtonText(self,vol):
 		if vol >=0.1:
@@ -65,17 +66,21 @@ class SoundVolumeSlider(CustomSlider):
 		print(newSoundVolume)
 		SoundSettings.soundVolume = newSoundVolume
 		DataAccess.setSoundVolume(newSoundVolume)
+
 		try:
 			muteButtonReference = self.parent.children[1]
 		except:
 			print('no parent on init')
 		else:
-			print(muteButtonReference)
 			muteButtonReference.text = muteButtonReference.createMuteButtonText(newSoundVolume)
 
 
 	def on_value(self,*args):
 		self.adjustSoundVolume()
+		bip = SoundLoader.load(SoundSettings.getAudioFilePath('button_sound'))
+		bip.volume = SoundSettings.soundVolume
+		bip.play()
+
 
 class Themes:
 
