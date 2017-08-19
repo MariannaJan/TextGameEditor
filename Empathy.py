@@ -2,19 +2,14 @@
 from kivy.app import App
 from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
-from kivy.core.text import LabelBase
 from kivy.core.audio import SoundLoader
 
 from screenchanger import ScreenChanger
 from menuinterface import SoundSettings
+from menuinterface import FontSettings
+from dataaccess import DataAccess
 
-
-LabelBase.register(name="Playfair",
-				   fn_regular="Fonts/PlayfairDisplay-Regular.ttf",
-				   fn_bold="Fonts/PlayfairDisplay-Bold.ttf",
-				   fn_italic="Fonts/PlayfairDisplay-Italic.ttf",
-				   fn_bolditalic="Fonts/PlayfairDisplay-BoldItalic.ttf")
-
+FontSettings.registerFonts(fontName = DataAccess.getFontName())
 
 Window.size = (600,800)
 Window.minimum_width = 600

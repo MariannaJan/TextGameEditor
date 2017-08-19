@@ -8,7 +8,20 @@ from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
 
+from kivy.core.text import LabelBase
+
 from dataaccess import DataAccess
+
+class FontSettings():
+
+    @classmethod
+    def registerFonts(self,fontName):
+
+        LabelBase.register(name=fontName,
+                           fn_regular=DataAccess.getFonts(fontName,"fn_regular"),
+                           fn_bold=DataAccess.getFonts(fontName,"fn_bold"),
+                           fn_italic=DataAccess.getFonts(fontName,"fn_italic"),
+                           fn_bolditalic=DataAccess.getFonts(fontName,"fn_bolditalic"))
 
 class SoundSettings():
     soundVolume= NumericProperty(0)
@@ -48,10 +61,11 @@ class BasicScreen(Screen):
 class MenuButton(Button):
 
     def __init__(self,**kwargs):
-        super(MenuButton,self).__init__()
+        super(MenuButton,self).__init__(**kwargs)
         self.audio_button_click =SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='button_sound'))
         self.background_color = (DataAccess.setupTheme())['customButtonBackgrondColor']
         self.color = (DataAccess.setupTheme())['customButtonTextColor']
+        self.font_name = 'Playfair'
 
     def on_press(self):
         try:
@@ -66,19 +80,24 @@ class MainMenuButton(MenuButton):
 class MenuBoxLayout(BoxLayout):
 
     def __init__(self,**kwargs):
-        super(MenuBoxLayout,self).__init__()
+        super(MenuBoxLayout,self).__init__(**kwargs)
         with self.canvas.before:
             Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
 
 class StorylineLabel(Label):
 
     def __init__(self,**kwargs):
-        super(StorylineLabel,self).__init__()
+        super(StorylineLabel,self).__init__(**kwargs)
         self.color = (DataAccess.setupTheme())['customButtonTextColor']
+        self.font_name = 'Playfair'
         with self.canvas.before:
             Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
 
 class ActionPopup(Popup):
+
+    def __init__(self,**kwargs):
+        super(ActionPopup,self).__init__(**kwargs)
+        self.title_font = 'Playfair'
 
     def closePopupButton(self, popup):
         closeButton = MenuButton()

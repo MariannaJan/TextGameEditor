@@ -3,7 +3,6 @@
 <MenuButton>
 	size_hint: .95,1
 	pos_hint: {"center_x":.5,"y":0}
-	font_name: 'Playfair'
 	font_size: min(self.height*0.4,self.width*0.4)
 	text_size: self.size
 	halign: 'center'
@@ -22,13 +21,10 @@
 			pos: self.pos
 			size: self.size
 
-	
-	
 <StorylineLabel>
 
 	markup: True
 	text_size: self.size
-	font_name: 'Playfair'
 	font_size: self.height/25
 	halign: 'justify'
 	valign: 'top'
@@ -45,7 +41,6 @@
 	size_hint: .7,.7
 	auto_dismiss: False
 	separator_color: 1,1,1,0
-	title_font: 'Playfair'
 	title_size: app.root.size[1]/40
 
 <CustomSlider>

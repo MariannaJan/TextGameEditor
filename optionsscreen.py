@@ -112,3 +112,5 @@ class SoundPopup(ActionPopup):
 	pass
 
 #TODO: User defined Themes
+#TODO: choosing of different fonts
+#TODO: allow user for own music instead of the one provided with the app

@@ -112,3 +112,14 @@ class DataAccess:
             soundFilesNames[soundName]=fileName
         return soundFilesNames
 
+    @classmethod
+    def getFonts(cls,fontName,fontStyle):
+        fontQueryText = ''.join(['select ',fontStyle,' from Fonts where name=(?)'])
+        fontFile = DataAccess.getSingleString(cls,fontQueryText,(fontName, ))
+        fontFilePath = "".join(['Fonts/',fontFile])
+        return fontFilePath
+
+    @classmethod
+    def getFontName(cls):
+        fontName=DataAccess.getSingleString(cls,'select fonts_name from SavedSettings')
+        return fontName
