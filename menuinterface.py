@@ -5,7 +5,6 @@ from kivy.uix.popup import Popup
 from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
 from kivy.properties import NumericProperty
-from kivy.properties import StringProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
@@ -14,17 +13,19 @@ from dataaccess import DataAccess
 
 class FontSettings():
 
-    fontName = StringProperty(None)
     fontName = DataAccess.getFontName()
 
     @classmethod
     def registerFonts(cls):
-
-        LabelBase.register(name=cls.fontName,
-                           fn_regular=DataAccess.getFonts(cls.fontName,"fn_regular"),
-                           fn_bold=DataAccess.getFonts(cls.fontName,"fn_bold"),
-                           fn_italic=DataAccess.getFonts(cls.fontName,"fn_italic"),
-                           fn_bolditalic=DataAccess.getFonts(cls.fontName,"fn_bolditalic"))
+        try:
+            LabelBase.register(name=cls.fontName,
+                               fn_regular=DataAccess.getFonts(cls.fontName,"fn_regular"),
+                               fn_bold=DataAccess.getFonts(cls.fontName,"fn_bold"),
+                               fn_italic=DataAccess.getFonts(cls.fontName,"fn_italic"),
+                               fn_bolditalic=DataAccess.getFonts(cls.fontName,"fn_bolditalic"))
+        except:
+            print('No font to register')
+            cls.fontName = 'Roboto'
 
 class SoundSettings():
     soundVolume= NumericProperty(0)

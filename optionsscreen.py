@@ -11,7 +11,6 @@ from menuinterface import CustomSlider
 
 class OptionsScreen(BasicScreen):
 
-
 	def changeTheme(self):
 		th=Themes()
 		th.chooseTheme()
@@ -41,7 +40,6 @@ class MuteButton(MenuButton):
 			soundVolumeSlider.value = 1
 			self.text = 'Turn the sound OFF'
 
-
 	def createMuteButtonText(self,vol):
 		if vol >=0.1:
 			text = 'Turn the sound OFF'
@@ -61,10 +59,8 @@ class SoundVolumeSlider(CustomSlider):
 
 	def adjustSoundVolume(self):
 		newSoundVolume = self.value_normalized
-		print(newSoundVolume)
 		SoundSettings.soundVolume = newSoundVolume
 		DataAccess.setSoundVolume(newSoundVolume)
-
 		try:
 			muteButtonReference = self.parent.children[1]
 		except:
@@ -72,13 +68,14 @@ class SoundVolumeSlider(CustomSlider):
 		else:
 			muteButtonReference.text = muteButtonReference.createMuteButtonText(newSoundVolume)
 
-
 	def on_value(self,*args):
 		self.adjustSoundVolume()
 		bip = SoundLoader.load(SoundSettings.getAudioFilePath('button_sound'))
 		bip.volume = SoundSettings.soundVolume
 		bip.play()
 
+class SoundPopup(ActionPopup):
+	pass
 
 class Themes:
 
@@ -101,12 +98,7 @@ class Themes:
 		ap=App.get_running_app()
 		ap._restartApp()
 
-
 class ThemesPopup(ActionPopup):
-	pass
-
-class SoundPopup(ActionPopup):
-
 	pass
 
 #TODO: User defined Themes
