@@ -8,54 +8,61 @@ class DataAccess:
         self.conn.row_factory = sqlite3.Row
         self.cur = self.conn.cursor()
 
-    def query(self,queryText,*args):
+    def _query(self, queryText, *args):
         self.cur.execute(queryText,*args)
         self.conn.commit()
         return self.cur
 
-    def getSingleString(self,queryText,*args):
+    def _getSingleString(self, queryText, *args):
         base=DataAccess()
-        singleString = str(((base.query(queryText,*args)).fetchone())[0])
+        singleString = str(((base._query(queryText, *args)).fetchone())[0])
         return singleString
 
     def __del__(self):
         self.conn.close()
 
+    @classmethod
+    def _getSavedSetting(cls,requestedSetting):
+        queryText = ''.join(['select ',requestedSetting,' from SavedSettings'])
+        savedSetting = cls._getSingleString(cls,queryText)
+        return savedSetting
+
     def getActiveObjectName(self, refName):
         try:
-            activeObjectName = DataAccess.getSingleString(self,"select Name from ReferenceDictionary where Reference = (?)",(refName,))
+            activeObjectName = DataAccess._getSingleString(self, "select Name from ReferenceDictionary where Reference = (?)", (refName,))
         except:
             print('Unable to find such reference name.')
         return activeObjectName
 
     def getActiveObjectDescription(self, refName):
-        activeObjectDescription = DataAccess.getSingleString(self,"select Description from ReferenceDictionary where Reference = (?)",(refName,))
+        activeObjectDescription = DataAccess._getSingleString(self, "select Description from ReferenceDictionary where Reference = (?)", (refName,))
         return activeObjectDescription
 
     def getActiveObjectInteractions(self, refName):
         activeObjectInteractions = {}
         base = DataAccess()
-        c=base.query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry from Interactions where ReferenceDictionary_Reference =(?)",(refName,))
+        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
         for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry in c.fetchall():
             activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry)
         return activeObjectInteractions
 
     def getStorylinePageText(self, pageNo):
-        storylinePageText = DataAccess.getSingleString(self,"select PageText from Storyline where pageNo = (?)",(pageNo,))
+        storylinePageText = DataAccess._getSingleString(self, "select PageText from Storyline where pageNo = (?)", (pageNo,))
         return storylinePageText
 
     def getStorylineMilestonJournal(self, pageNo):
-        storylineMilestonJournal=DataAccess.getSingleString(self,"select MilestoneJournalEntry from Storyline where pageNo = (?)",(pageNo,))
+        storylineMilestonJournal=DataAccess._getSingleString(self, "select MilestoneJournalEntry from Storyline where pageNo = (?)", (pageNo,))
         return storylineMilestonJournal
 
     @classmethod
     def getThemeName(cls):
-        themeName=DataAccess.getSingleString(cls,'select themes_themeName from SavedSettings')
+        # themeName=DataAccess._getSingleString(cls, 'select themes_themeName from SavedSettings')
+        themeName = cls._getSavedSetting('themes_themeName')
         return themeName
 
     def getColor(self,colorName):
         color = []
-        c = DataAccess.query(self,"select R,G,B,A from Colors where Name=(?)",(colorName,))
+        c = DataAccess._query(self, "select R,G,B,A from Colors where Name=(?)", (colorName,))
         result=c.fetchall()
         for R,G,B,A in result:
             color = [R,G,B,A]
@@ -63,7 +70,7 @@ class DataAccess:
 
     def getTheme(self, themeName):
         base = DataAccess()
-        c = base.query("select customButtonTextColor,customButtonBackgrondColor,customLayoutCanvasColor from Themes where themeName=(?)",(themeName,))
+        c = base._query("select customButtonTextColor,customButtonBackgrondColor,customLayoutCanvasColor from Themes where themeName=(?)", (themeName,))
         result = c.fetchone()
         themeColors = {}
         startingColumn = 0
@@ -75,14 +82,14 @@ class DataAccess:
 
     def setTheme(self,themeName):
         base = DataAccess()
-        base.query("update SavedSettings set themes_themeName=(?)",(themeName,))
+        base._query("update SavedSettings set themes_themeName=(?)", (themeName,))
         print(themeName)
 
     @classmethod
     def getThemeChooser(cls):
         themeChooser={}
         base=DataAccess()
-        themes = base.query("select themeName,themeDescription from Themes")
+        themes = base._query("select themeName,themeDescription from Themes")
         for theme in themes.fetchall():
             themeChooser[theme[0]] = (theme[1])
         return themeChooser
@@ -95,18 +102,18 @@ class DataAccess:
 
     @classmethod
     def getSoundVolume(cls):
-        soundVolume = DataAccess.getSingleString(cls, 'select soundVolume from SavedSettings')
+        soundVolume = DataAccess._getSingleString(cls, 'select soundVolume from SavedSettings')
         return soundVolume
 
     @classmethod
     def setSoundVolume(cls, soundVolume):
         base = DataAccess()
-        base.query('update SavedSettings set soundVolume=(?)', (soundVolume,))
+        base._query('update SavedSettings set soundVolume=(?)', (soundVolume,))
 
     @classmethod
     def getSoundFilesNames(cls):
         base = DataAccess()
-        c = base.query('select * from Sounds')
+        c = base._query('select * from Sounds')
         soundFilesNames = {}
         for soundName, fileName in c.fetchall():
             soundFilesNames[soundName]=fileName
@@ -115,11 +122,14 @@ class DataAccess:
     @classmethod
     def getFonts(cls,fontName,fontStyle):
         fontQueryText = ''.join(['select ',fontStyle,' from Fonts where name=(?)'])
-        fontFile = DataAccess.getSingleString(cls,fontQueryText,(fontName, ))
+        fontFile = DataAccess._getSingleString(cls, fontQueryText, (fontName,))
         fontFilePath = "".join(['Fonts/',fontFile])
         return fontFilePath
 
     @classmethod
     def getFontName(cls):
-        fontName=DataAccess.getSingleString(cls,'select fonts_name from SavedSettings')
+        fontName = cls._getSavedSetting('fonts_name')
         return fontName
+
+
+

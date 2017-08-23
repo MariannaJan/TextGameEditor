@@ -1,3 +1,5 @@
+
+
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -44,6 +46,7 @@ class BasicScreen(Screen):
 
     def on_enter(self, *args):
         screenName = self.manager.current
+
         self.backgroundSound = SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound=screenName))
         try:
             SoundSettings.playMusic(self.backgroundSound)

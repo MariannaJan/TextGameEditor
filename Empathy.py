@@ -1,4 +1,6 @@
 #kivy.require("1.10.0")
+from gc import collect
+
 from kivy.app import App
 from kivy.core.window import Window, WindowBase
 from kivy.uix.boxlayout import BoxLayout
@@ -31,6 +33,7 @@ class Empathy(App):
 		ap = App.get_running_app()
 		lol = ap.root
 		lol.clear_widgets()
+		collect()
 		lol.add_widget(ScreenChanger())
 
 	def on_start(self):
