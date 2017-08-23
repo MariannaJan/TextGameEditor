@@ -31,10 +31,10 @@ class Empathy(App):
 
 	def _restartApp(self):
 		ap = App.get_running_app()
-		lol = ap.root
-		lol.clear_widgets()
+		rootWidget = ap.root
+		rootWidget.clear_widgets()
 		collect()
-		lol.add_widget(ScreenChanger())
+		rootWidget.add_widget(ScreenChanger())
 
 	def on_start(self):
 		audio_open_sound = SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='opening_sound'))
