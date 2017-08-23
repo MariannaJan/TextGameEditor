@@ -1,6 +1,5 @@
 import sqlite3
 
-
 class DataAccess:
 
     def __init__(self):
@@ -26,6 +25,13 @@ class DataAccess:
         queryText = ''.join(['select ',requestedSetting,' from SavedSettings'])
         savedSetting = cls._getSingleString(cls,queryText)
         return savedSetting
+
+    @classmethod
+    def _setSavedSetting(cls,changedSettingName,changedSettingValue):
+        base = DataAccess()
+        queryText = ''.join(['update SavedSettings set ',changedSettingName,'=(?)'])
+        base._query(queryText, (changedSettingValue,))
+
 
     def getActiveObjectName(self, refName):
         try:
@@ -56,9 +62,12 @@ class DataAccess:
 
     @classmethod
     def getThemeName(cls):
-        # themeName=DataAccess._getSingleString(cls, 'select themes_themeName from SavedSettings')
         themeName = cls._getSavedSetting('themes_themeName')
         return themeName
+
+    @classmethod
+    def setThemeName(cls, themeName):
+        cls._setSavedSetting('themes_themeName',themeName)
 
     def getColor(self,colorName):
         color = []
@@ -70,7 +79,7 @@ class DataAccess:
 
     def getTheme(self, themeName):
         base = DataAccess()
-        c = base._query("select customButtonTextColor,customButtonBackgrondColor,customLayoutCanvasColor from Themes where themeName=(?)", (themeName,))
+        c = base._query("select customButtonTextColor,customButtonBackgroundColor,customLayoutCanvasColor from Themes where themeName=(?)", (themeName,))
         result = c.fetchone()
         themeColors = {}
         startingColumn = 0
@@ -79,11 +88,6 @@ class DataAccess:
             themeColors[coloredObject] = base.getColor(colorName)
             startingColumn += 1
         return themeColors
-
-    def setTheme(self,themeName):
-        base = DataAccess()
-        base._query("update SavedSettings set themes_themeName=(?)", (themeName,))
-        print(themeName)
 
     @classmethod
     def getThemeChooser(cls):
@@ -102,13 +106,12 @@ class DataAccess:
 
     @classmethod
     def getSoundVolume(cls):
-        soundVolume = DataAccess._getSingleString(cls, 'select soundVolume from SavedSettings')
+        soundVolume = cls._getSavedSetting('soundVolume')
         return soundVolume
 
     @classmethod
     def setSoundVolume(cls, soundVolume):
-        base = DataAccess()
-        base._query('update SavedSettings set soundVolume=(?)', (soundVolume,))
+        cls._setSavedSetting('soundVolume',soundVolume)
 
     @classmethod
     def getSoundFilesNames(cls):
@@ -120,16 +123,20 @@ class DataAccess:
         return soundFilesNames
 
     @classmethod
+    def getFontName(cls):
+        fontName = cls._getSavedSetting('fonts_name')
+        return fontName
+
+    @classmethod
     def getFonts(cls,fontName,fontStyle):
         fontQueryText = ''.join(['select ',fontStyle,' from Fonts where name=(?)'])
         fontFile = DataAccess._getSingleString(cls, fontQueryText, (fontName,))
         fontFilePath = "".join(['Fonts/',fontFile])
         return fontFilePath
 
-    @classmethod
-    def getFontName(cls):
-        fontName = cls._getSavedSetting('fonts_name')
-        return fontName
+
+
+
 
 
 

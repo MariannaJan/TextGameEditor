@@ -52,8 +52,6 @@ class MuteButton(MenuButton):
 	def on_press(self):
 		self.muteSound()
 
-
-
 class SoundVolumeSlider(CustomSlider):
 
 	def __init__(self):
@@ -99,7 +97,7 @@ class Themes:
 		themePop.open()
 
 	def updateTheme(self,themeName,*args):
-		DataAccess.setTheme(self,themeName)
+		DataAccess.setThemeName(themeName)
 		ap=App.get_running_app()
 		ap._restartApp()
 

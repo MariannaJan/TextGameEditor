@@ -9,9 +9,9 @@ from kivy.core.audio import SoundLoader
 from screenchanger import ScreenChanger
 from menuinterface import SoundSettings
 from menuinterface import FontSettings
-from dataaccess import DataAccess
 
-FontSettings.registerFonts(fontName = DataAccess.getFontName())
+
+FontSettings.registerFonts()
 
 Window.size = (600,800)
 Window.minimum_width = 600

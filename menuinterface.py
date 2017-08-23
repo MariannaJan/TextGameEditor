@@ -1,5 +1,3 @@
-
-
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -7,23 +5,26 @@ from kivy.uix.popup import Popup
 from kivy.graphics import Color
 from kivy.core.audio import SoundLoader
 from kivy.properties import NumericProperty
+from kivy.properties import StringProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
-
 from kivy.core.text import LabelBase
 
 from dataaccess import DataAccess
 
 class FontSettings():
 
-    @classmethod
-    def registerFonts(self,fontName):
+    fontName = StringProperty(None)
+    fontName = DataAccess.getFontName()
 
-        LabelBase.register(name=fontName,
-                           fn_regular=DataAccess.getFonts(fontName,"fn_regular"),
-                           fn_bold=DataAccess.getFonts(fontName,"fn_bold"),
-                           fn_italic=DataAccess.getFonts(fontName,"fn_italic"),
-                           fn_bolditalic=DataAccess.getFonts(fontName,"fn_bolditalic"))
+    @classmethod
+    def registerFonts(cls):
+
+        LabelBase.register(name=cls.fontName,
+                           fn_regular=DataAccess.getFonts(cls.fontName,"fn_regular"),
+                           fn_bold=DataAccess.getFonts(cls.fontName,"fn_bold"),
+                           fn_italic=DataAccess.getFonts(cls.fontName,"fn_italic"),
+                           fn_bolditalic=DataAccess.getFonts(cls.fontName,"fn_bolditalic"))
 
 class SoundSettings():
     soundVolume= NumericProperty(0)
@@ -41,6 +42,25 @@ class SoundSettings():
         sound.loop = True
         sound.volume = SoundSettings.soundVolume
         sound.play()
+
+class ThemeSettings():
+
+    @classmethod
+    def _getColor(cls,colorCategory):
+        color = (DataAccess.setupTheme())[colorCategory]
+        return color
+
+    @classmethod
+    def getCustomButtonBackgroundColor(cls):
+        return cls._getColor('customButtonBackgroundColor')
+
+    @classmethod
+    def getCustomButtonTextColor(cls):
+        return cls._getColor('customButtonTextColor')
+
+    @classmethod
+    def getCustomLayoutCanvasColor(cls):
+        return cls._getColor('customLayoutCanvasColor')
 
 class BasicScreen(Screen):
 
@@ -66,9 +86,9 @@ class MenuButton(Button):
     def __init__(self,**kwargs):
         super(MenuButton,self).__init__(**kwargs)
         self.audio_button_click =SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='button_sound'))
-        self.background_color = (DataAccess.setupTheme())['customButtonBackgrondColor']
-        self.color = (DataAccess.setupTheme())['customButtonTextColor']
-        self.font_name = 'Playfair'
+        self.background_color = ThemeSettings.getCustomButtonBackgroundColor()
+        self.color = ThemeSettings.getCustomButtonTextColor()
+        self.font_name = FontSettings.fontName
 
     def on_press(self):
         try:
@@ -85,22 +105,22 @@ class MenuBoxLayout(BoxLayout):
     def __init__(self,**kwargs):
         super(MenuBoxLayout,self).__init__(**kwargs)
         with self.canvas.before:
-            Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
+            Color(rgba=ThemeSettings.getCustomLayoutCanvasColor())
 
 class StorylineLabel(Label):
 
     def __init__(self,**kwargs):
         super(StorylineLabel,self).__init__(**kwargs)
-        self.color = (DataAccess.setupTheme())['customButtonTextColor']
-        self.font_name = 'Playfair'
+        self.color = ThemeSettings.getCustomButtonTextColor()
+        self.font_name = FontSettings.fontName
         with self.canvas.before:
-            Color(rgba=((DataAccess.setupTheme())['customLayoutCanvasColor']))
+            Color(rgba=ThemeSettings.getCustomLayoutCanvasColor())
 
 class ActionPopup(Popup):
 
     def __init__(self,**kwargs):
         super(ActionPopup,self).__init__(**kwargs)
-        self.title_font = 'Playfair'
+        self.title_font = FontSettings.fontName
 
     def closePopupButton(self, popup):
         closeButton = MenuButton()
@@ -112,6 +132,4 @@ class CustomSlider(Slider):
 
     def __init__(self,**kwargs):
         super(CustomSlider,self).__init__()
-        self.value_track_color = (DataAccess.setupTheme())['customButtonTextColor']
-
-    pass
+        self.value_track_color = ThemeSettings.getCustomButtonTextColor()
