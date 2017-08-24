@@ -96,7 +96,7 @@ class Themes:
 	def updateTheme(self,themeName,*args):
 		DataAccess.setThemeName(themeName)
 		ap=App.get_running_app()
-		ap._restartApp()
+		ap.restartApp()
 
 class ThemesPopup(ActionPopup):
 	pass

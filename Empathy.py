@@ -18,6 +18,7 @@ Window.minimum_height = 800
 #Window.fullscreen = 'auto'
 
 class Empathy(App):
+	"""Create and run main game loop"""
 
 	startingPage=''
 
@@ -28,7 +29,7 @@ class Empathy(App):
 		masterWidget.add_widget(screenChanger)
 		return masterWidget
 
-	def _restartApp(self):
+	def restartApp(self):
 		ap = App.get_running_app()
 		rootWidget = ap.root
 		rootWidget.clear_widgets()
