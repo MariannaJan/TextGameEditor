@@ -10,7 +10,6 @@ from screenchanger import ScreenChanger
 from menuinterface import SoundSettings
 from menuinterface import FontSettings
 
-
 FontSettings.registerFonts()
 
 Window.size = (600,800)

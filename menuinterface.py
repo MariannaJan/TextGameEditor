@@ -28,6 +28,7 @@ class FontSettings():
             cls.fontName = 'Roboto'
 
 class SoundSettings():
+
     soundVolume= NumericProperty(0)
     soundVolume=DataAccess.getSoundVolume()
 
