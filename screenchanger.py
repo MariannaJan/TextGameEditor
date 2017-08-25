@@ -1,4 +1,4 @@
-from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
+from kivy.uix.screenmanager import ScreenManager
 
 # noinspection PyUnresolvedReferences
 from mainmenuscreen import MainMenuScreen

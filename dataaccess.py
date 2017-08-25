@@ -136,7 +136,8 @@ class DataAccess:
 
 
 
-
+if __name__=="__main__":
+	DataAccess().__init__()
 
 
 

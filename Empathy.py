@@ -1,4 +1,5 @@
 #kivy.require("1.10.0")
+
 from gc import collect
 
 from kivy.app import App
