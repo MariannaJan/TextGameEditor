@@ -1,4 +1,5 @@
-#kivy.require("1.10.0")
+import kivy
+kivy.require("1.10.0")
 
 from gc import collect
 
@@ -11,17 +12,16 @@ from screenchanger import ScreenChanger
 from menuinterface import SoundSettings
 from menuinterface import FontSettings
 
-FontSettings.registerFonts()
-
-Window.size = (600,800)
-Window.minimum_width = 600
-Window.minimum_height = 800
-#Window.fullscreen = 'auto'
-
 class Empathy(App):
 	"""Create and run main game loop"""
 
+	Window.size = (600, 800)
+	Window.minimum_width = 600
+	Window.minimum_height = 800
+	# Window.fullscreen = 'auto'
+
 	startingPage=''
+	FontSettings.registerFonts()
 
 	def build(self):
 		self.title = 'Empathy'

@@ -8,14 +8,22 @@ class DataAccess:
         self.cur = self.conn.cursor()
 
     def _query(self, queryText, *args):
-        self.cur.execute(queryText,*args)
-        self.conn.commit()
-        return self.cur
+        try:
+            self.cur.execute(queryText,*args)
+        except:
+            print('database error')
+        else:
+            self.conn.commit()
+            return self.cur
 
     def _getSingleString(self, queryText, *args):
         base=DataAccess()
-        singleString = str(((base._query(queryText, *args)).fetchone())[0])
-        return singleString
+        try:
+            singleString = str(((base._query(queryText, *args)).fetchone())[0])
+        except:
+            print('database error')
+        else:
+            return singleString
 
     def __del__(self):
         self.conn.close()
@@ -80,14 +88,19 @@ class DataAccess:
     def getTheme(self, themeName):
         base = DataAccess()
         c = base._query("select customButtonTextColor,customButtonBackgroundColor,customLayoutCanvasColor from Themes where themeName=(?)", (themeName,))
-        result = c.fetchone()
-        themeColors = {}
-        startingColumn = 0
-        for coloredObject in result.keys():
-            colorName = ((tuple(result))[startingColumn])
-            themeColors[coloredObject] = base.getColor(colorName)
-            startingColumn += 1
-        return themeColors
+        try:
+            result = c.fetchone()
+        except:
+            print('no theme colors to fetch')
+            return {'customButtonTextColor':(0,0,0,1),'customButtonBackgroundColor':(1,1,1,1),'customLayoutCanvasColor':(1,1,1,1)}
+        else:
+            themeColors = {}
+            startingColumn = 0
+            for coloredObject in result.keys():
+                colorName = ((tuple(result))[startingColumn])
+                themeColors[coloredObject] = base.getColor(colorName)
+                startingColumn += 1
+            return themeColors
 
     @classmethod
     def getThemeChooser(cls):
@@ -118,9 +131,14 @@ class DataAccess:
         base = DataAccess()
         c = base._query('select * from Sounds')
         soundFilesNames = {}
-        for soundName, fileName in c.fetchall():
-            soundFilesNames[soundName]=fileName
-        return soundFilesNames
+        try:
+            for soundName, fileName in c.fetchall():
+                soundFilesNames[soundName]=fileName
+        except:
+            print('database error')
+            return {}
+        else:
+            return soundFilesNames
 
     @classmethod
     def getFontName(cls):
@@ -137,7 +155,7 @@ class DataAccess:
 
 
 if __name__=="__main__":
-	DataAccess().__init__()
+	DataAccess.__init__()
 
 
 
