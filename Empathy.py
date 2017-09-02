@@ -15,15 +15,21 @@ from menuinterface import FontSettings
 class Empathy(App):
 	"""Create and run main game loop"""
 
-	Window.size = (600, 800)
-	Window.minimum_width = 600
-	Window.minimum_height = 800
+	# Window.size = (600, 800)
+	# Window.minimum_width = 600
+	# Window.minimum_height = 800
 	# Window.fullscreen = 'auto'
 
 	startingPage=''
 	FontSettings.registerFonts()
 
 	def build(self):
+		"""Creates the master widget from a box layout to enable reloading of the whole app.
+
+		The only child of the master widget is the screen manager widget - ScreenChanger.
+
+		:return: widget - master widget
+		"""
 		self.title = 'Empathy'
 		masterWidget = BoxLayout()
 		screenChanger = ScreenChanger()
@@ -31,6 +37,8 @@ class Empathy(App):
 		return masterWidget
 
 	def restartApp(self):
+		"""Reload and redraw all widgets in the app."""
+
 		ap = App.get_running_app()
 		rootWidget = ap.root
 		rootWidget.clear_widgets()
@@ -38,6 +46,8 @@ class Empathy(App):
 		rootWidget.add_widget(ScreenChanger())
 
 	def on_start(self):
+		"""Load and play the soind on the start of the app."""
+
 		audio_open_sound = SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='opening_sound'))
 		try:
 			audio_open_sound.volume = SoundSettings.soundVolume

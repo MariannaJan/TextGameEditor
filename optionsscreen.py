@@ -1,3 +1,5 @@
+"""User interface for checking and changing game settings, like colors, sounds etc."""
+
 from functools import partial
 from kivy.app import App
 from kivy.core.audio import SoundLoader
@@ -10,12 +12,17 @@ from menuinterface import BasicScreen
 from menuinterface import CustomSlider
 
 class OptionsScreen(BasicScreen):
+	"""Extends BasicScreen. Provides user interface for changing game settings."""
 
 	def changeTheme(self):
+		"""On button press generate theme selection popup."""
+
 		th=Themes()
 		th.chooseTheme()
 
 	def adjustSound(self):
+		"""On button press generate sound adjustment popup."""
+
 		soundPop = SoundPopup(title = 'Adjust sound')
 		soundToggleButton = MuteButton()
 		soundToggleButton.text = soundToggleButton.createMuteButtonText(float(SoundSettings.soundVolume))
@@ -25,8 +32,11 @@ class OptionsScreen(BasicScreen):
 		soundPop.open()
 
 class MuteButton(MenuButton):
+	"""Extends MenuButton. Provides auto-adjusting button for setting sound volume to 0 or 1."""
 
 	def muteSound(self):
+		"""Check for current sound volume and adjust button text and function, to allow turning the sound on or off."""
+
 		soundVolume = float(SoundSettings.soundVolume)
 		soundVolumeSlider = self.parent.children[2]
 		if soundVolume >= 0.1:
@@ -41,6 +51,8 @@ class MuteButton(MenuButton):
 			self.text = 'Turn the sound OFF'
 
 	def createMuteButtonText(self,vol):
+		"""Set the mute button text according to the current sound volume."""
+
 		if vol >=0.1:
 			text = 'Turn the sound OFF'
 		elif vol < 0.1:
@@ -48,16 +60,22 @@ class MuteButton(MenuButton):
 		return text
 
 	def on_press(self):
+		"""On button press toggle text and function of MuteButton."""
 		self.muteSound()
 
 class SoundVolumeSlider(CustomSlider):
+	"""Extends CustomSlider. Slider to adjust sound volume from 0 to 1, step 0.1."""
 
 	def __init__(self):
+		"""Create sound volume slider according to current sound volume from saved settings."""
+
 		super(SoundVolumeSlider,self).__init__()
 		soundVolume = float(SoundSettings.soundVolume)
 		self.value = soundVolume
 
 	def adjustSoundVolume(self):
+		"""Set sound volume on slider change amd adjust mute button accordingly."""
+
 		newSoundVolume = self.value_normalized
 		SoundSettings.soundVolume = newSoundVolume
 		DataAccess.setSoundVolume(newSoundVolume)
@@ -69,17 +87,24 @@ class SoundVolumeSlider(CustomSlider):
 			muteButtonReference.text = muteButtonReference.createMuteButtonText(newSoundVolume)
 
 	def on_value(self,*args):
+		"""Set sound slider sound."""
+
 		self.adjustSoundVolume()
 		bip = SoundLoader.load(SoundSettings.getAudioFilePath('button_sound'))
 		bip.volume = SoundSettings.soundVolume
 		bip.play()
 
 class SoundPopup(ActionPopup):
+	"""Create popup for sound settings. All specs in kv file."""
+
 	pass
 
 class Themes:
+	"""Provide methods for creation od theme selection popup."""
 
 	def chooseTheme(self):
+		"""Dynamically create choose theme popup according to the data in database."""
+
 		themePop = ThemesPopup(title = 'Choose theme')
 		themes = DataAccess.getThemeChooser()
 
@@ -94,11 +119,15 @@ class Themes:
 		themePop.open()
 
 	def updateTheme(self,themeName,*args):
+		"""Change the current theme in saved settings and restart app to enable changes."""
+
 		DataAccess.setThemeName(themeName)
 		ap=App.get_running_app()
 		ap.restartApp()
 
 class ThemesPopup(ActionPopup):
+	"""Set the popup template for changing themes."""
+
 	pass
 
 #TODO: User defined Themes

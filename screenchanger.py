@@ -9,4 +9,13 @@ from optionsscreen import OptionsScreen
 
 
 class ScreenChanger(ScreenManager):
+	"""Main widget for the creation of all the game screens.
+
+	Added as a child to the master widget in Empathy.
+	Screens
+	* MainMenuScreen
+	* GameScreen
+	* OptionsScreen
+	"""
+
 	pass
