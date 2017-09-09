@@ -38,7 +38,7 @@ class ActiveReference:
 	def open_interact_popup(self):
 		"""Create interact popup for the chosen reference with buttons according to the available interactions for the reference."""
 
-		interactTitle='Interacting with '+self.activeObjectName
+		interactTitle = ''.join(('Interacting with ',self.activeObjectName))
 		intPop=InteractPopup(title=interactTitle)
 		self.interactButtonsGeneration(intPop)
 		closeButton = ActionPopup.closePopupButton(self,intPop)

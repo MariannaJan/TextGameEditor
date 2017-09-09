@@ -36,21 +36,21 @@ class GameScreen(BasicScreen):
 		try:
 			clickedReference = ActiveReference(referenceName)
 		except:
-			print('No reference in reference dictionary.')
+			print('No reference in references dictionary.')
 		else:
 			useFlag = self.referenceTextLabel.flag
 			print(referenceName, useFlag)
 			possibleUses = {
 				'ins': clickedReference.inspectReference,
 				'int': clickedReference.interactWithReference,
-				'inv': self.clickInterface,
+				'inv': self.clickInventory,
 				'inf': self.clickInterface
 			}
 
 			try:
 				possibleUses.get(useFlag,partial(print,'No action selected'))()
 			except:
-				print("error in references dictionary")
+				print("Lack of data for the chosen reference in references dictionary")
 			finally:
 				self.referenceTextLabel.flag= ""
 

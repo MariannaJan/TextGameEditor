@@ -33,7 +33,7 @@ class DataAccess:
         try:
             self.cur.execute(queryText,*args)
         except:
-            print('database error')
+            print('database error - cannot execute query')
         else:
             self.conn.commit()
             return self.cur
@@ -53,7 +53,7 @@ class DataAccess:
         try:
             singleString = str(((base._query(queryText, *args)).fetchone())[0])
         except:
-            print('database error')
+            print('database error - cannot get single string')
         else:
             return singleString
 
@@ -203,7 +203,7 @@ class DataAccess:
 
     @classmethod
     def getThemeChooser(cls):
-        """Retreive from datatbase available themes.
+        """Retreive available themes from datatbase.
 
         :return: {string theme name: string theme full name, as for button text generation}
         :rtype: dict [str,str]
