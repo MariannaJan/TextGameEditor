@@ -34,24 +34,26 @@ class GameScreen(BasicScreen):
 		"""
 
 		try:
-			try:
-				clickedReference = ActiveReference(referenceName)
-			finally:
-
-				useFlag = self.referenceTextLabel.flag
-				print(referenceName, useFlag)
-				possibleUses = {
-					'ins': clickedReference.inspectReference,
-					'int': clickedReference.interactWithReference,
-					'inv': self.clickInterface,
-					'inf': self.clickInterface
-				}
-
-				possibleUses.get(useFlag,partial(print,'No action selected'))()
-
-				self.referenceTextLabel.flag= ""
+			clickedReference = ActiveReference(referenceName)
 		except:
 			print('No reference in reference dictionary.')
+		else:
+			useFlag = self.referenceTextLabel.flag
+			print(referenceName, useFlag)
+			possibleUses = {
+				'ins': clickedReference.inspectReference,
+				'int': clickedReference.interactWithReference,
+				'inv': self.clickInterface,
+				'inf': self.clickInterface
+			}
+
+			try:
+				possibleUses.get(useFlag,partial(print,'No action selected'))()
+			except:
+				print("error in references dictionary")
+			finally:
+				self.referenceTextLabel.flag= ""
+
 
 	def clickInspect(self):
 		"""Set the chosen action for reference to inspect."""

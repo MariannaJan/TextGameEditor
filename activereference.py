@@ -25,7 +25,7 @@ class ActiveReference:
 	def open_inspect_popup(self):
 		"""Create inspect popup for the chosen reference."""
 
-		inspectTitle='Inspecting '+self.activeObjectName
+		inspectTitle = ''.join(('Inspecting ',self.activeObjectName))
 		insPop=InspectPopup(title=inspectTitle)
 		insPop.referenceDescription.text = self.activeObjectDescription
 		insPop.open()	
@@ -48,7 +48,7 @@ class ActiveReference:
 
 	def interactButtonsGeneration(self,intPop):
 		"""Generate interaction buttons according to interactions available for the chosen reference.
-		Display info if no onteractions are available.
+		Display info if no interactions are available.
 		"""
 
 		interactions=self.activeObjectInteractions.keys()
