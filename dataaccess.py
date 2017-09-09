@@ -84,7 +84,7 @@ class DataAccess:
     def getActiveObjectName(self, refName):
         """Matches the name from data base with the markup reference that has been chosen by the player.
 
-        :param refName: name of ther clicked reference from markup
+        :param refName: name of the clicked reference from markup
         :type refName: string
         :return: full name of the chosen object, retreived from database
         :rtype: string
@@ -100,7 +100,7 @@ class DataAccess:
 
         :param refName: name of ther clicked reference from markup
         :type refName: string
-        :return: full name of the chosen object, retreived from database
+        :return: description of the chosen object, retreived from database
         :rtype: string
         """
         activeObjectDescription = DataAccess._getSingleString(self, "select Description from ReferenceDictionary where Reference = (?)", (refName,))
@@ -266,7 +266,7 @@ class DataAccess:
 
     @classmethod
     def getFontName(cls):
-        """Get the name of the font for the currewnt gameplay from the saved settings in database.
+        """Get the name of the font for the current gameplay from the saved settings in database.
 
         :return: name of font from the saved settings in database
         :rtype: string

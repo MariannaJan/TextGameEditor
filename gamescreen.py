@@ -24,22 +24,22 @@ class GameScreen(BasicScreen):
 
 		self.referenceTextLabel.text = DataAccess.getStorylinePageText(self, pageNo)
 
-	def useReference(self, referenceName, **kwargs):
+	def useReference(self, refName, **kwargs):
 		"""Enable choosing of action for the chosen reference. Recognise clicked reference.
 
-		Name of the clicked reference is passed from the on_ref_press callback: referenceName = args[1], set in kv file
+		Name of the clicked reference is passed from the on_ref_press callback: refName = args[1], set in kv file
 
-		:param referenceName: name of the clicked reference from the markup text
-		:type referenceName: string
+		:param refName: name of the clicked reference from the markup text
+		:type refName: string
 		"""
 
 		try:
-			clickedReference = ActiveReference(referenceName)
+			clickedReference = ActiveReference(refName)
 		except:
 			print('No reference in references dictionary.')
 		else:
 			useFlag = self.referenceTextLabel.flag
-			print(referenceName, useFlag)
+			print(refName, useFlag)
 			possibleUses = {
 				'ins': clickedReference.inspectReference,
 				'int': clickedReference.interactWithReference,
