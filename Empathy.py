@@ -15,9 +15,9 @@ from menuinterface import FontSettings
 class Empathy(App):
 	"""Create and run main game loop"""
 
-	# Window.size = (600, 800)
-	# Window.minimum_width = 600
-	# Window.minimum_height = 800
+	Window.size = (600, 800)
+	Window.minimum_width = 600
+	Window.minimum_height = 800
 	# Window.fullscreen = 'auto'
 
 	startingPage=''

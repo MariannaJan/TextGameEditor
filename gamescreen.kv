@@ -6,7 +6,7 @@
 	    pageNo=app.startingPage
 	    root.setStoryline(pageNo)
 
-	storylinePageText: reference_text_label
+	referenceTextLabel: reference_text_label
 
 	MainMenuButton:
 		pos_hint:{'x': .8, 'y': 0}
@@ -44,7 +44,7 @@
 		flag: None
 		pos_hint: {'x': 0, 'y': .2}
 		size_hint: .8,.8
-		on_ref_press:  root.useReference(args)
+		on_ref_press:  root.useReference(referenceName = args[1])
 		
 <InspectPopup>
 

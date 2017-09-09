@@ -1,4 +1,5 @@
 """Create screen for the core gamplay."""
+from functools import partial
 
 from kivy.properties import ObjectProperty
 from activereference import ActiveReference
@@ -13,76 +14,66 @@ class GameScreen(BasicScreen):
 	:vartype storylinePageText: string
 	"""
 
-	storylinePageText = ObjectProperty(None)
+	referenceTextLabel = ObjectProperty(None)
 
 	def setStoryline(self,pageNo):
-		"""Set the thext displayed in gamescreen according to the current page ID.
+		"""Set the text displayed in gamescreen according to the current page ID.
 
 		:param str pageNo: ID of the current page to be displayed on the core gamescreen
 		"""
 
-		self.storylinePageText.text = DataAccess.getStorylinePageText(self,pageNo)
-	
-	def useReference(self, args):
+		self.referenceTextLabel.text = DataAccess.getStorylinePageText(self, pageNo)
+
+	def useReference(self, referenceName, **kwargs):
 		"""Enable choosing of action for the chosen reference. Recognise clicked reference.
 
-		:param args: name of the clicked reference from the markup text
-		:type args: string
+		Name of the clicked reference is passed from the on_ref_press callback: referenceName = args[1], set in kv file
+
+		:param referenceName: name of the clicked reference from the markup text
+		:type referenceName: string
 		"""
-		useFlag=self.storylinePageText.flag
-		referenceName= args[1]
-		print(referenceName,useFlag)
 
 		try:
 			try:
 				clickedReference = ActiveReference(referenceName)
 			finally:
 
-				if useFlag=='ins':
-					clickedReference.inspectReference()
+				useFlag = self.referenceTextLabel.flag
+				print(referenceName, useFlag)
+				possibleUses = {
+					'ins': clickedReference.inspectReference,
+					'int': clickedReference.interactWithReference,
+					'inv': self.clickInterface,
+					'inf': self.clickInterface
+				}
 
-				elif useFlag=='int':
-					clickedReference.interactWithReference()
+				possibleUses.get(useFlag,partial(print,'No action selected'))()
 
-				elif useFlag=='inv':
-					print('Opening inventory for: ', referenceName)
-
-				#elif useFlag=='inf':
-					#print('Opening interface screen')
-
-				else:
-					print('No action selected')
-
-				self.storylinePageText.flag= ""
+				self.referenceTextLabel.flag= ""
 		except:
 			print('No reference in reference dictionary.')
-	
-	
-	
+
 	def clickInspect(self):
 		"""Set the chosen action for reference to inspect."""
 
-		self.storylinePageText.flag = 'ins'
-		print (self.storylinePageText.flag)
-		
-		
+		self.referenceTextLabel.flag = 'ins'
+
 	def clickInteract(self):
 		"""Set the chosen action for reference to interact."""
 
-		self.storylinePageText.flag = 'int'
-		print (self.storylinePageText.flag)
-		
+		self.referenceTextLabel.flag = 'int'
+
 	def clickInventory(self):
 		"""Set the chosen action for reference to use inventory."""
 
-		self.storylinePageText.flag = 'inv'
-		print (self.storylinePageText.flag)
+		self.referenceTextLabel.flag = 'inv'
+		print (self.referenceTextLabel.flag)
 		
 	def clickInterface(self):
 		"""On button click open additional game interface with map, journal, etc..."""
 
-		self.storylinePageText.flag = 'inf'
-		print (self.storylinePageText.flag)
+		self.referenceTextLabel.flag = 'inf'
+		print (self.referenceTextLabel.flag)
 		print('Opening interface screen')	
 		
 		
