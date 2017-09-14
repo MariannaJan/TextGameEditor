@@ -3,16 +3,12 @@ from functools import partial
 
 from kivy.properties import ObjectProperty
 from activereference import ActiveReference
-from dataaccess import DataAccess
+from dataaccessapi import DataAccessAPI
 
 from menuinterface import BasicScreen
 
 class GameScreen(BasicScreen):
-	"""Setup core gameplay screen. Details in kv file.
-
-	:var storylinePageText: ID of the page from database for the creation of the current game screen.
-	:vartype storylinePageText: string
-	"""
+	"""Setup core gameplay screen. Details in kv file."""
 
 	referenceTextLabel = ObjectProperty(None)
 
@@ -22,7 +18,7 @@ class GameScreen(BasicScreen):
 		:param str pageNo: ID of the current page to be displayed on the core gamescreen
 		"""
 
-		self.referenceTextLabel.text = DataAccess.getStorylinePageText(self, pageNo)
+		self.referenceTextLabel.text = DataAccessAPI.getReferenceStorylineText(self,pageNo)
 
 	def useReference(self, refName, **kwargs):
 		"""Enable choosing of action for the chosen reference. Recognise clicked reference.

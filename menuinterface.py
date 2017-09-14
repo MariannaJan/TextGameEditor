@@ -12,6 +12,7 @@ from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
 
 from dataaccess import DataAccess
+from dataaccessapi import DataAccessAPI
 
 class FontSettings():
     """Setting the fonts for the current game.
@@ -77,24 +78,12 @@ class SoundSettings():
 class ThemeSettings():
 
     @classmethod
-    def _getColorFromTheme(cls, colorCategory):
-        """Internal method facilitating construction of methods to get different colors from a theme.
-
-        :param str colorCategory: name of function of color from the theme
-        :return: color from theme (float R, float G, float B, float A)
-        :rtype: tuple(float,float,float,float)
-        """
-
-        color = (DataAccess.setupTheme())[colorCategory]
-        return color
-
-    @classmethod
     def getCustomButtonBackgroundColor(cls):
         """:return: customButtonBackgroundColor from current theme (float R, float G, float B, float A)
         :rtype: tuple(float,float,float,float)
         """
 
-        return cls._getColorFromTheme('customButtonBackgroundColor')
+        return DataAccessAPI.getColorFromTheme('customButtonBackgroundColor')
 
     @classmethod
     def getCustomButtonTextColor(cls):
@@ -102,7 +91,7 @@ class ThemeSettings():
         :rtype: tuple(float,float,float,float)
         """
 
-        return cls._getColorFromTheme('customButtonTextColor')
+        return DataAccessAPI.getColorFromTheme('customButtonTextColor')
 
 
     @classmethod
@@ -111,7 +100,7 @@ class ThemeSettings():
         :rtype: tuple(float,float,float,float)
         """
 
-        return cls._getColorFromTheme('customLayoutCanvasColor')
+        return DataAccessAPI.getColorFromTheme('customLayoutCanvasColor')
 
 class BasicScreen(Screen):
     """Template for basic screen, providing mechanism of playing background sound."""
