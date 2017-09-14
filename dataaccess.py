@@ -227,7 +227,7 @@ class DataAccess:
         return themeSettings
 
     @classmethod
-    def getSoundVolume(cls):
+    def getSavedSoundVolume(cls):
         """Retreive the sound volume from the database saved settings.
 
         :return: sound volume from the database saved settings
@@ -265,7 +265,7 @@ class DataAccess:
             return soundFilesNames
 
     @classmethod
-    def getFontName(cls):
+    def getSavedFontName(cls):
         """Get the name of the font for the current gameplay from the saved settings in database.
 
         :return: name of font from the saved settings in database
@@ -276,19 +276,19 @@ class DataAccess:
 
     @classmethod
     def getFonts(cls,fontName,fontStyle):
-        """Retreive from database the path for font file in a specified style.
+        """Retreive from database the name of the font file in a specified style.
 
         :param fontName: name of the font
         :type fontName: string
         :param fontStyle: style of the font
         :type fontStyle: string
-        :return: path for the font file in a specified style
+        :return: name of the font file in a specified style from the database
         :rtype: string
         """
         fontQueryText = ''.join(['select ',fontStyle,' from Fonts where name=(?)'])
-        fontFile = DataAccess._getSingleString(cls, fontQueryText, (fontName,))
-        fontFilePath = "".join(['Fonts/',fontFile])
-        return fontFilePath
+        fontFileName = DataAccess._getSingleString(cls, fontQueryText, (fontName,))
+        return fontFileName
+
 
 
 

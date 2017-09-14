@@ -40,6 +40,11 @@ class DataAccessAPI:
         return referenceInteractions
 
     def getReferenceStorylineText(self,pageNo):
+        """Get the text with active references for the current gamplay page.
+
+        :param pageNo:
+        :return:
+        """
 
         referenceStorylineText = DataAccess.getStorylinePageText(self,pageNo)
         return referenceStorylineText
@@ -56,3 +61,44 @@ class DataAccessAPI:
         color = (DataAccess.setupTheme())[colorCategory]
         return color
 
+    @classmethod
+    def getFontName(cls):
+        """Get the name of the current font used by game.
+
+        :return: name of font
+        :rtype: str
+        """
+        return DataAccess.getSavedFontName()
+
+    @classmethod
+    def getFontFilePath(cls,fontName,fontStyle):
+        """Get the path to the file for the specified font in specified style.
+        :param str fontName: name of the font
+        :param str fontStyle: style of font, eg. bold
+        :return: path to the file
+        :rtype: str
+        """
+        fontFileName = DataAccess.getFonts(fontName,fontStyle)
+        fontFilePath = "".join(['Fonts/',fontFileName])
+        return fontFilePath
+
+    @staticmethod
+    def getAudioFilePath(requestedSound):
+        """Get the path to the requested sound file.
+
+        :param str requestedSound: name of the requested sound
+        :return: path to file
+        :rtype: str
+        """
+        audioFilePaths = DataAccess.getSoundFilesNames()
+        filePath = ''.join(('Audio/',audioFilePaths.get(requestedSound,'')))
+        return filePath
+
+    @classmethod
+    def getSoundVolume(cls):
+        """Get the current volume of sound in game.
+
+        :return: current volume of sound
+        :rtype: float
+        """
+        return DataAccess.getSavedSoundVolume()

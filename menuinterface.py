@@ -11,7 +11,6 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
 
-from dataaccess import DataAccess
 from dataaccessapi import DataAccessAPI
 
 class FontSettings():
@@ -21,7 +20,7 @@ class FontSettings():
     :vartype fontName: string
     """
 
-    fontName = DataAccess.getFontName()
+    fontName = DataAccessAPI.getFontName()
 
     @classmethod
     def registerFonts(cls):
@@ -32,10 +31,10 @@ class FontSettings():
 
         try:
             LabelBase.register(name=cls.fontName,
-                               fn_regular=DataAccess.getFonts(cls.fontName,"fn_regular"),
-                               fn_bold=DataAccess.getFonts(cls.fontName,"fn_bold"),
-                               fn_italic=DataAccess.getFonts(cls.fontName,"fn_italic"),
-                               fn_bolditalic=DataAccess.getFonts(cls.fontName,"fn_bolditalic"))
+                               fn_regular=DataAccessAPI.getFontFilePath(cls.fontName,"fn_regular"),
+                               fn_bold=DataAccessAPI.getFontFilePath(cls.fontName,"fn_bold"),
+                               fn_italic=DataAccessAPI.getFontFilePath(cls.fontName,"fn_italic"),
+                               fn_bolditalic=DataAccessAPI.getFontFilePath(cls.fontName,"fn_bolditalic"))
         except:
             print('No font to register')
             cls.fontName = 'Roboto'
@@ -48,7 +47,7 @@ class SoundSettings():
     """
 
     soundVolume= NumericProperty(0)
-    soundVolume=DataAccess.getSoundVolume()
+    soundVolume = DataAccessAPI.getSoundVolume()
 
     @staticmethod
     def getAudioFilePath(requestedSound):
@@ -59,9 +58,9 @@ class SoundSettings():
         :rtype: string
         """
 
-        audioFilePaths = DataAccess.getSoundFilesNames()
-        filePath = ''.join(('Audio/',audioFilePaths.get(requestedSound,'')))
-        return filePath
+        # audioFilePaths = DataAccess.getSoundFilesNames()
+        # filePath = ''.join(('Audio/',audioFilePaths.get(requestedSound,'')))
+        return DataAccessAPI.getAudioFilePath(requestedSound)
 
 
     @staticmethod
