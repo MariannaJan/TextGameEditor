@@ -6,6 +6,8 @@ from mainmenuscreen import MainMenuScreen
 from gamescreen import GameScreen
 # noinspection PyUnresolvedReferences
 from optionsscreen import OptionsScreen
+# noinspection PyUnresolvedReferences
+from inventoryscreen import InventoryScreen
 
 
 class ScreenChanger(ScreenManager):

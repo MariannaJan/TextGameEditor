@@ -144,7 +144,7 @@ class DataAccess:
         return storylineMilestonJournal
 
     @classmethod
-    def getThemeName(cls):
+    def getSavedThemeName(cls):
         """Get the name of the theme from the saved settings.
 
         :return: name of the theme from the saved settings
@@ -154,7 +154,7 @@ class DataAccess:
         return themeName
 
     @classmethod
-    def setThemeName(cls, themeName):
+    def setSavedThemeName(cls, themeName):
         """Set the name of the theme in the saved settings.
 
         :param themeName: name of the theme to be written in the saved settings table
@@ -202,7 +202,7 @@ class DataAccess:
             return themeColors
 
     @classmethod
-    def getThemeChooser(cls):
+    def getAvailableThemes(cls):
         """Retreive available themes from datatbase.
 
         :return: {string theme name: string theme full name, as for button text generation}
@@ -223,7 +223,7 @@ class DataAccess:
         :rtype: dict{str,tuple(float,float,float,float)}
         """
         base = DataAccess()
-        themeSettings = base.getTheme(base.getThemeName())
+        themeSettings = base.getTheme(base.getSavedThemeName())
         return themeSettings
 
     @classmethod
@@ -237,7 +237,7 @@ class DataAccess:
         return soundVolume
 
     @classmethod
-    def setSoundVolume(cls, soundVolume):
+    def setSavedSoundVolume(cls, soundVolume):
         """Set chosen sound volume in the saved settings in database.
 
         :param soundVolume: sound volume

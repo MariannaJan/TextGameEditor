@@ -62,6 +62,23 @@ class DataAccessAPI:
         return color
 
     @classmethod
+    def getThemeChooser(cls):
+        """Get available color themes.
+
+        :return: {string theme name: string theme full name, as for button text generation}
+        :rtype: dict [str,str]
+        """
+        return DataAccess.getAvailableThemes()
+
+    @classmethod
+    def setThemeName(cls, themeName):
+        """Set the name of the chosen color theme for the current game.
+
+        :param str themeName: name of theme to be set
+        """
+        DataAccess.setSavedThemeName(themeName)
+
+    @classmethod
     def getFontName(cls):
         """Get the name of the current font used by game.
 
@@ -102,3 +119,17 @@ class DataAccessAPI:
         :rtype: float
         """
         return DataAccess.getSavedSoundVolume()
+
+    @classmethod
+    def setSoundVolume(cls,soundVolume):
+        """Set the current volume of the sound in  game.
+
+        :param soundVolume: volume of sound to be set
+        :type: float
+        """
+        DataAccess.setSavedSoundVolume(soundVolume)
+
+    @classmethod
+    def getInventoryItems(cls):
+        inventoryItems = ["item1","item2","item3"]
+        return inventoryItems

@@ -4,7 +4,7 @@ from functools import partial
 from kivy.app import App
 from kivy.core.audio import SoundLoader
 
-from dataaccess import DataAccess
+from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
 from menuinterface import SoundSettings
@@ -41,12 +41,12 @@ class MuteButton(MenuButton):
 		soundVolumeSlider = self.parent.children[2]
 		if soundVolume >= 0.1:
 			SoundSettings.soundVolume = 0
-			DataAccess.setSoundVolume(0)
+			DataAccessAPI.setSoundVolume(0)
 			soundVolumeSlider.value = 0
 			self.text = 'Turn the sound ON'
 		elif soundVolume < 0.1:
 			SoundSettings.soundVolume = 1
-			DataAccess.setSoundVolume(1)
+			DataAccessAPI.setSoundVolume(1)
 			soundVolumeSlider.value = 1
 			self.text = 'Turn the sound OFF'
 
@@ -78,7 +78,7 @@ class SoundVolumeSlider(CustomSlider):
 
 		newSoundVolume = self.value_normalized
 		SoundSettings.soundVolume = newSoundVolume
-		DataAccess.setSoundVolume(newSoundVolume)
+		DataAccessAPI.setSoundVolume(newSoundVolume)
 		try:
 			muteButtonReference = self.parent.children[1]
 		except:
@@ -106,7 +106,7 @@ class Themes:
 		"""Dynamically create choose theme popup according to the data in database."""
 
 		themePop = ThemesPopup(title = 'Choose theme')
-		themes = DataAccess.getThemeChooser()
+		themes = DataAccessAPI.getThemeChooser()
 
 		for theme in themes:
 			themeButtonTitle = themes[theme]
@@ -121,7 +121,7 @@ class Themes:
 	def updateTheme(self,themeName,*args):
 		"""Change the current theme in saved settings and restart app to enable changes."""
 
-		DataAccess.setThemeName(themeName)
+		DataAccessAPI.setThemeName(themeName)
 		ap=App.get_running_app()
 		ap.restartApp()
 

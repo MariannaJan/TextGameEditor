@@ -65,6 +65,7 @@ class GameScreen(BasicScreen):
 		"""Set the chosen action for reference to use inventory."""
 
 		self.referenceTextLabel.flag = 'inv'
+
 		print (self.referenceTextLabel.flag)
 		
 	def clickInterface(self):
