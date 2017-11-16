@@ -1,0 +1,349 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>menuinterface module &#8212; Empathy 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="optionsscreen module" href="optionsscreen.html" />
+    <link rel="prev" title="mainmenuscreen module" href="mainmenuscreen.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">Empathy 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="mainmenuscreen.html" title="mainmenuscreen module"
+             accesskey="P">previous</a> |
+          <a href="optionsscreen.html" title="optionsscreen module"
+             accesskey="N">next</a> |
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-menuinterface">
+<span id="menuinterface-module"></span><h1>menuinterface module<a class="headerlink" href="#module-menuinterface" title="Permalink to this headline">¶</a></h1>
+<p><strong>Module grouping all the templates for the interface elements and initialization of sound and graphic settings.</strong></p>
+<dl class="class">
+<dt id="menuinterface.ActionPopup">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">ActionPopup</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#ActionPopup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ActionPopup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://kivy.org/docs/api-kivy.uix.popup.html#kivy.uix.popup.Popup" title="(in Kivy v1.10.1.dev0)"><code class="xref py py-class docutils literal"><span class="pre">kivy.uix.popup.Popup</span></code></a></p>
+<p>Basic template for a popup.</p>
+<dl class="method">
+<dt id="menuinterface.ActionPopup.closePopupButton">
+<code class="descname">closePopupButton</code><span class="sig-paren">(</span><em>popup</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#ActionPopup.closePopupButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ActionPopup.closePopupButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extends MenuButton. Provide a button generation for closing a popup.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.BasicScreen">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">BasicScreen</code><span class="sig-paren">(</span><em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#BasicScreen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.BasicScreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://kivy.org/docs/api-kivy.uix.screenmanager.html#kivy.uix.screenmanager.Screen" title="(in Kivy v1.10.1.dev0)"><code class="xref py py-class docutils literal"><span class="pre">kivy.uix.screenmanager.Screen</span></code></a></p>
+<p>Template for basic screen, providing mechanism of playing background sound.</p>
+<dl class="method">
+<dt id="menuinterface.BasicScreen.on_enter">
+<code class="descname">on_enter</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#BasicScreen.on_enter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.BasicScreen.on_enter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start looping appropriate background sound on entering the screen.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="menuinterface.BasicScreen.on_leave">
+<code class="descname">on_leave</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#BasicScreen.on_leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.BasicScreen.on_leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop looping background sound on leaving the current screen.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.CustomSlider">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">CustomSlider</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#CustomSlider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.CustomSlider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://kivy.org/docs/api-kivy.uix.slider.html#kivy.uix.slider.Slider" title="(in Kivy v1.10.1.dev0)"><code class="xref py py-class docutils literal"><span class="pre">kivy.uix.slider.Slider</span></code></a></p>
+<p>Basic template for horizontal slider.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.FontSettings">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">FontSettings</code><a class="reference internal" href="_modules/menuinterface.html#FontSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.FontSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Setting the fonts for the current game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="#menuinterface.FontSettings.fontName" title="menuinterface.FontSettings.fontName"><strong>fontName</strong></a> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) – name of the current font from the saved settings</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="menuinterface.FontSettings.fontName">
+<code class="descname">fontName</code><em class="property"> = 'Roboto'</em><a class="headerlink" href="#menuinterface.FontSettings.fontName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="menuinterface.FontSettings.registerFonts">
+<em class="property">classmethod </em><code class="descname">registerFonts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#FontSettings.registerFonts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.FontSettings.registerFonts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register the current font from the saved settings for the use with the current game.</p>
+<p>In case of lack of font sets Roboto as the default font for the game.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.MainMenuButton">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">MainMenuButton</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#MainMenuButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.MainMenuButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#menuinterface.MenuButton" title="menuinterface.MenuButton"><code class="xref py py-class docutils literal"><span class="pre">menuinterface.MenuButton</span></code></a></p>
+<p>Extends MenuButton. Provide a link back to main menu.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.MenuBoxLayout">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">MenuBoxLayout</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#MenuBoxLayout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.MenuBoxLayout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://kivy.org/docs/api-kivy.uix.boxlayout.html#kivy.uix.boxlayout.BoxLayout" title="(in Kivy v1.10.1.dev0)"><code class="xref py py-class docutils literal"><span class="pre">kivy.uix.boxlayout.BoxLayout</span></code></a></p>
+<p>Basic box layout template for all the gameplay.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.MenuButton">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">MenuButton</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#MenuButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.MenuButton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://kivy.org/docs/api-kivy.uix.button.html#kivy.uix.button.Button" title="(in Kivy v1.10.1.dev0)"><code class="xref py py-class docutils literal"><span class="pre">kivy.uix.button.Button</span></code></a></p>
+<p>Template for basic menu button, setting the look and sounds of a button.</p>
+<dl class="method">
+<dt id="menuinterface.MenuButton.on_press">
+<code class="descname">on_press</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#MenuButton.on_press"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.MenuButton.on_press" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play the click sound with sound volume from the saved settings on clicking the button.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.SoundSettings">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">SoundSettings</code><a class="reference internal" href="_modules/menuinterface.html#SoundSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.SoundSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Setting and playing the sounds for the current game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="#menuinterface.SoundSettings.soundVolume" title="menuinterface.SoundSettings.soundVolume"><strong>soundVolume</strong></a> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – numeric proprty, in the reange 0-1</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="menuinterface.SoundSettings.getAudioFilePath">
+<em class="property">static </em><code class="descname">getAudioFilePath</code><span class="sig-paren">(</span><em>requestedSound</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#SoundSettings.getAudioFilePath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.SoundSettings.getAudioFilePath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provide path to the specified sound file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>requestedSound</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – name of the requested sound</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to the requested sound file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)">string</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="menuinterface.SoundSettings.playMusic">
+<em class="property">static </em><code class="descname">playMusic</code><span class="sig-paren">(</span><em>sound</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#SoundSettings.playMusic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.SoundSettings.playMusic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play the specified sound in a loop with the sound volume from saved settings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sound</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – name of the sound to be played</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="menuinterface.SoundSettings.soundVolume">
+<code class="descname">soundVolume</code><em class="property"> = None</em><a class="headerlink" href="#menuinterface.SoundSettings.soundVolume" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.StorylineLabel">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">StorylineLabel</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#StorylineLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.StorylineLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://kivy.org/docs/api-kivy.uix.label.html#kivy.uix.label.Label" title="(in Kivy v1.10.1.dev0)"><code class="xref py py-class docutils literal"><span class="pre">kivy.uix.label.Label</span></code></a></p>
+<p>Basic temple for ingame label - text widget.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="menuinterface.ThemeSettings">
+<em class="property">class </em><code class="descclassname">menuinterface.</code><code class="descname">ThemeSettings</code><a class="reference internal" href="_modules/menuinterface.html#ThemeSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ThemeSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="classmethod">
+<dt id="menuinterface.ThemeSettings._getColorFromTheme">
+<em class="property">classmethod </em><code class="descname">_getColorFromTheme</code><span class="sig-paren">(</span><em>colorCategory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#ThemeSettings._getColorFromTheme"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ThemeSettings._getColorFromTheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal method facilitating construction of methods to get different colors from a theme.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>colorCategory</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – name of function of color from the theme</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">color from theme (float R, float G, float B, float A)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="menuinterface.ThemeSettings.getCustomButtonBackgroundColor">
+<em class="property">classmethod </em><code class="descname">getCustomButtonBackgroundColor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#ThemeSettings.getCustomButtonBackgroundColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ThemeSettings.getCustomButtonBackgroundColor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">customButtonBackgroundColor from current theme (float R, float G, float B, float A)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="menuinterface.ThemeSettings.getCustomButtonTextColor">
+<em class="property">classmethod </em><code class="descname">getCustomButtonTextColor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#ThemeSettings.getCustomButtonTextColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ThemeSettings.getCustomButtonTextColor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">customButtonTextColor from current theme (float R, float G, float B, float A)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="menuinterface.ThemeSettings.getCustomLayoutCanvasColor">
+<em class="property">classmethod </em><code class="descname">getCustomLayoutCanvasColor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/menuinterface.html#ThemeSettings.getCustomLayoutCanvasColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menuinterface.ThemeSettings.getCustomLayoutCanvasColor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">customLayoutCanvasColor from current theme (float R, float G, float B, float A)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>,<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Empathy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Empathy.html">Empathy module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="activereference.html">activereference module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataaccess.html">dataaccess module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gamescreen.html">gamescreen module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mainmenuscreen.html">mainmenuscreen module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">menuinterface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optionsscreen.html">optionsscreen module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="screenchanger.html">screenchanger module</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="mainmenuscreen.html" title="mainmenuscreen module"
+              >previous</a> |
+            <a href="optionsscreen.html" title="optionsscreen module"
+              >next</a> |
+            <a href="py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/menuinterface.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jezabeel.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

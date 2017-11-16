@@ -1,0 +1,237 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>optionsscreen &#8212; Empathy 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Empathy 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for optionsscreen</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;User interface for checking and changing game settings, like colors, sounds etc.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">kivy.app</span> <span class="k">import</span> <span class="n">App</span>
+<span class="kn">from</span> <span class="nn">kivy.core.audio</span> <span class="k">import</span> <span class="n">SoundLoader</span>
+
+<span class="kn">from</span> <span class="nn">dataaccess</span> <span class="k">import</span> <span class="n">DataAccess</span>
+<span class="kn">from</span> <span class="nn">menuinterface</span> <span class="k">import</span> <span class="n">ActionPopup</span>
+<span class="kn">from</span> <span class="nn">menuinterface</span> <span class="k">import</span> <span class="n">MenuButton</span>
+<span class="kn">from</span> <span class="nn">menuinterface</span> <span class="k">import</span> <span class="n">SoundSettings</span>
+<span class="kn">from</span> <span class="nn">menuinterface</span> <span class="k">import</span> <span class="n">BasicScreen</span>
+<span class="kn">from</span> <span class="nn">menuinterface</span> <span class="k">import</span> <span class="n">CustomSlider</span>
+
+<div class="viewcode-block" id="OptionsScreen"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.OptionsScreen">[docs]</a><span class="k">class</span> <span class="nc">OptionsScreen</span><span class="p">(</span><span class="n">BasicScreen</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Extends BasicScreen. Provides user interface for changing game settings.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OptionsScreen.changeTheme"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.OptionsScreen.changeTheme">[docs]</a>	<span class="k">def</span> <span class="nf">changeTheme</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;On button press generate theme selection popup.&quot;&quot;&quot;</span>
+
+		<span class="n">th</span><span class="o">=</span><span class="n">Themes</span><span class="p">()</span>
+		<span class="n">th</span><span class="o">.</span><span class="n">chooseTheme</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OptionsScreen.adjustSound"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.OptionsScreen.adjustSound">[docs]</a>	<span class="k">def</span> <span class="nf">adjustSound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;On button press generate sound adjustment popup.&quot;&quot;&quot;</span>
+
+		<span class="n">soundPop</span> <span class="o">=</span> <span class="n">SoundPopup</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Adjust sound&#39;</span><span class="p">)</span>
+		<span class="n">soundToggleButton</span> <span class="o">=</span> <span class="n">MuteButton</span><span class="p">()</span>
+		<span class="n">soundToggleButton</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">soundToggleButton</span><span class="o">.</span><span class="n">createMuteButtonText</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span><span class="p">))</span>
+		<span class="n">soundPop</span><span class="o">.</span><span class="n">soundPopupLayout</span><span class="o">.</span><span class="n">add_widget</span><span class="p">(</span><span class="n">SoundVolumeSlider</span><span class="p">())</span>
+		<span class="n">soundPop</span><span class="o">.</span><span class="n">soundPopupLayout</span><span class="o">.</span><span class="n">add_widget</span><span class="p">(</span><span class="n">soundToggleButton</span><span class="p">)</span>
+		<span class="n">soundPop</span><span class="o">.</span><span class="n">soundPopupLayout</span><span class="o">.</span><span class="n">add_widget</span><span class="p">(</span><span class="n">ActionPopup</span><span class="o">.</span><span class="n">closePopupButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">soundPop</span><span class="p">))</span>
+		<span class="n">soundPop</span><span class="o">.</span><span class="n">open</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="MuteButton"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.MuteButton">[docs]</a><span class="k">class</span> <span class="nc">MuteButton</span><span class="p">(</span><span class="n">MenuButton</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Extends MenuButton. Provides auto-adjusting button for setting sound volume to 0 or 1.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MuteButton.muteSound"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.MuteButton.muteSound">[docs]</a>	<span class="k">def</span> <span class="nf">muteSound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Check for current sound volume and adjust button text and function, to allow turning the sound on or off.&quot;&quot;&quot;</span>
+
+		<span class="n">soundVolume</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span><span class="p">)</span>
+		<span class="n">soundVolumeSlider</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">soundVolume</span> <span class="o">&gt;=</span> <span class="mf">0.1</span><span class="p">:</span>
+			<span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span> <span class="o">=</span> <span class="mi">0</span>
+			<span class="n">DataAccess</span><span class="o">.</span><span class="n">setSoundVolume</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+			<span class="n">soundVolumeSlider</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Turn the sound ON&#39;</span>
+		<span class="k">elif</span> <span class="n">soundVolume</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+			<span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span> <span class="o">=</span> <span class="mi">1</span>
+			<span class="n">DataAccess</span><span class="o">.</span><span class="n">setSoundVolume</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">soundVolumeSlider</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Turn the sound OFF&#39;</span></div>
+
+<div class="viewcode-block" id="MuteButton.createMuteButtonText"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.MuteButton.createMuteButtonText">[docs]</a>	<span class="k">def</span> <span class="nf">createMuteButtonText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vol</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Set the mute button text according to the current sound volume.&quot;&quot;&quot;</span>
+
+		<span class="k">if</span> <span class="n">vol</span> <span class="o">&gt;=</span><span class="mf">0.1</span><span class="p">:</span>
+			<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Turn the sound OFF&#39;</span>
+		<span class="k">elif</span> <span class="n">vol</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">:</span>
+			<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Turn the sound ON&#39;</span>
+		<span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="MuteButton.on_press"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.MuteButton.on_press">[docs]</a>	<span class="k">def</span> <span class="nf">on_press</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;On button press toggle text and function of MuteButton.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">muteSound</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="SoundVolumeSlider"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.SoundVolumeSlider">[docs]</a><span class="k">class</span> <span class="nc">SoundVolumeSlider</span><span class="p">(</span><span class="n">CustomSlider</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Extends CustomSlider. Slider to adjust sound volume from 0 to 1, step 0.1.&quot;&quot;&quot;</span>
+
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Create sound volume slider according to current sound volume from saved settings.&quot;&quot;&quot;</span>
+
+		<span class="nb">super</span><span class="p">(</span><span class="n">SoundVolumeSlider</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+		<span class="n">soundVolume</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">soundVolume</span>
+
+<div class="viewcode-block" id="SoundVolumeSlider.adjustSoundVolume"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.SoundVolumeSlider.adjustSoundVolume">[docs]</a>	<span class="k">def</span> <span class="nf">adjustSoundVolume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Set sound volume on slider change amd adjust mute button accordingly.&quot;&quot;&quot;</span>
+
+		<span class="n">newSoundVolume</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_normalized</span>
+		<span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span> <span class="o">=</span> <span class="n">newSoundVolume</span>
+		<span class="n">DataAccess</span><span class="o">.</span><span class="n">setSoundVolume</span><span class="p">(</span><span class="n">newSoundVolume</span><span class="p">)</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">muteButtonReference</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+		<span class="k">except</span><span class="p">:</span>
+			<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no parent on init&#39;</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">muteButtonReference</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">muteButtonReference</span><span class="o">.</span><span class="n">createMuteButtonText</span><span class="p">(</span><span class="n">newSoundVolume</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SoundVolumeSlider.on_value"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.SoundVolumeSlider.on_value">[docs]</a>	<span class="k">def</span> <span class="nf">on_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Set sound slider sound.&quot;&quot;&quot;</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">adjustSoundVolume</span><span class="p">()</span>
+		<span class="n">bip</span> <span class="o">=</span> <span class="n">SoundLoader</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">SoundSettings</span><span class="o">.</span><span class="n">getAudioFilePath</span><span class="p">(</span><span class="s1">&#39;button_sound&#39;</span><span class="p">))</span>
+		<span class="n">bip</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">SoundSettings</span><span class="o">.</span><span class="n">soundVolume</span>
+		<span class="n">bip</span><span class="o">.</span><span class="n">play</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="SoundPopup"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.SoundPopup">[docs]</a><span class="k">class</span> <span class="nc">SoundPopup</span><span class="p">(</span><span class="n">ActionPopup</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Create popup for sound settings. All specs in kv file.&quot;&quot;&quot;</span>
+
+	<span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Themes"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.Themes">[docs]</a><span class="k">class</span> <span class="nc">Themes</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;Provide methods for creation od theme selection popup.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Themes.chooseTheme"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.Themes.chooseTheme">[docs]</a>	<span class="k">def</span> <span class="nf">chooseTheme</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Dynamically create choose theme popup according to the data in database.&quot;&quot;&quot;</span>
+
+		<span class="n">themePop</span> <span class="o">=</span> <span class="n">ThemesPopup</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Choose theme&#39;</span><span class="p">)</span>
+		<span class="n">themes</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="o">.</span><span class="n">getThemeChooser</span><span class="p">()</span>
+
+		<span class="k">for</span> <span class="n">theme</span> <span class="ow">in</span> <span class="n">themes</span><span class="p">:</span>
+			<span class="n">themeButtonTitle</span> <span class="o">=</span> <span class="n">themes</span><span class="p">[</span><span class="n">theme</span><span class="p">]</span>
+			<span class="n">themeButton</span> <span class="o">=</span> <span class="n">MenuButton</span><span class="p">()</span>
+			<span class="n">themeButton</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">themeButtonTitle</span>
+			<span class="n">themeButton</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">on_press</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">updateTheme</span><span class="p">,</span><span class="n">theme</span><span class="p">))</span>
+			<span class="n">themePop</span><span class="o">.</span><span class="n">themesPopupLayout</span><span class="o">.</span><span class="n">add_widget</span><span class="p">(</span><span class="n">themeButton</span><span class="p">)</span>
+
+		<span class="n">themePop</span><span class="o">.</span><span class="n">themesPopupLayout</span><span class="o">.</span><span class="n">add_widget</span><span class="p">(</span><span class="n">ActionPopup</span><span class="o">.</span><span class="n">closePopupButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">themePop</span><span class="p">))</span>
+		<span class="n">themePop</span><span class="o">.</span><span class="n">open</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Themes.updateTheme"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.Themes.updateTheme">[docs]</a>	<span class="k">def</span> <span class="nf">updateTheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">themeName</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Change the current theme in saved settings and restart app to enable changes.&quot;&quot;&quot;</span>
+
+		<span class="n">DataAccess</span><span class="o">.</span><span class="n">setThemeName</span><span class="p">(</span><span class="n">themeName</span><span class="p">)</span>
+		<span class="n">ap</span><span class="o">=</span><span class="n">App</span><span class="o">.</span><span class="n">get_running_app</span><span class="p">()</span>
+		<span class="n">ap</span><span class="o">.</span><span class="n">restartApp</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="ThemesPopup"><a class="viewcode-back" href="../optionsscreen.html#optionsscreen.ThemesPopup">[docs]</a><span class="k">class</span> <span class="nc">ThemesPopup</span><span class="p">(</span><span class="n">ActionPopup</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Set the popup template for changing themes.&quot;&quot;&quot;</span>
+
+	<span class="k">pass</span></div>
+
+<span class="c1">#TODO: User defined Themes</span>
+<span class="c1">#TODO: choosing of different fonts</span>
+<span class="c1">#TODO: allow user for own music instead of the one provided with the app</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Empathy</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jezabeel.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
