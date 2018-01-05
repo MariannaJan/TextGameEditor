@@ -41,7 +41,7 @@ class ActiveReference:
 		interactTitle = ''.join(('Interacting with ',self.activeReferenceName))
 		intPop=InteractPopup(title=interactTitle)
 		self.interactButtonsGeneration(intPop)
-		closeButton = ActionPopup.closePopupButton(self,intPop)
+		closeButton = ActionPopup.closePopupButton(intPop)
 		closeButton.size_hint_y = 0.3
 		intPop.interactPopupLayout.add_widget(closeButton)
 		intPop.open()
@@ -86,7 +86,7 @@ class ActiveReference:
 		interactionResultLabel=StorylineLabel()
 		interactionResultLabel.text=interactionResultDescription
 		intResPop.interactResultPopupLayout.add_widget(interactionResultLabel)
-		closeButton=ActionPopup.closePopupButton(self, intResPop)
+		closeButton=ActionPopup.closePopupButton(intResPop)
 		closeButton.size_hint = (1,0.3)
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()

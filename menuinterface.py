@@ -177,7 +177,7 @@ class ActionPopup(Popup):
         super(ActionPopup,self).__init__(**kwargs)
         self.title_font = FontSettings.fontName
 
-    def closePopupButton(self, popup):
+    def closePopupButton(popup,*args):
         """Extends MenuButton. Provide a button generation for closing a popup."""
         closeButton = MenuButton()
         closeButton.text='Close'

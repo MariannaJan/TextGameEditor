@@ -4,6 +4,7 @@ from menuinterface import BasicScreen
 from menuinterface import StorylineLabel
 from menuinterface import MenuButton
 from dataaccessapi import DataAccessAPI
+from menuinterface import ActionPopup
 
 
 
@@ -27,15 +28,24 @@ class InventoryScreen(BasicScreen):
             buttonTitle = buttonName
             button = MenuButton()
             button.text = buttonTitle
-            button.bind(on_press=partial(self.openInventoryItemPopup,))
+            button.bind(on_press=partial(InventoryScreen.openInventoryItemPopup,buttonName,buttonNames[buttonName]))
             layout.add_widget(button)
 
-    def openInventoryItemPopup(self):
-        pass
+    def openInventoryItemPopup(popupTitle,itemDescription,*args):
+        inventoryPop = InventoryItemPopup()
+        inventoryPop.title = popupTitle
+        inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription))
+        closeButton = ActionPopup.closePopupButton(inventoryPop)
+        closeButton.size_hint_y = 0.3
+        inventoryPop.inventoryItemLayout.add_widget(closeButton)
+        inventoryPop.open()
 
 
 class InventoryTitle(StorylineLabel):
     pass
 
 class InventoryCloseButton(MenuButton):
+    pass
+
+class InventoryItemPopup(ActionPopup):
     pass
