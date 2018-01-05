@@ -143,6 +143,8 @@ class DataAccess:
         storylineMilestonJournal=DataAccess._getSingleString(self, "select MilestoneJournalEntry from Storyline where pageNo = (?)", (pageNo,))
         return storylineMilestonJournal
 
+
+
     @classmethod
     def getSavedThemeName(cls):
         """Get the name of the theme from the saved settings.
@@ -289,7 +291,28 @@ class DataAccess:
         fontFileName = DataAccess._getSingleString(cls, fontQueryText, (fontName,))
         return fontFileName
 
+    @classmethod
+    def getInventoryContentIds(cls):
+        inventoryIds = []
+        base = DataAccess()
+        c = base._query("select InventoryItem from Inventory;")
+        for InventoryItem in c.fetchall():
+            inventoryIds.append(InventoryItem[0])
+            print(InventoryItem[0])
 
+        DataAccess.getItemFeatures(inventoryIds)
+        return inventoryIds
+
+    @classmethod
+    def getItemFeatures(cls,itemIDs):
+        itemFeatures = {}
+        base = DataAccess()
+        for itemID in itemIDs:
+            c = base._query("select Name, Description from Items where ItemID = (?);",(itemID,))
+            for Name,Description in c.fetchall():
+                itemFeatures[Name] = (Description)
+                print(itemFeatures)
+        return itemFeatures
 
 
 if __name__=="__main__":

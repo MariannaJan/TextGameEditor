@@ -191,3 +191,5 @@ class CustomSlider(Slider):
         """Set colors and sizes for a basic slider (rest in kv file)."""
         super(CustomSlider,self).__init__()
         self.value_track_color = ThemeSettings.getCustomButtonTextColor()
+
+

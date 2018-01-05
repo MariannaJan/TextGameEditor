@@ -131,5 +131,6 @@ class DataAccessAPI:
 
     @classmethod
     def getInventoryItems(cls):
-        inventoryItems = ["item1","item2","item3"]
+        inventoryItems = DataAccess.getItemFeatures(itemIDs=DataAccess.getInventoryContentIds())
+        print(inventoryItems)
         return inventoryItems

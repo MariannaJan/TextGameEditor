@@ -67,6 +67,7 @@ class GameScreen(BasicScreen):
 		self.referenceTextLabel.flag = 'inv'
 
 		print (self.referenceTextLabel.flag)
+
 		
 	def clickInterface(self):
 		"""On button click open additional game interface with map, journal, etc..."""

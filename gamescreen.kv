@@ -32,7 +32,9 @@
 		
 			MenuButton:
 				text: "Inventory"
-				on_release: root.clickInventory()
+				on_release:
+				    root.manager.current = "inventoryscreen"
+				    root.clickInventory()
 				
 			MenuButton:
 				text: "Interface"
