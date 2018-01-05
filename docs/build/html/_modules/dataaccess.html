@@ -1,0 +1,401 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dataaccess &#8212; Empathy 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Empathy 1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for dataaccess</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<div class="viewcode-block" id="DataAccess"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess">[docs]</a><span class="k">class</span> <span class="nc">DataAccess</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Main class for accessing the database.</span>
+
+<span class="sd">    Allows for default values if database connection is impossible and offers rudimentary error handling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates the database connection.</span>
+
+<span class="sd">        Checks if the database file exists. If it exists creates a connection and returns cursor.</span>
+<span class="sd">        If the datatbase file doesn&#39;t exist raises IO Error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;Empathy.db&#39;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;Empathy.db&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">row_factory</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">Row</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No database to open!&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DataAccess._query"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess._query">[docs]</a>    <span class="k">def</span> <span class="nf">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal method for simplifying making queries to database.</span>
+
+<span class="sd">        :param queryText: query for the database</span>
+<span class="sd">        :type queryText: string</span>
+<span class="sd">        :param args: optional - allows for adding arguments for query</span>
+<span class="sd">        :type args: tuple</span>
+<span class="sd">        :return: cursor after the query</span>
+<span class="sd">        :raises: database error if cur.execute fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">queryText</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;database error&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur</span></div>
+
+<div class="viewcode-block" id="DataAccess._getSingleString"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess._getSingleString">[docs]</a>    <span class="k">def</span> <span class="nf">_getSingleString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal method to get single string as a respons from database query.</span>
+
+<span class="sd">        :param queryText: query for the database</span>
+<span class="sd">        :type queryText: string</span>
+<span class="sd">        :param args: optional - allows for adding arguments for query</span>
+<span class="sd">        :type args: tuple</span>
+<span class="sd">        :return: response from database query</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        :raises: error if query fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base</span><span class="o">=</span><span class="n">DataAccess</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">singleString</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(((</span><span class="n">base</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">queryText</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">))</span><span class="o">.</span><span class="n">fetchone</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;database error&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">singleString</span></div>
+
+<div class="viewcode-block" id="DataAccess._getSavedSetting"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess._getSavedSetting">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_getSavedSetting</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">requestedSetting</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal method for retreiving data from Saved Settings table</span>
+
+<span class="sd">        :param requestedSetting: name of the column containing the setting to retreive</span>
+<span class="sd">        :type requestedSetting: string</span>
+<span class="sd">        :return: the value of requested setting from the saved settings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">queryText</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;select &#39;</span><span class="p">,</span><span class="n">requestedSetting</span><span class="p">,</span><span class="s1">&#39; from SavedSettings&#39;</span><span class="p">])</span>
+        <span class="n">savedSetting</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_getSingleString</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">queryText</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">savedSetting</span></div>
+
+<div class="viewcode-block" id="DataAccess._setSavedSetting"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess._setSavedSetting">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_setSavedSetting</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">changedSettingName</span><span class="p">,</span><span class="n">changedSettingValue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal method for changing data in Saved Settings table</span>
+
+<span class="sd">        :param changedSettingName: name of the column containing the setting to change</span>
+<span class="sd">        :type changedSettingName: string</span>
+<span class="sd">        :param changedSettingValue: new value of the setting to be changed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="p">()</span>
+        <span class="n">queryText</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;update SavedSettings set &#39;</span><span class="p">,</span><span class="n">changedSettingName</span><span class="p">,</span><span class="s1">&#39;=(?)&#39;</span><span class="p">])</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="n">queryText</span><span class="p">,</span> <span class="p">(</span><span class="n">changedSettingValue</span><span class="p">,))</span></div>
+
+<div class="viewcode-block" id="DataAccess.getActiveObjectName"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getActiveObjectName">[docs]</a>    <span class="k">def</span> <span class="nf">getActiveObjectName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Matches the name from data base with the markup reference that has been chosen by the player.</span>
+
+<span class="sd">        :param refName: name of ther clicked reference from markup</span>
+<span class="sd">        :type refName: string</span>
+<span class="sd">        :return: full name of the chosen object, retreived from database</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">activeObjectName</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="o">.</span><span class="n">_getSingleString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;select Name from ReferenceDictionary where Reference = (?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">refName</span><span class="p">,))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unable to find such reference name.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">activeObjectName</span></div>
+
+<div class="viewcode-block" id="DataAccess.getActiveObjectDescription"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getActiveObjectDescription">[docs]</a>    <span class="k">def</span> <span class="nf">getActiveObjectDescription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database the description of the markup reference that has been chosen by the player.</span>
+
+<span class="sd">        :param refName: name of ther clicked reference from markup</span>
+<span class="sd">        :type refName: string</span>
+<span class="sd">        :return: full name of the chosen object, retreived from database</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">activeObjectDescription</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="o">.</span><span class="n">_getSingleString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;select Description from ReferenceDictionary where Reference = (?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">refName</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="n">activeObjectDescription</span></div>
+
+<div class="viewcode-block" id="DataAccess.getActiveObjectInteractions"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getActiveObjectInteractions">[docs]</a>    <span class="k">def</span> <span class="nf">getActiveObjectInteractions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">refName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database details of interactions available for the markup reference that has been chosen by the player.</span>
+
+<span class="sd">        :param refName: name of ther clicked reference from markup</span>
+<span class="sd">        :type refName: string</span>
+<span class="sd">        :return: {string interaction name : tuple(string page ID,string map ID, int empathy, int sanity,string description,optional string journal entry)}</span>
+<span class="sd">        :rtype: dict [str,tuple(string,string,int,int,string,string)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">activeObjectInteractions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="p">()</span>
+        <span class="n">c</span><span class="o">=</span><span class="n">base</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="s2">&quot;select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry from Interactions where ReferenceDictionary_Reference =(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">refName</span><span class="p">,))</span>
+        <span class="k">for</span> <span class="n">Name</span><span class="p">,</span><span class="n">Storyline_PageNo</span><span class="p">,</span><span class="n">MapNo</span><span class="p">,</span><span class="n">EmpathyValue</span><span class="p">,</span><span class="n">SanityValue</span><span class="p">,</span><span class="n">Description</span><span class="p">,</span><span class="n">OptionalJournalEntry</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
+            <span class="n">activeObjectInteractions</span><span class="p">[</span><span class="n">Name</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">Storyline_PageNo</span><span class="p">,</span><span class="n">MapNo</span><span class="p">,</span><span class="n">EmpathyValue</span><span class="p">,</span><span class="n">SanityValue</span><span class="p">,</span><span class="n">Description</span><span class="p">,</span><span class="n">OptionalJournalEntry</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">activeObjectInteractions</span></div>
+
+<div class="viewcode-block" id="DataAccess.getStorylinePageText"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getStorylinePageText">[docs]</a>    <span class="k">def</span> <span class="nf">getStorylinePageText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pageNo</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database the text of the given page.</span>
+
+<span class="sd">        :param pageNo: ID of the page</span>
+<span class="sd">        :type pageNo: string</span>
+<span class="sd">        :return: ext (with markup) of the chosen plot page (according to the ID)</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">storylinePageText</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="o">.</span><span class="n">_getSingleString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;select PageText from Storyline where pageNo = (?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pageNo</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="n">storylinePageText</span></div>
+
+<div class="viewcode-block" id="DataAccess.getStorylineMilestonJournal"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getStorylineMilestonJournal">[docs]</a>    <span class="k">def</span> <span class="nf">getStorylineMilestonJournal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pageNo</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database the text of the milestone juournal entry associated with the given page ID.</span>
+
+<span class="sd">        :param pageNo: ID of the page</span>
+<span class="sd">        :type pageNo: string</span>
+<span class="sd">        :return: the text of the milestone juournal entry associated with the given page ID</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">storylineMilestonJournal</span><span class="o">=</span><span class="n">DataAccess</span><span class="o">.</span><span class="n">_getSingleString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;select MilestoneJournalEntry from Storyline where pageNo = (?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">pageNo</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="n">storylineMilestonJournal</span></div>
+
+<div class="viewcode-block" id="DataAccess.getThemeName"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getThemeName">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getThemeName</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the name of the theme from the saved settings.</span>
+
+<span class="sd">        :return: name of the theme from the saved settings</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">themeName</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_getSavedSetting</span><span class="p">(</span><span class="s1">&#39;themes_themeName&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">themeName</span></div>
+
+<div class="viewcode-block" id="DataAccess.setThemeName"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.setThemeName">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setThemeName</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">themeName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the name of the theme in the saved settings.</span>
+
+<span class="sd">        :param themeName: name of the theme to be written in the saved settings table</span>
+<span class="sd">        :type themeName: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_setSavedSetting</span><span class="p">(</span><span class="s1">&#39;themes_themeName&#39;</span><span class="p">,</span><span class="n">themeName</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataAccess.getColor"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getColor">[docs]</a>    <span class="k">def</span> <span class="nf">getColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">colorName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database the list for RGBA values for the given color name.</span>
+
+<span class="sd">        :param colorName: name of the color to be retreived as RGBA list</span>
+<span class="sd">        :type colorName: string</span>
+<span class="sd">        :return: color specified as [float R, float G, float B, float A]</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;select R,G,B,A from Colors where Name=(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">colorName</span><span class="p">,))</span>
+        <span class="n">result</span><span class="o">=</span><span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">R</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">A</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">R</span><span class="p">,</span><span class="n">G</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">A</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">color</span></div>
+
+<div class="viewcode-block" id="DataAccess.getTheme"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getTheme">[docs]</a>    <span class="k">def</span> <span class="nf">getTheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">themeName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database colors for the given theme.</span>
+
+<span class="sd">        :param themeName: name of the theme being checked</span>
+<span class="sd">        :type themeName: string</span>
+<span class="sd">        :return: {string name of function of color from the theme: tuple color(float R, float G, float B, float A)}</span>
+<span class="sd">        :rtype: dict [str,tuple(float,float,float,float)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="s2">&quot;select customButtonTextColor,customButtonBackgroundColor,customLayoutCanvasColor from Themes where themeName=(?)&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">themeName</span><span class="p">,))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;no theme colors to fetch&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;customButtonTextColor&#39;</span><span class="p">:(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="s1">&#39;customButtonBackgroundColor&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="s1">&#39;customLayoutCanvasColor&#39;</span><span class="p">:(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">themeColors</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">startingColumn</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">coloredObject</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">colorName</span> <span class="o">=</span> <span class="p">((</span><span class="nb">tuple</span><span class="p">(</span><span class="n">result</span><span class="p">))[</span><span class="n">startingColumn</span><span class="p">])</span>
+                <span class="n">themeColors</span><span class="p">[</span><span class="n">coloredObject</span><span class="p">]</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">getColor</span><span class="p">(</span><span class="n">colorName</span><span class="p">)</span>
+                <span class="n">startingColumn</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">themeColors</span></div>
+
+<div class="viewcode-block" id="DataAccess.getThemeChooser"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getThemeChooser">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getThemeChooser</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from datatbase available themes.</span>
+
+<span class="sd">        :return: {string theme name: string theme full name, as for button text generation}</span>
+<span class="sd">        :rtype: dict [str,str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">themeChooser</span><span class="o">=</span><span class="p">{}</span>
+        <span class="n">base</span><span class="o">=</span><span class="n">DataAccess</span><span class="p">()</span>
+        <span class="n">themes</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="s2">&quot;select themeName,themeDescription from Themes&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">theme</span> <span class="ow">in</span> <span class="n">themes</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
+            <span class="n">themeChooser</span><span class="p">[</span><span class="n">theme</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">theme</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">themeChooser</span></div>
+
+<div class="viewcode-block" id="DataAccess.setupTheme"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.setupTheme">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setupTheme</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Choose the color theme for the current gameplay according to the saved settings.</span>
+
+<span class="sd">        :return: {string name of function of color from the theme: tuple color(float R, float G, float B, float A)}</span>
+<span class="sd">        :rtype: dict{str,tuple(float,float,float,float)}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="p">()</span>
+        <span class="n">themeSettings</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">getTheme</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">getThemeName</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">themeSettings</span></div>
+
+<div class="viewcode-block" id="DataAccess.getSoundVolume"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getSoundVolume">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getSoundVolume</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive the sound volume from the database saved settings.</span>
+
+<span class="sd">        :return: sound volume from the database saved settings</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">soundVolume</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_getSavedSetting</span><span class="p">(</span><span class="s1">&#39;soundVolume&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soundVolume</span></div>
+
+<div class="viewcode-block" id="DataAccess.setSoundVolume"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.setSoundVolume">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">setSoundVolume</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">soundVolume</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set chosen sound volume in the saved settings in database.</span>
+
+<span class="sd">        :param soundVolume: sound volume</span>
+<span class="sd">        :type soundVolume: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_setSavedSetting</span><span class="p">(</span><span class="s1">&#39;soundVolume&#39;</span><span class="p">,</span><span class="n">soundVolume</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataAccess.getSoundFilesNames"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getSoundFilesNames">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getSoundFilesNames</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database the names of the files for the sounds in game.</span>
+
+<span class="sd">        :return: string name of sound : string name of the sound file}</span>
+<span class="sd">        :rtype: dict [str,str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">_query</span><span class="p">(</span><span class="s1">&#39;select * from Sounds&#39;</span><span class="p">)</span>
+        <span class="n">soundFilesNames</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">soundName</span><span class="p">,</span> <span class="n">fileName</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">fetchall</span><span class="p">():</span>
+                <span class="n">soundFilesNames</span><span class="p">[</span><span class="n">soundName</span><span class="p">]</span><span class="o">=</span><span class="n">fileName</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;database error&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">soundFilesNames</span></div>
+
+<div class="viewcode-block" id="DataAccess.getFontName"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getFontName">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getFontName</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the name of the font for the currewnt gameplay from the saved settings in database.</span>
+
+<span class="sd">        :return: name of font from the saved settings in database</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fontName</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_getSavedSetting</span><span class="p">(</span><span class="s1">&#39;fonts_name&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fontName</span></div>
+
+<div class="viewcode-block" id="DataAccess.getFonts"><a class="viewcode-back" href="../dataaccess.html#dataaccess.DataAccess.getFonts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getFonts</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">fontName</span><span class="p">,</span><span class="n">fontStyle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retreive from database the path for font file in a specified style.</span>
+
+<span class="sd">        :param fontName: name of the font</span>
+<span class="sd">        :type fontName: string</span>
+<span class="sd">        :param fontStyle: style of the font</span>
+<span class="sd">        :type fontStyle: string</span>
+<span class="sd">        :return: path for the font file in a specified style</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fontQueryText</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;select &#39;</span><span class="p">,</span><span class="n">fontStyle</span><span class="p">,</span><span class="s1">&#39; from Fonts where name=(?)&#39;</span><span class="p">])</span>
+        <span class="n">fontFile</span> <span class="o">=</span> <span class="n">DataAccess</span><span class="o">.</span><span class="n">_getSingleString</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fontQueryText</span><span class="p">,</span> <span class="p">(</span><span class="n">fontName</span><span class="p">,))</span>
+        <span class="n">fontFilePath</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;Fonts/&#39;</span><span class="p">,</span><span class="n">fontFile</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">fontFilePath</span></div></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">DataAccess</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Empathy</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Jezabeel.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
