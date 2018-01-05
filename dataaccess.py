@@ -298,9 +298,6 @@ class DataAccess:
         c = base._query("select InventoryItem from Inventory;")
         for InventoryItem in c.fetchall():
             inventoryIds.append(InventoryItem[0])
-            print(InventoryItem[0])
-
-        DataAccess.getItemFeatures(inventoryIds)
         return inventoryIds
 
     @classmethod
@@ -311,7 +308,6 @@ class DataAccess:
             c = base._query("select Name, Description from Items where ItemID = (?);",(itemID,))
             for Name,Description in c.fetchall():
                 itemFeatures[Name] = (Description)
-                print(itemFeatures)
         return itemFeatures
 
 

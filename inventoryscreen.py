@@ -12,11 +12,20 @@ class InventoryScreen(BasicScreen):
     """Setup the screen for inventory."""
 
     def on_enter(self, *args):
+        """
+        Dinamically generates the inventory screen.
+
+        Makes a list of buttons with nemes of items in the inventory.
+        """
+
         inventoryTitle = InventoryTitle(text='Inventory')
-        inventoryClose = InventoryCloseButton(text = 'Close')
+        inventoryClose = InventoryCloseButton()
         self.inventoryLayout.add_widget(inventoryTitle)
         self.inventoryButtonGeneration(buttonNames=DataAccessAPI.getInventoryItems(),layout=self.inventoryLayout)
         self.inventoryLayout.add_widget(inventoryClose)
+
+    def on_leave(self, *args):
+        self.inventoryLayout.clear_widgets()
 
 
     def inventoryButtonGeneration(self,buttonNames, layout):
@@ -34,9 +43,9 @@ class InventoryScreen(BasicScreen):
     def openInventoryItemPopup(popupTitle,itemDescription,*args):
         inventoryPop = InventoryItemPopup()
         inventoryPop.title = popupTitle
-        inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription))
         closeButton = ActionPopup.closePopupButton(inventoryPop)
         closeButton.size_hint_y = 0.3
+        inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription))
         inventoryPop.inventoryItemLayout.add_widget(closeButton)
         inventoryPop.open()
 
