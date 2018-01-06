@@ -47,6 +47,31 @@
 		pos_hint: {'x': 0, 'y': .2}
 		size_hint: .8,.8
 		on_ref_press:  root.useReference(refName = args[1])
+
+	MenuBoxLayout:
+	    orientation: "horizontal"
+		pos_hint:{'x': .8, 'y': .2}
+		size_hint: .2,.8
+
+		MenuBoxLayout:
+
+            MenuButton:
+                size_hint_y: .1
+                text: "S"
+            CustomSlider:
+                orientation: "vertical"
+                disabled: True
+
+        MenuBoxLayout:
+
+            MenuButton:
+                size_hint_y: .1
+                text: "E"
+            CustomSlider:
+                orientation: "vertical"
+                disabled: True
+
+
 		
 <InspectPopup>
 

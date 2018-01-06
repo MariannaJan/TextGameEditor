@@ -73,6 +73,7 @@ class SoundVolumeSlider(CustomSlider):
 		soundVolume = float(SoundSettings.soundVolume)
 		self.value = soundVolume
 
+
 	def adjustSoundVolume(self):
 		"""Set sound volume on slider change amd adjust mute button accordingly."""
 

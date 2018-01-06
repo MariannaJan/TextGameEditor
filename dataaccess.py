@@ -331,6 +331,11 @@ class DataAccess:
 
     @classmethod
     def getChosenStoryDatabase(cls):
+        """Retreives from main database the name of the database for the chosen story.
+
+        :return: name of the database for the chosen story
+        :rtype: str
+        """
         chosenStoryDatabase = cls._getSavedSetting('chosenGameDatabase')
         return chosenStoryDatabase
 
