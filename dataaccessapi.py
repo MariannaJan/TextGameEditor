@@ -131,5 +131,10 @@ class DataAccessAPI:
 
     @classmethod
     def getInventoryItems(cls):
+        """Get the dictionary of items currently in inventory with their descriptions.
+
+        :return: gictionary of items currently in inventory with their descriptions
+        :rtype: dict [str,str]
+        """
         inventoryItems = DataAccess.getItemFeatures(itemIDs=DataAccess.getInventoryContentIds())
         return inventoryItems

@@ -28,7 +28,7 @@ class OptionsScreen(BasicScreen):
 		soundToggleButton.text = soundToggleButton.createMuteButtonText(float(SoundSettings.soundVolume))
 		soundPop.soundPopupLayout.add_widget(SoundVolumeSlider())
 		soundPop.soundPopupLayout.add_widget(soundToggleButton)
-		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(self,soundPop))
+		soundPop.soundPopupLayout.add_widget(ActionPopup.closePopupButton(soundPop))
 		soundPop.open()
 
 class MuteButton(MenuButton):
@@ -115,7 +115,7 @@ class Themes:
 			themeButton.bind(on_press=partial(self.updateTheme,theme))
 			themePop.themesPopupLayout.add_widget(themeButton)
 
-		themePop.themesPopupLayout.add_widget(ActionPopup.closePopupButton(self,themePop))
+		themePop.themesPopupLayout.add_widget(ActionPopup.closePopupButton(themePop))
 		themePop.open()
 
 	def updateTheme(self,themeName,*args):

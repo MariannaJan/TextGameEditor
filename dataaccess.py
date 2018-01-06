@@ -1,20 +1,27 @@
 import sqlite3
 
+
+
 class DataAccess:
     """Main class for accessing the database.
 
     Allows for default values if database connection is impossible and offers rudimentary error handling.
     """
 
-    def __init__(self):
+    engineDatabase = 'TGE.db'
+
+
+    def __init__(self,databaseName):
         """Creates the database connection.
 
         Checks if the database file exists. If it exists creates a connection and returns cursor.
         If the datatbase file doesn't exist raises IO Error.
+        :param str databaseName: name of the database to be used
         """
+        self.databaseName = databaseName
         try:
-            with open('Empathy.db'):
-                with sqlite3.connect('Empathy.db') as self.conn:
+            with open(databaseName):
+                with sqlite3.connect(databaseName) as self.conn:
                     self.conn.row_factory = sqlite3.Row
                     self.cur = self.conn.cursor()
         except IOError:
@@ -38,9 +45,10 @@ class DataAccess:
             self.conn.commit()
             return self.cur
 
-    def _getSingleString(self, queryText, *args):
+    def _getSingleString(self, databaseName, queryText, *args):
         """Internal method to get single string as a respons from database query.
 
+        :param str databaseName: name of the database to be used
         :param queryText: query for the database
         :type queryText: string
         :param args: optional - allows for adding arguments for query
@@ -49,7 +57,7 @@ class DataAccess:
         :rtype: string
         :raises: error if query fails
         """
-        base=DataAccess()
+        base=DataAccess(databaseName)
         try:
             singleString = str(((base._query(queryText, *args)).fetchone())[0])
         except:
@@ -66,7 +74,7 @@ class DataAccess:
         :return: the value of requested setting from the saved settings
         """
         queryText = ''.join(['select ',requestedSetting,' from SavedSettings'])
-        savedSetting = cls._getSingleString(cls,queryText)
+        savedSetting = cls._getSingleString(cls,DataAccess.engineDatabase,queryText)
         return savedSetting
 
     @classmethod
@@ -77,7 +85,7 @@ class DataAccess:
         :type changedSettingName: string
         :param changedSettingValue: new value of the setting to be changed
         """
-        base = DataAccess()
+        base = DataAccess(DataAccess.engineDatabase)
         queryText = ''.join(['update SavedSettings set ',changedSettingName,'=(?)'])
         base._query(queryText, (changedSettingValue,))
 
@@ -90,7 +98,7 @@ class DataAccess:
         :rtype: string
         """
         try:
-            activeObjectName = DataAccess._getSingleString(self, "select Name from ReferenceDictionary where Reference = (?)", (refName,))
+            activeObjectName = DataAccess._getSingleString(self,'Empathy.db', "select Name from ReferenceDictionary where Reference = (?)", (refName,))
         except:
             print('Unable to find such reference name.')
         return activeObjectName
@@ -103,7 +111,7 @@ class DataAccess:
         :return: description of the chosen object, retreived from database
         :rtype: string
         """
-        activeObjectDescription = DataAccess._getSingleString(self, "select Description from ReferenceDictionary where Reference = (?)", (refName,))
+        activeObjectDescription = DataAccess._getSingleString(self,'Empathy.db', "select Description from ReferenceDictionary where Reference = (?)", (refName,))
         return activeObjectDescription
 
     def getActiveObjectInteractions(self, refName):
@@ -115,7 +123,7 @@ class DataAccess:
         :rtype: dict [str,tuple(string,string,int,int,string,string)]
         """
         activeObjectInteractions = {}
-        base = DataAccess()
+        base = DataAccess('Empathy.db')
         c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
         for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry in c.fetchall():
             activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry)
@@ -129,7 +137,7 @@ class DataAccess:
         :return: ext (with markup) of the chosen plot page (according to the ID)
         :rtype: string
         """
-        storylinePageText = DataAccess._getSingleString(self, "select PageText from Storyline where pageNo = (?)", (pageNo,))
+        storylinePageText = DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select PageText from Storyline where pageNo = (?)", (pageNo,))
         return storylinePageText
 
     def getStorylineMilestonJournal(self, pageNo):
@@ -140,7 +148,7 @@ class DataAccess:
         :return: the text of the milestone juournal entry associated with the given page ID
         :rtype: string
         """
-        storylineMilestonJournal=DataAccess._getSingleString(self, "select MilestoneJournalEntry from Storyline where pageNo = (?)", (pageNo,))
+        storylineMilestonJournal=DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select MilestoneJournalEntry from Storyline where pageNo = (?)", (pageNo,))
         return storylineMilestonJournal
 
 
@@ -187,7 +195,7 @@ class DataAccess:
         :return: {string name of function of color from the theme: tuple color(float R, float G, float B, float A)}
         :rtype: dict [str,tuple(float,float,float,float)]
         """
-        base = DataAccess()
+        base = DataAccess(DataAccess.engineDatabase)
         c = base._query("select customButtonTextColor,customButtonBackgroundColor,customLayoutCanvasColor from Themes where themeName=(?)", (themeName,))
         try:
             result = c.fetchone()
@@ -211,7 +219,7 @@ class DataAccess:
         :rtype: dict [str,str]
         """
         themeChooser={}
-        base=DataAccess()
+        base=DataAccess(DataAccess.engineDatabase)
         themes = base._query("select themeName,themeDescription from Themes")
         for theme in themes.fetchall():
             themeChooser[theme[0]] = (theme[1])
@@ -224,7 +232,7 @@ class DataAccess:
         :return: {string name of function of color from the theme: tuple color(float R, float G, float B, float A)}
         :rtype: dict{str,tuple(float,float,float,float)}
         """
-        base = DataAccess()
+        base = DataAccess(DataAccess.engineDatabase)
         themeSettings = base.getTheme(base.getSavedThemeName())
         return themeSettings
 
@@ -254,7 +262,7 @@ class DataAccess:
         :return: string name of sound : string name of the sound file}
         :rtype: dict [str,str]
         """
-        base = DataAccess()
+        base = DataAccess(DataAccess.engineDatabase)
         c = base._query('select * from Sounds')
         soundFilesNames = {}
         try:
@@ -288,13 +296,18 @@ class DataAccess:
         :rtype: string
         """
         fontQueryText = ''.join(['select ',fontStyle,' from Fonts where name=(?)'])
-        fontFileName = DataAccess._getSingleString(cls, fontQueryText, (fontName,))
+        fontFileName = DataAccess._getSingleString(cls, DataAccess.engineDatabase, fontQueryText, (fontName,))
         return fontFileName
 
     @classmethod
     def getInventoryContentIds(cls):
+        """Retreive from database the IDs of items currently in inventory.
+
+        :return: IDs of items currently in inventory
+        :rtype: list [str]
+        """
         inventoryIds = []
-        base = DataAccess()
+        base = DataAccess(DataAccess.engineDatabase)
         c = base._query("select InventoryItem from Inventory;")
         for InventoryItem in c.fetchall():
             inventoryIds.append(InventoryItem[0])
@@ -302,13 +315,24 @@ class DataAccess:
 
     @classmethod
     def getItemFeatures(cls,itemIDs):
+        """Matches in database the IDs of items currently in inventory with their names and descriptions from Items table.
+
+        :param str itemIDs: IDs of items currently in inventory
+        :return: names and descriptions of items currently in inventory
+        :rtype: dict [str,str]
+        """
         itemFeatures = {}
-        base = DataAccess()
+        base = DataAccess(DataAccess.getChosenStoryDatabase())
         for itemID in itemIDs:
             c = base._query("select Name, Description from Items where ItemID = (?);",(itemID,))
             for Name,Description in c.fetchall():
                 itemFeatures[Name] = (Description)
         return itemFeatures
+
+    @classmethod
+    def getChosenStoryDatabase(cls):
+        chosenStoryDatabase = cls._getSavedSetting('chosenGameDatabase')
+        return chosenStoryDatabase
 
 
 if __name__=="__main__":
