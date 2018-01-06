@@ -6,6 +6,7 @@ from activereference import ActiveReference
 from dataaccessapi import DataAccessAPI
 
 from menuinterface import BasicScreen
+from menuinterface import CustomSlider
 
 class GameScreen(BasicScreen):
 	"""Setup core gameplay screen. Details in kv file."""
@@ -76,4 +77,6 @@ class GameScreen(BasicScreen):
 		print (self.referenceTextLabel.flag)
 		print('Opening interface screen')	
 		
-		
+
+class VerticalBar(CustomSlider):
+	pass

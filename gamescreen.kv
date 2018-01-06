@@ -58,18 +58,16 @@
             MenuButton:
                 size_hint_y: .1
                 text: "S"
-            CustomSlider:
-                orientation: "vertical"
-                disabled: True
+            VerticalBar:
 
         MenuBoxLayout:
 
             MenuButton:
                 size_hint_y: .1
                 text: "E"
-            CustomSlider:
-                orientation: "vertical"
-                disabled: True
+
+            VerticalBar:
+
 
 
 		
@@ -106,6 +104,12 @@
 	    id: int_r_pop
 
 
+<VerticalBar>
+    orientation: "vertical"
+    disabled: True
+    range: 0,100
+    value: 50
+    step: 1
 
 
 		
