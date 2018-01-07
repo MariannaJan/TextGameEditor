@@ -98,7 +98,7 @@ class DataAccess:
         :rtype: string
         """
         try:
-            activeObjectName = DataAccess._getSingleString(self,'Empathy.db', "select Name from ReferenceDictionary where Reference = (?)", (refName,))
+            activeObjectName = DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select Name from ReferenceDictionary where Reference = (?)", (refName,))
         except:
             print('Unable to find such reference name.')
         return activeObjectName
@@ -111,7 +111,7 @@ class DataAccess:
         :return: description of the chosen object, retreived from database
         :rtype: string
         """
-        activeObjectDescription = DataAccess._getSingleString(self,'Empathy.db', "select Description from ReferenceDictionary where Reference = (?)", (refName,))
+        activeObjectDescription = DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select Description from ReferenceDictionary where Reference = (?)", (refName,))
         return activeObjectDescription
 
     def getActiveObjectInteractions(self, refName):
@@ -123,7 +123,7 @@ class DataAccess:
         :rtype: dict [str,tuple(string,string,int,int,string,string)]
         """
         activeObjectInteractions = {}
-        base = DataAccess('Empathy.db')
+        base = DataAccess(DataAccess.getChosenStoryDatabase())
         c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
         for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry in c.fetchall():
             activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry)
