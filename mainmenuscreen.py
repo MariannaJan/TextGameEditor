@@ -3,6 +3,7 @@
 from kivy.core.audio import SoundLoader
 from menuinterface import BasicScreen
 from menuinterface import SoundSettings
+from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
 
 
@@ -42,3 +43,17 @@ class MainMenuScreen(BasicScreen):
 	def setupPageNo(cls):
 		pageNo = DataAccessAPI.getCurrentPageNo()
 		return pageNo
+
+
+
+	def newGameConfirmationPopupOpen(self):
+		confirmPop = NewGameConfirmationPopup()
+		confirmPop.open()
+
+class NewGameConfirmationPopup(ActionPopup):
+
+	@classmethod
+	def startNewGame(cls):
+		pageNo = DataAccessAPI.getNewGamePageNo()
+		DataAccessAPI.setCurrentPageNo(pageNo)
+

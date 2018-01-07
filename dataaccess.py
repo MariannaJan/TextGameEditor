@@ -352,6 +352,12 @@ class DataAccess:
         return savedGameStateElement
 
     @classmethod
+    def _setSavedGameStateElement(cls,changedElement,changedElementValue):
+        base = DataAccess(DataAccess.engineDatabase)
+        queryText = ''.join(['update SavedGameState set ', changedElement, '=(?)'])
+        base._query(queryText, (changedElementValue,))
+
+    @classmethod
     def getSavedPageNo(cls):
         """Retrieve from the main database the ID of the current page to be displayed on the gamescreen.
 
@@ -360,6 +366,10 @@ class DataAccess:
         """
         savedPageNo = DataAccess._getSavedGameStateElement('PageNo')
         return savedPageNo
+
+    @classmethod
+    def setSavedPageNo(cls,pageNo):
+        cls._setSavedGameStateElement('PageNo',pageNo)
 
     @classmethod
     def getSavedEmpathyValue(cls):
@@ -373,6 +383,11 @@ class DataAccess:
         return savedEmpathyValue
 
     @classmethod
+    def setSavedEmpathyValue(cls,empathyValue):
+        cls._setSavedGameStateElement('Empathy',empathyValue)
+
+
+    @classmethod
     def getSavedSanityValue(cls):
         """Retrieve from the main database the current value of Sanity.
 
@@ -381,6 +396,31 @@ class DataAccess:
         """
         savedSanityValue = DataAccess._getSavedGameStateElement('Sanity')
         return savedSanityValue
+
+    @classmethod
+    def setSavedSanityValue(cls,sanityValue):
+        cls._setSavedGameStateElement('Sanity',sanityValue)
+
+    @classmethod
+    def _getStorySpecificationElement(cls,requestedElement):
+        queryText = ''.join(['select ', requestedElement, ' from StorySpecification'])
+        storySpecificationElement = cls._getSingleString(cls, DataAccess.getChosenStoryDatabase(), queryText)
+        return storySpecificationElement
+
+    @classmethod
+    def getStoryFirstPageNo(cls):
+        storyFirstPageNo = cls._getStorySpecificationElement(requestedElement='StartingPageNo')
+        return storyFirstPageNo
+
+    @classmethod
+    def getStartingEmpathyValue(cls):
+        startingEmpathyValue = cls._getStorySpecificationElement(requestedElement='StartingEmpathy')
+        return startingEmpathyValue
+
+    @classmethod
+    def getStartingSanityValue(cls):
+        startingSanityValue = cls._getStorySpecificationElement(requestedElement='StartingSanity')
+        return startingSanityValue
 
 if __name__=="__main__":
 	DataAccess.__init__()

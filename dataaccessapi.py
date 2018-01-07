@@ -150,6 +150,10 @@ class DataAccessAPI:
         return currenPageNo
 
     @classmethod
+    def setCurrentPageNo(cls,pageNo):
+        DataAccess.setSavedPageNo(pageNo)
+
+    @classmethod
     def getCurrentEmpathyValue(cls):
         """Get the current value of Empathy.
 
@@ -160,6 +164,10 @@ class DataAccessAPI:
         return currentEmpathyValue
 
     @classmethod
+    def setCurrentEmpathyValue(cls,empathyValue):
+        DataAccess.setSavedEmpathyValue(empathyValue)
+
+    @classmethod
     def getCurrentSanityValue(cls):
         """Get the current value of Sanity.
 
@@ -168,3 +176,22 @@ class DataAccessAPI:
 
         currentSanityValue = DataAccess.getSavedSanityValue()
         return currentSanityValue
+
+    @classmethod
+    def setCurrentSanityValue(cls,sanityValue):
+        DataAccess.setSavedSanityValue(sanityValue)
+
+    @classmethod
+    def getNewGamePageNo(cls):
+        newGamePageNo = DataAccess.getStoryFirstPageNo()
+        return newGamePageNo
+
+    @classmethod
+    def getNewGameEmpathyValue(cls):
+        newGameEmpathyValue = DataAccess.getStartingEmpathyValue()
+        return newGameEmpathyValue
+
+    @classmethod
+    def getNewGameSanityValue(cls):
+        newGameSanityValue = DataAccess.getStartingSanityValue()
+        return newGameSanityValue

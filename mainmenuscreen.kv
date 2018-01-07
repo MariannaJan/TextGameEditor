@@ -17,7 +17,8 @@
 			text: "New Game"
 			on_release:
 			    app.startingPage = 'page1'
-			    root.manager.current = "gamescreen"
+			    root.newGameConfirmationPopupOpen()
+			    #root.manager.current = "gamescreen"
 			
 		MenuButton:
 			text: "Continue"
@@ -38,3 +39,24 @@
 			text: "Quit"
 			on_release: app.get_running_app().stop()
 
+<NewGameConfirmationPopup>
+    title: ''
+
+    MenuBoxLayout:
+
+        StorylineLabel:
+            text: 'Do you want to start a new game? All progress will be lost!!!'
+            font_size: self.height*.1
+        MenuBoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .5
+
+            MenuButton:
+                text: 'Yes'
+                on_press:
+                    root.startNewGame()
+                    root.dismiss()
+                    app.root.children[0].current = "gamescreen"
+            MenuButton:
+                text: 'No'
+                on_press: root.dismiss()
