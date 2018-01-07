@@ -195,3 +195,11 @@ class DataAccessAPI:
     def getNewGameSanityValue(cls):
         newGameSanityValue = DataAccess.getStartingSanityValue()
         return newGameSanityValue
+
+    @classmethod
+    def clearInventory(cls):
+        DataAccess.deleteItemsFromInventory()
+
+    @classmethod
+    def addItemToInventoryByReference(cls,refName):
+        DataAccess.addItemToInventory(itemID=DataAccess.getItemIDbyReference(refName))

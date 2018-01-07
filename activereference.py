@@ -7,6 +7,8 @@ from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
 
 
+
+
 class ActiveReference:
 	"""Provide methods for interacting with active references from the markup text in game."""
 
@@ -80,6 +82,9 @@ class ActiveReference:
 		"""
 
 		interactResultTitle = ' '.join((interaction,interactee))
+		print(interaction)
+		if interaction == 'Take':
+			self.takeItem()
 		interactionResultDescription=(self.activeReferenceInteractions[interaction])[4]
 		intResPop=InteractResultPopup()
 		intResPop.title =interactResultTitle
@@ -90,6 +95,10 @@ class ActiveReference:
 		closeButton.size_hint = (1,0.3)
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()
+
+	def takeItem(self):
+		DataAccessAPI.addItemToInventoryByReference(self.refName)
+
 
 
 class InspectPopup(ActionPopup):

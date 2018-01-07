@@ -422,6 +422,22 @@ class DataAccess:
         startingSanityValue = cls._getStorySpecificationElement(requestedElement='StartingSanity')
         return startingSanityValue
 
+    @classmethod
+    def deleteItemsFromInventory(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from Inventory;')
+
+    @classmethod
+    def addItemToInventory(cls,itemID):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('insert into Inventory values (?);',(itemID,))
+
+    @classmethod
+    def getItemIDbyReference(cls,refName):
+        itemID = cls._getSingleString(cls, DataAccess.getChosenStoryDatabase(), 'select ItemID from TakeItemMatch where Reference = (?)',(refName,))
+        return itemID
+
+
 if __name__=="__main__":
 	DataAccess.__init__()
 
