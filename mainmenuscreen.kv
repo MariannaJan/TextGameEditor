@@ -21,6 +21,9 @@
 			
 		MenuButton:
 			text: "Continue"
+			on_release:
+				app.startingPage = root.setupPageNo()
+			    root.manager.current = "gamescreen"
 
 		MenuButton:
 			text: "Options"

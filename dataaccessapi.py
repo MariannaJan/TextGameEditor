@@ -138,3 +138,33 @@ class DataAccessAPI:
         """
         inventoryItems = DataAccess.getItemFeatures(itemIDs=DataAccess.getInventoryContentIds())
         return inventoryItems
+
+    @classmethod
+    def getCurrentPageNo(cls):
+        """Get the ID of the current page to be displayed on the gamescreen.
+
+        :return: ID of the current page to be displayed on the gamescreen
+        :rtype: str
+        """
+        currenPageNo = DataAccess.getSavedPageNo()
+        return currenPageNo
+
+    @classmethod
+    def getCurrentEmpathyValue(cls):
+        """Get the current value of Empathy.
+
+        :return: current value of Empathy
+        :rtype: int """
+
+        currentEmpathyValue = DataAccess.getSavedEmpathyValue()
+        return currentEmpathyValue
+
+    @classmethod
+    def getCurrentSanityValue(cls):
+        """Get the current value of Sanity.
+
+        :return: current value of Sanity
+        :rtype: int """
+
+        currentSanityValue = DataAccess.getSavedSanityValue()
+        return currentSanityValue

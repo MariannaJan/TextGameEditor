@@ -2,9 +2,10 @@
 from functools import partial
 
 from kivy.properties import ObjectProperty
+from kivy.properties import NumericProperty
+
 from activereference import ActiveReference
 from dataaccessapi import DataAccessAPI
-
 from menuinterface import BasicScreen
 from menuinterface import CustomSlider
 
@@ -78,5 +79,8 @@ class GameScreen(BasicScreen):
 		print('Opening interface screen')	
 		
 
-class VerticalBar(CustomSlider):
-	pass
+
+
+#	currentEmpathyValue = NumericProperty(0)
+#	currentEmpathyValue = DataAccessAPI.getCurrentEmpathyValue()
+

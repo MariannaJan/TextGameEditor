@@ -3,6 +3,7 @@
 from kivy.core.audio import SoundLoader
 from menuinterface import BasicScreen
 from menuinterface import SoundSettings
+from dataaccessapi import DataAccessAPI
 
 
 class MainMenuScreen(BasicScreen):
@@ -37,4 +38,7 @@ class MainMenuScreen(BasicScreen):
 		except:
 			print("no audio file to be stopped")
 
-
+	@classmethod
+	def setupPageNo(cls):
+		pageNo = DataAccessAPI.getCurrentPageNo()
+		return pageNo

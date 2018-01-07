@@ -193,3 +193,5 @@ class CustomSlider(Slider):
         self.value_track_color = ThemeSettings.getCustomButtonTextColor()
 
 
+class VerticalBar(CustomSlider):
+    pass

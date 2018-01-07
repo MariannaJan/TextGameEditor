@@ -339,6 +339,48 @@ class DataAccess:
         chosenStoryDatabase = cls._getSavedSetting('chosenGameDatabase')
         return chosenStoryDatabase
 
+    @classmethod
+    def _getSavedGameStateElement(cls,requestedElement):
+        """Internal method for getting elements of the state of saved game.
+
+        :param str requestedElement: the element of saved game state to be retrieved from database
+        :return: value of the element of saved game state
+        :rtype: str
+        """
+        queryText = ''.join(['select ',requestedElement,' from SavedGameState'])
+        savedGameStateElement = cls._getSingleString(cls,DataAccess.engineDatabase,queryText)
+        return savedGameStateElement
+
+    @classmethod
+    def getSavedPageNo(cls):
+        """Retrieve from the main database the ID of the current page to be displayed on the gamescreen.
+
+        :return: ID of the current page to be displayed on the gamescreen
+        :rtype: str
+        """
+        savedPageNo = DataAccess._getSavedGameStateElement('PageNo')
+        return savedPageNo
+
+    @classmethod
+    def getSavedEmpathyValue(cls):
+        """Retrieve from the main database the current value of Empathy.
+
+        :return: current value of Empathy
+        :rtype: int
+        """
+
+        savedEmpathyValue = DataAccess._getSavedGameStateElement('Empathy')
+        return savedEmpathyValue
+
+    @classmethod
+    def getSavedSanityValue(cls):
+        """Retrieve from the main database the current value of Sanity.
+
+        :return: current value of Sanity
+        :rtype: int
+        """
+        savedSanityValue = DataAccess._getSavedGameStateElement('Sanity')
+        return savedSanityValue
 
 if __name__=="__main__":
 	DataAccess.__init__()
