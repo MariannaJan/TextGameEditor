@@ -2,11 +2,13 @@ from functools import partial
 
 from menuinterface import BasicScreen
 from menuinterface import StorylineLabel
+from menuinterface import CustomLabel
 from menuinterface import MenuButton
 from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
 
-
+from kivy.uix.label import Label
+from kivy.core.window import Window
 
 class InventoryScreen(BasicScreen):
     """Setup the screen for inventory."""
@@ -17,7 +19,12 @@ class InventoryScreen(BasicScreen):
         inventoryTitle = InventoryTitle(text='Inventory')
         inventoryClose = InventoryCloseButton()
         self.inventoryLayout.add_widget(inventoryTitle)
-        self.inventoryButtonGeneration(buttonNames=DataAccessAPI.getInventoryItems(),layout=self.inventoryLayout)
+        buttonNames = DataAccessAPI.getInventoryItems()
+        if not buttonNames:
+            noItemInfo = EmptyInventoryLabel()
+            self.inventoryLayout.add_widget(noItemInfo)
+        else:
+            self.inventoryButtonGeneration(buttonNames,layout=self.inventoryLayout)
         self.inventoryLayout.add_widget(inventoryClose)
 
     def on_leave(self, *args):
@@ -33,17 +40,14 @@ class InventoryScreen(BasicScreen):
         :type buttonNames: dict [str,str]
         :param layout: Kivy layout to which the buttons are to be added.
         """
-
-        if buttonNames == {}:
-            noButtonsInfo = StorylineLabel()
-            noButtonsInfo.text = "There is nothing in your inventory!"
-            layout.add_widget(noButtonsInfo)
         for buttonName in buttonNames:
+            print(buttonNames)
             buttonTitle = buttonName
             button = MenuButton()
             button.text = buttonTitle
-            button.bind(on_press=partial(InventoryScreen.openInventoryItemPopup,buttonName,buttonNames[buttonName]))
+            button.bind(on_press=partial(InventoryScreen.openInventoryItemPopup, buttonName, buttonNames[buttonName]))
             layout.add_widget(button)
+
 
     def openInventoryItemPopup(popupTitle,itemDescription,*args):
         """Generate and open the popup with info on the selected item from inventory
@@ -60,8 +64,15 @@ class InventoryScreen(BasicScreen):
         inventoryPop.open()
 
 
-class InventoryTitle(StorylineLabel):
+class InventoryTitle(CustomLabel):
     """Setup title label for the Inventory screen. Details in inventoryscreen.kv file"""
+    pass
+
+class EmptyInventoryLabel(CustomLabel):
+    def __init__(self,**kwargs):
+        """Set Colors, font and layout for the label (rest in kv file)."""
+        super(EmptyInventoryLabel,self).__init__(**kwargs)
+        self.font_size = Window.height *.06
 
     pass
 

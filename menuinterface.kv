@@ -21,20 +21,25 @@
 			pos: self.pos
 			size: self.size
 
+<CustomLabel>
+
+	text_size: self.size
+
 <StorylineLabel>
 
+	canvas.before:
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
 	markup: True
-	text_size: self.size
 	font_size: self.height/25
 	halign: 'justify'
 	valign: 'top'
 	padding_x: 15
 	padding_y: 30
 
-	canvas.before:
-		Rectangle:
-			pos: self.pos
-			size: self.size
+
 
 <ActionPopup>
 

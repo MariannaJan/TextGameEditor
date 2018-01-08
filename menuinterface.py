@@ -11,6 +11,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
 
+from kivy.core.window import Window
+
 from dataaccessapi import DataAccessAPI
 
 class FontSettings():
@@ -158,16 +160,25 @@ class MenuBoxLayout(BoxLayout):
         with self.canvas.before:
             Color(rgba=ThemeSettings.getCustomLayoutCanvasColor())
 
-class StorylineLabel(Label):
-    """Basic temple for ingame label - text widget."""
+class CustomLabel(Label):
+    """Basic template for ingame label - text widget."""
 
     def __init__(self,**kwargs):
-        """Set Colors, font and layout for the label (rest in kv file)."""
+        """Set font and layout for the label (rest in kv file)."""
+        super(CustomLabel,self).__init__(**kwargs)
+        self.font_name = FontSettings.fontName
+        self.font_size = Window.height *.08
+
+class StorylineLabel(CustomLabel):
+    """Basic template for ingame label - text widget."""
+    def __init__(self,**kwargs):
+        """Set colors for the label. Rest in menuinterface.kv file."""
         super(StorylineLabel,self).__init__(**kwargs)
         self.color = ThemeSettings.getCustomButtonTextColor()
-        self.font_name = FontSettings.fontName
         with self.canvas.before:
             Color(rgba=ThemeSettings.getCustomLayoutCanvasColor())
+
+
 
 class ActionPopup(Popup):
     """Basic template for a popup."""
