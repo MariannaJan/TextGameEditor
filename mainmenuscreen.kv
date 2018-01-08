@@ -4,10 +4,9 @@
 
     name: "mainmenu"
 
-
 	MenuBoxLayout:
 
-		StorylineLabel:
+		CustomLabel:
 			text: "Main Menu"
 			font_size: self.height*0.6
 			halign: 'center'
@@ -18,8 +17,7 @@
 			on_release:
 			    app.startingPage = 'page1'
 			    root.newGameConfirmationPopupOpen()
-			    #root.manager.current = "gamescreen"
-			
+
 		MenuButton:
 			text: "Continue"
 			on_release:
@@ -31,9 +29,8 @@
 			on_release: root.manager.current = "options"
 			
 		MenuButton:
-			text: "Previous Attempts"
+			text: "Choose Story"
 			on_release:
-
 
 		MenuButton:
 			text: "Quit"
@@ -44,9 +41,12 @@
 
     MenuBoxLayout:
 
-        StorylineLabel:
+        CustomLabel:
             text: 'Do you want to start a new game? All progress will be lost!!!'
             font_size: self.height*.1
+            halign: 'justify'
+	        valign: 'top'
+
         MenuBoxLayout:
             orientation: 'horizontal'
             size_hint_y: .5

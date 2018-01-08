@@ -168,13 +168,13 @@ class CustomLabel(Label):
         super(CustomLabel,self).__init__(**kwargs)
         self.font_name = FontSettings.fontName
         self.font_size = Window.height *.08
+        self.color = ThemeSettings.getCustomButtonTextColor()
 
 class StorylineLabel(CustomLabel):
     """Basic template for ingame label - text widget."""
     def __init__(self,**kwargs):
         """Set colors for the label. Rest in menuinterface.kv file."""
         super(StorylineLabel,self).__init__(**kwargs)
-        self.color = ThemeSettings.getCustomButtonTextColor()
         with self.canvas.before:
             Color(rgba=ThemeSettings.getCustomLayoutCanvasColor())
 
