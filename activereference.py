@@ -22,7 +22,11 @@ class ActiveReference:
 	def inspectReference(self):
 		"""Open inspect popup for the chosen reference."""
 
-		self.open_inspect_popup()
+		if DataAccessAPI.checkIfReferenceTaken(self.refName):
+			referenceTakenPop = RefernceTakenPopup()
+			referenceTakenPop.open()
+		else:
+			self.open_inspect_popup()
 		
 	def open_inspect_popup(self):
 		"""Create inspect popup for the chosen reference."""
@@ -34,8 +38,11 @@ class ActiveReference:
 
 	def interactWithReference(self):
 		"""Open interact popup for the chosen reference."""
-
-		self.open_interact_popup()
+		if DataAccessAPI.checkIfReferenceTaken(self.refName):
+			referenceTakenPop = RefernceTakenPopup()
+			referenceTakenPop.open()
+		else:
+			self.open_interact_popup()
 
 	def open_interact_popup(self):
 		"""Create interact popup for the chosen reference with buttons according to the available interactions for the reference."""
@@ -71,8 +78,10 @@ class ActiveReference:
 		:param str interaction: interaction on the button
 		:param str interactee: display name of the clicked reference, to be interacted with
 		"""
-
-		self.open_interact_result_popup(interaction,interactee)
+		if interaction == 'Take':
+			self.takeItem()
+		else:
+			self.open_interact_result_popup(interaction,interactee)
 
 	def open_interact_result_popup(self, interaction, interactee):
 		"""Create popup with the info on the chosen interaction's result.
@@ -82,9 +91,6 @@ class ActiveReference:
 		"""
 
 		interactResultTitle = ' '.join((interaction,interactee))
-		print(interaction)
-		if interaction == 'Take':
-			self.takeItem()
 		interactionResultDescription=(self.activeReferenceInteractions[interaction])[4]
 		intResPop=InteractResultPopup()
 		intResPop.title =interactResultTitle
@@ -97,8 +103,9 @@ class ActiveReference:
 		intResPop.open()
 
 	def takeItem(self):
-		DataAccessAPI.addItemToInventoryByReference(self.refName)
 
+		DataAccessAPI.addItemToInventoryByReference(self.refName)
+		DataAccessAPI.markReferenceAsTaken(self.refName)
 
 
 class InspectPopup(ActionPopup):
@@ -116,3 +123,5 @@ class InteractResultPopup(ActionPopup):
 
 	pass
 	
+class RefernceTakenPopup(ActionPopup):
+	pass

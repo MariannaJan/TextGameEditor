@@ -203,3 +203,19 @@ class DataAccessAPI:
     @classmethod
     def addItemToInventoryByReference(cls,refName):
         DataAccess.addItemToInventory(itemID=DataAccess.getItemIDbyReference(refName))
+
+    @classmethod
+    def checkIfReferenceTaken(cls,refName):
+        takenReferences = DataAccess.getTakenReferences()
+        if refName in takenReferences:
+            return True
+        else:
+            return False
+
+    @classmethod
+    def markReferenceAsTaken(cls,refName):
+        DataAccess.addTakenReference(refName)
+
+    @classmethod
+    def clearTakenReferences(cls):
+        DataAccess.deleteRefsFromTakenReferences()

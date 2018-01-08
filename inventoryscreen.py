@@ -1,5 +1,7 @@
 from functools import partial
 
+from kivy.core.window import Window
+
 from menuinterface import BasicScreen
 from menuinterface import StorylineLabel
 from menuinterface import CustomLabel
@@ -7,8 +9,6 @@ from menuinterface import MenuButton
 from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
 
-from kivy.uix.label import Label
-from kivy.core.window import Window
 
 class InventoryScreen(BasicScreen):
     """Setup the screen for inventory."""

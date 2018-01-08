@@ -104,6 +104,22 @@
 	    id: int_r_pop
 
 
+<RefernceTakenPopup>
+
+    title: ''
+
+    MenuBoxLayout:
+
+        CustomLabel:
+            text: 'Already in the inventory!'
+            font_size: self.height*.1
+            halign: 'center'
+	        valign: 'top'
+	    MenuButton:
+	        size_hint_y: .2
+	        text: 'Close'
+	        on_press: root.dismiss()
+
 
 
 

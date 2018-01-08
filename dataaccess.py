@@ -437,6 +437,25 @@ class DataAccess:
         itemID = cls._getSingleString(cls, DataAccess.getChosenStoryDatabase(), 'select ItemID from TakeItemMatch where Reference = (?)',(refName,))
         return itemID
 
+    @classmethod
+    def getTakenReferences(cls):
+        takenReferences = []
+        base = DataAccess(DataAccess.engineDatabase)
+        c = base._query("select RefName from TakenReferences;")
+        for RefName in c.fetchall():
+            takenReferences.append(RefName[0])
+        return takenReferences
+
+    @classmethod
+    def addTakenReference(cls,refName):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query("insert into TakenReferences values (?);",(refName,))
+
+    @classmethod
+    def deleteRefsFromTakenReferences(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from TakenReferences;')
+
 
 if __name__=="__main__":
 	DataAccess.__init__()

@@ -44,8 +44,6 @@ class MainMenuScreen(BasicScreen):
 		pageNo = DataAccessAPI.getCurrentPageNo()
 		return pageNo
 
-
-
 	def newGameConfirmationPopupOpen(self):
 		confirmPop = NewGameConfirmationPopup()
 		confirmPop.open()
@@ -56,5 +54,6 @@ class NewGameConfirmationPopup(ActionPopup):
 	def startNewGame(cls):
 		pageNo = DataAccessAPI.getNewGamePageNo()
 		DataAccessAPI.clearInventory()
+		DataAccessAPI.clearTakenReferences()
 		DataAccessAPI.setCurrentPageNo(pageNo)
 
