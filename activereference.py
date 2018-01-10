@@ -75,19 +75,21 @@ class ActiveReference:
 			interactButtonTitle = interaction
 			interactButton = MenuButton()
 			interactButton.text=interactButtonTitle
-			interactButton.bind(on_press=partial(self.interactButtonFunction, interaction, self.activeReferenceName))
+			interactButton.bind(on_press=partial(self.interactButtonFunction, interaction, self.activeReferenceName,intPop))
 			intPop.interactPopupLayout.add_widget(interactButton)
 
-	def interactButtonFunction(self,interaction,interactee,*args):
+	def interactButtonFunction(self,interaction,interactee,intPop,*args):
 		"""Open popup for the chosen interaction with the info on the interaction's result.
 
 		:param str interaction: interaction on the button
 		:param str interactee: display name of the clicked reference, to be interacted with
 		"""
+		intPop = intPop
+		self.open_interact_result_popup(interaction, interactee)
 		if interaction == 'Take':
 			self.takeItem()
-		else:
-			self.open_interact_result_popup(interaction,interactee)
+			intPop.dismiss()
+
 
 	def open_interact_result_popup(self, interaction, interactee):
 		"""Create popup with the info on the chosen interaction's result.
