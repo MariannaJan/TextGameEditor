@@ -1,4 +1,4 @@
-from dataaccess import DataAccess
+from dataaccess import DataAccess as DA
 
 class DataAccessAPI:
     """API for getting the necessary data, separating the mechanism of data base access from providing necessary data."""
@@ -12,7 +12,7 @@ class DataAccessAPI:
         :rtype: string
         """
 
-        referenceName = DataAccess.getActiveObjectName(self,refName)
+        referenceName = DA.getActiveObjectName(self,refName)
         return referenceName
 
     def getReferenceDescription(self,refName):
@@ -24,7 +24,7 @@ class DataAccessAPI:
         :rtype: string
         """
 
-        referenceDescription = DataAccess.getActiveObjectDescription(self,refName)
+        referenceDescription = DA.getActiveObjectDescription(self,refName)
         return referenceDescription
 
     def getReferenceInteractions(self,refName):
@@ -36,7 +36,7 @@ class DataAccessAPI:
         :rtype: dict [str,tuple(string,string,int,int,string,string)]
         """
 
-        referenceInteractions = DataAccess.getActiveObjectInteractions(self,refName)
+        referenceInteractions = DA.getActiveObjectInteractions(self,refName)
         return referenceInteractions
 
     def getReferenceStorylineText(self,pageNo):
@@ -46,7 +46,7 @@ class DataAccessAPI:
         :return:
         """
 
-        referenceStorylineText = DataAccess.getStorylinePageText(self,pageNo)
+        referenceStorylineText = DA.getStorylinePageText(self,pageNo)
         return referenceStorylineText
 
     @classmethod
@@ -58,7 +58,7 @@ class DataAccessAPI:
         :rtype: tuple(float,float,float,float)
         """
 
-        color = (DataAccess.setupTheme())[colorCategory]
+        color = (DA.setupTheme())[colorCategory]
         return color
 
     @classmethod
@@ -68,7 +68,7 @@ class DataAccessAPI:
         :return: {string theme name: string theme full name, as for button text generation}
         :rtype: dict [str,str]
         """
-        return DataAccess.getAvailableThemes()
+        return DA.getAvailableThemes()
 
     @classmethod
     def setThemeName(cls, themeName):
@@ -76,7 +76,7 @@ class DataAccessAPI:
 
         :param str themeName: name of theme to be set
         """
-        DataAccess.setSavedThemeName(themeName)
+        DA.setSavedThemeName(themeName)
 
     @classmethod
     def getFontName(cls):
@@ -85,7 +85,7 @@ class DataAccessAPI:
         :return: name of font
         :rtype: str
         """
-        return DataAccess.getSavedFontName()
+        return DA.getSavedFontName()
 
     @classmethod
     def getFontFilePath(cls,fontName,fontStyle):
@@ -95,7 +95,7 @@ class DataAccessAPI:
         :return: path to the file
         :rtype: str
         """
-        fontFileName = DataAccess.getFonts(fontName,fontStyle)
+        fontFileName = DA.getFonts(fontName,fontStyle)
         fontFilePath = "".join(['Fonts/',fontFileName])
         return fontFilePath
 
@@ -107,7 +107,7 @@ class DataAccessAPI:
         :return: path to file
         :rtype: str
         """
-        audioFilePaths = DataAccess.getSoundFilesNames()
+        audioFilePaths = DA.getSoundFilesNames()
         filePath = ''.join(('Audio/',audioFilePaths.get(requestedSound,'')))
         return filePath
 
@@ -118,7 +118,7 @@ class DataAccessAPI:
         :return: current volume of sound
         :rtype: float
         """
-        return DataAccess.getSavedSoundVolume()
+        return DA.getSavedSoundVolume()
 
     @classmethod
     def setSoundVolume(cls,soundVolume):
@@ -127,7 +127,7 @@ class DataAccessAPI:
         :param soundVolume: volume of sound to be set
         :type: float
         """
-        DataAccess.setSavedSoundVolume(soundVolume)
+        DA.setSavedSoundVolume(soundVolume)
 
     @classmethod
     def getInventoryItems(cls):
@@ -136,7 +136,7 @@ class DataAccessAPI:
         :return: gictionary of items currently in inventory with their descriptions
         :rtype: dict [str,str]
         """
-        inventoryItems = DataAccess.getItemFeatures(itemIDs=DataAccess.getInventoryContentIds())
+        inventoryItems = DA.getItemFeatures(itemIDs=DA.getInventoryContentIds())
         return inventoryItems
 
     @classmethod
@@ -146,12 +146,12 @@ class DataAccessAPI:
         :return: ID of the current page to be displayed on the gamescreen
         :rtype: str
         """
-        currenPageNo = DataAccess.getSavedPageNo()
+        currenPageNo = DA.getSavedPageNo()
         return currenPageNo
 
     @classmethod
     def setCurrentPageNo(cls,pageNo):
-        DataAccess.setSavedPageNo(pageNo)
+        DA.setSavedPageNo(pageNo)
 
     @classmethod
     def getCurrentEmpathyValue(cls):
@@ -160,7 +160,7 @@ class DataAccessAPI:
         :return: current value of Empathy
         :rtype: int """
 
-        currentEmpathyValue = DataAccess.getSavedEmpathyValue()
+        currentEmpathyValue = DA.getSavedEmpathyValue()
         return currentEmpathyValue
 
     @classmethod
@@ -174,39 +174,39 @@ class DataAccessAPI:
         :return: current value of Sanity
         :rtype: int """
 
-        currentSanityValue = DataAccess.getSavedSanityValue()
+        currentSanityValue = DA.getSavedSanityValue()
         return currentSanityValue
 
     @classmethod
     def setCurrentSanityValue(cls,sanityValue):
-        DataAccess.setSavedSanityValue(sanityValue)
+        DA.setSavedSanityValue(sanityValue)
 
     @classmethod
     def getNewGamePageNo(cls):
-        newGamePageNo = DataAccess.getStoryFirstPageNo()
+        newGamePageNo = DA.getStoryFirstPageNo()
         return newGamePageNo
 
     @classmethod
     def getNewGameEmpathyValue(cls):
-        newGameEmpathyValue = DataAccess.getStartingEmpathyValue()
+        newGameEmpathyValue = DA.getStartingEmpathyValue()
         return newGameEmpathyValue
 
     @classmethod
     def getNewGameSanityValue(cls):
-        newGameSanityValue = DataAccess.getStartingSanityValue()
+        newGameSanityValue = DA.getStartingSanityValue()
         return newGameSanityValue
 
     @classmethod
     def clearInventory(cls):
-        DataAccess.deleteItemsFromInventory()
+        DA.deleteItemsFromInventory()
 
     @classmethod
     def addItemToInventoryByReference(cls,refName):
-        DataAccess.addItemToInventory(itemID=DataAccess.getItemIDbyReference(refName))
+        DA.addItemToInventory(itemID=DA.getItemIDbyReference(refName))
 
     @classmethod
     def checkIfReferenceTaken(cls,refName):
-        takenReferences = DataAccess.getTakenReferences()
+        takenReferences = DA.getTakenReferences()
         if refName in takenReferences:
             return True
         else:
@@ -214,8 +214,8 @@ class DataAccessAPI:
 
     @classmethod
     def markReferenceAsTaken(cls,refName):
-        DataAccess.addTakenReference(refName)
+        DA.addTakenReference(refName)
 
     @classmethod
     def clearTakenReferences(cls):
-        DataAccess.deleteRefsFromTakenReferences()
+        DA.deleteRefsFromTakenReferences()

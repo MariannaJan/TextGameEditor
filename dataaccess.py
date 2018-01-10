@@ -24,7 +24,8 @@ class DataAccess:
                 with sqlite3.connect(databaseName) as self.conn:
                     self.conn.row_factory = sqlite3.Row
                     self.cur = self.conn.cursor()
-        except IOError:
+        except IOError as e:
+            print(e)
             print('No database to open!')
 
     def _query(self, queryText, *args):
@@ -39,7 +40,8 @@ class DataAccess:
         """
         try:
             self.cur.execute(queryText,*args)
-        except:
+        except Exception as e:
+            print(e)
             print('database error - cannot execute query')
         else:
             self.conn.commit()
@@ -60,7 +62,8 @@ class DataAccess:
         base=DataAccess(databaseName)
         try:
             singleString = str(((base._query(queryText, *args)).fetchone())[0])
-        except:
+        except Exception as e:
+            print(e)
             print('database error - cannot get single string')
         else:
             return singleString
@@ -99,7 +102,8 @@ class DataAccess:
         """
         try:
             activeObjectName = DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select Name from ReferenceDictionary where Reference = (?)", (refName,))
-        except:
+        except Exception as e:
+            print(e)
             print('Unable to find such reference name.')
         return activeObjectName
 
@@ -199,7 +203,8 @@ class DataAccess:
         c = base._query("select customButtonTextColor,customButtonBackgroundColor,customLayoutCanvasColor from Themes where themeName=(?)", (themeName,))
         try:
             result = c.fetchone()
-        except:
+        except Exception as e:
+            print(e)
             print('no theme colors to fetch')
             return {'customButtonTextColor':(0,0,0,1),'customButtonBackgroundColor':(1,1,1,1),'customLayoutCanvasColor':(1,1,1,1)}
         else:
@@ -268,7 +273,8 @@ class DataAccess:
         try:
             for soundName, fileName in c.fetchall():
                 soundFilesNames[soundName]=fileName
-        except:
+        except Exception as e:
+            print(e)
             print('database error')
             return {}
         else:
@@ -457,8 +463,6 @@ class DataAccess:
         base._query('delete from TakenReferences;')
 
 
-if __name__=="__main__":
-	DataAccess.__init__()
 
 
 

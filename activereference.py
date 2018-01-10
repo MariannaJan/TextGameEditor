@@ -5,6 +5,7 @@ from menuinterface import MenuButton
 from menuinterface import StorylineLabel
 from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
+from menuinterface import ScreenChanging
 
 
 
@@ -47,9 +48,17 @@ class ActiveReference:
 	def open_interact_popup(self):
 		"""Create interact popup for the chosen reference with buttons according to the available interactions for the reference."""
 
+
 		interactTitle = ''.join(('Interacting with ',self.activeReferenceName))
 		intPop=InteractPopup(title=interactTitle)
-		self.interactButtonsGeneration(intPop)
+		print(self.activeReferenceInteractions.keys())
+		if self.activeReferenceInteractions == {}:
+			noInteractionInfo = StorylineLabel()
+			noInteractionInfo.text="I can't do anything with that"
+			intPop.interactPopupLayout.add_widget(noInteractionInfo)
+			intPop.open()
+		else:
+			self.interactButtonsGeneration(intPop)
 		closeButton = ActionPopup.closePopupButton(intPop)
 		closeButton.size_hint_y = 0.3
 		intPop.interactPopupLayout.add_widget(closeButton)
@@ -61,10 +70,7 @@ class ActiveReference:
 		"""
 
 		interactions=self.activeReferenceInteractions.keys()
-		if self.activeReferenceInteractions == {}:
-			noInteractionInfo = StorylineLabel()
-			noInteractionInfo.text="I can't do anything with that"
-			intPop.interactPopupLayout.add_widget(noInteractionInfo)
+
 		for interaction in interactions:
 			interactButtonTitle = interaction
 			interactButton = MenuButton()
@@ -107,6 +113,8 @@ class ActiveReference:
 		DataAccessAPI.addItemToInventoryByReference(self.refName)
 		DataAccessAPI.markReferenceAsTaken(self.refName)
 
+	def useInventoryItemOnReference(self,itemID):
+		print('Item from inventory: ',itemID, 'refernece clicked: ',self.activeReferenceName)
 
 class InspectPopup(ActionPopup):
 	"""Setup popup for inspecting a reference. Details in gamescreen.kv file."""
@@ -124,4 +132,8 @@ class InteractResultPopup(ActionPopup):
 	pass
 	
 class RefernceTakenPopup(ActionPopup):
-	pass
+
+	@staticmethod
+	def goToInventory():
+		ScreenChanging.goToScreen('inventoryscreen')
+

@@ -10,6 +10,7 @@ from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
+from kivy.app import App
 
 from kivy.core.window import Window
 
@@ -206,3 +207,10 @@ class CustomSlider(Slider):
 
 class VerticalBar(CustomSlider):
     pass
+
+class ScreenChanging:
+
+    @staticmethod
+    def goToScreen(screenName):
+        screenManager = App.get_running_app().root.children[0]
+        screenManager.current = screenName

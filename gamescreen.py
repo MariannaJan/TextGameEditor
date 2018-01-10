@@ -9,6 +9,7 @@ from dataaccessapi import DataAccessAPI
 from menuinterface import BasicScreen
 from menuinterface import CustomSlider
 
+
 class GameScreen(BasicScreen):
 	"""Setup core gameplay screen. Details in kv file."""
 
@@ -41,14 +42,14 @@ class GameScreen(BasicScreen):
 			possibleUses = {
 				'ins': clickedReference.inspectReference,
 				'int': clickedReference.interactWithReference,
-				'inv': self.clickInventory,
+				'inv': partial(clickedReference.useInventoryItemOnReference,'book'),
 				'inf': self.clickInterface
 			}
 
 			try:
 				possibleUses.get(useFlag,partial(print,'No action selected'))()
 			except:
-				print("Lack of data for the chosen reference in references dictionary")
+				print("Lack of data for the chosen reference in references dictionary",useFlag)
 			finally:
 				self.referenceTextLabel.flag= ""
 
@@ -68,7 +69,6 @@ class GameScreen(BasicScreen):
 
 		self.referenceTextLabel.flag = 'inv'
 
-		print (self.referenceTextLabel.flag)
 
 		
 	def clickInterface(self):
@@ -78,6 +78,7 @@ class GameScreen(BasicScreen):
 		print (self.referenceTextLabel.flag)
 		print('Opening interface screen')	
 		
+
 
 
 

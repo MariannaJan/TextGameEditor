@@ -2,12 +2,14 @@ from functools import partial
 
 from kivy.core.window import Window
 
+
 from menuinterface import BasicScreen
 from menuinterface import StorylineLabel
 from menuinterface import CustomLabel
 from menuinterface import MenuButton
 from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
+from menuinterface import ScreenChanging
 
 
 class InventoryScreen(BasicScreen):
@@ -49,6 +51,7 @@ class InventoryScreen(BasicScreen):
             layout.add_widget(button)
 
 
+
     def openInventoryItemPopup(popupTitle,itemDescription,*args):
         """Generate and open the popup with info on the selected item from inventory
 
@@ -83,3 +86,5 @@ class InventoryCloseButton(MenuButton):
 class InventoryItemPopup(ActionPopup):
     """Setup popup for individual item from inventory Details in inventoryscreen.kv file"""
     pass
+
+
