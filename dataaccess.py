@@ -332,7 +332,7 @@ class DataAccess:
         for itemID in itemIDs:
             c = base._query("select Name, Description from Items where ItemID = (?);",(itemID,))
             for Name,Description in c.fetchall():
-                itemFeatures[Name] = (Description)
+                itemFeatures[Name] = (Description,itemID)
         return itemFeatures
 
     @classmethod
@@ -462,7 +462,12 @@ class DataAccess:
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from TakenReferences;')
 
+    @classmethod
+    def getDataOnItemUseInWorld(cls,refName,itemID):
+        base = DataAccess(DataAccess.getChosenStoryDatabase())
+        c = base._query('select * from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
+        useInWorldData = {}
+        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityZTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry in c.fetchall():
+            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityZTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry)
 
-
-
-
+        return useInWorldData

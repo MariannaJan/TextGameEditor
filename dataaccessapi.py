@@ -165,7 +165,7 @@ class DataAccessAPI:
 
     @classmethod
     def setCurrentEmpathyValue(cls,empathyValue):
-        DataAccess.setSavedEmpathyValue(empathyValue)
+        DA.setSavedEmpathyValue(empathyValue)
 
     @classmethod
     def getCurrentSanityValue(cls):
@@ -219,3 +219,8 @@ class DataAccessAPI:
     @classmethod
     def clearTakenReferences(cls):
         DA.deleteRefsFromTakenReferences()
+
+    @classmethod
+    def getInfoOnItemUseInWorld(cls,refName,itemID):
+        infoOnItemUseInWorld = DA.getDataOnItemUseInWorld(refName,itemID)
+        return infoOnItemUseInWorld

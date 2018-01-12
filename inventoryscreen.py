@@ -10,6 +10,7 @@ from menuinterface import MenuButton
 from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
 from menuinterface import ScreenChanging
+from activereference import ActiveReference
 
 
 
@@ -47,14 +48,13 @@ class InventoryScreen(BasicScreen):
             print(buttonNames)
             buttonTitle = buttonName
             button = InventoryItemButton(font_size=10)
-            #button.font_size = 10#App.get_running_app().root.height/40
             button.text = buttonTitle
-            button.bind(on_press=partial(InventoryScreen.openInventoryItemPopup, buttonName, buttonNames[buttonName]))
+            button.bind(on_press=partial(InventoryScreen.openInventoryItemPopup, popupTitle=buttonName, itemDescription=buttonNames[buttonName]))
             layout.add_widget(button)
 
 
 
-    def openInventoryItemPopup(popupTitle,itemDescription,*args):
+    def openInventoryItemPopup(self,popupTitle,itemDescription,*args):
         """Generate and open the popup with info on the selected item from inventory
 
         :param popupTitle: The name of the item from inventory, for which the popup  is opened.
@@ -64,15 +64,22 @@ class InventoryScreen(BasicScreen):
         inventoryPop.title = popupTitle
         useInWorldButton = InventoryItemPopupButton()
         useInWorldButton.text='Use on item in world'
+        useInWorldButton.bind(on_press = partial(InventoryScreen.useInWorld,itemID=itemDescription[1],popupToClose = inventoryPop))
         useInInventoryButton = InventoryItemPopupButton()
         useInInventoryButton.text = 'Use on item in inventory'
         closeButton = ActionPopup.closePopupButton(inventoryPop)
         closeButton.size_hint_y = 0.2
-        inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription))
+        inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription[0]))
         inventoryPop.inventoryItemLayout.add_widget(useInWorldButton)
         inventoryPop.inventoryItemLayout.add_widget(useInInventoryButton)
         inventoryPop.inventoryItemLayout.add_widget(closeButton)
         inventoryPop.open()
+
+    def useInWorld(self,itemID,popupToClose):
+        ActiveReference.objectFormInventory = itemID
+        App.get_running_app().root.children[0].current = 'gamescreen'
+        currentPopup = popupToClose
+        currentPopup.dismiss()
 
 
 class InventoryTitle(CustomLabel):
@@ -85,7 +92,6 @@ class EmptyInventoryLabel(CustomLabel):
         super(EmptyInventoryLabel,self).__init__(**kwargs)
         self.font_size = Window.height *.06
 
-    pass
 
 class InventoryCloseButton(MenuButton):
     """Setup close button for the Inventory screen. Details in inventoryscreen.kv file"""

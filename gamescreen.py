@@ -42,7 +42,7 @@ class GameScreen(BasicScreen):
 			possibleUses = {
 				'ins': clickedReference.inspectReference,
 				'int': clickedReference.interactWithReference,
-				'inv': partial(clickedReference.useInventoryItemOnReference,'book'),
+				'inv': partial(clickedReference.useInventoryItemOnReference,refName),
 				'inf': self.clickInterface
 			}
 

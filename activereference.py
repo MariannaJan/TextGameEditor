@@ -6,12 +6,14 @@ from menuinterface import StorylineLabel
 from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
 from menuinterface import ScreenChanging
+from dataaccess import DataAccess
 
 
 
 
 class ActiveReference:
 	"""Provide methods for interacting with active references from the markup text in game."""
+	objectFormInventory = ''
 
 	def __init__(self,refName):
 		"""Setup basic variables according to the name of chosen reference."""
@@ -115,8 +117,11 @@ class ActiveReference:
 		DataAccessAPI.addItemToInventoryByReference(self.refName)
 		DataAccessAPI.markReferenceAsTaken(self.refName)
 
-	def useInventoryItemOnReference(self,itemID):
-		print('Item from inventory: ',itemID, 'refernece clicked: ',self.activeReferenceName)
+	def useInventoryItemOnReference(self,refName):
+		itemID = self.objectFormInventory
+		description = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)
+		print('Item from inventory: ',itemID, 'refernece clicked: ',self.activeReferenceName,description)
+
 
 class InspectPopup(ActionPopup):
 	"""Setup popup for inspecting a reference. Details in gamescreen.kv file."""
@@ -139,3 +144,5 @@ class RefernceTakenPopup(ActionPopup):
 	def goToInventory():
 		ScreenChanging.goToScreen('inventoryscreen')
 
+class UseItemInWorldPopup(ActionPopup):
+	pass
