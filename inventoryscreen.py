@@ -1,7 +1,7 @@
 from functools import partial
 
 from kivy.core.window import Window
-
+from kivy.app import App
 
 from menuinterface import BasicScreen
 from menuinterface import StorylineLabel
@@ -10,6 +10,7 @@ from menuinterface import MenuButton
 from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
 from menuinterface import ScreenChanging
+
 
 
 class InventoryScreen(BasicScreen):
@@ -45,7 +46,8 @@ class InventoryScreen(BasicScreen):
         for buttonName in buttonNames:
             print(buttonNames)
             buttonTitle = buttonName
-            button = MenuButton()
+            button = InventoryItemButton(font_size=10)
+            #button.font_size = 10#App.get_running_app().root.height/40
             button.text = buttonTitle
             button.bind(on_press=partial(InventoryScreen.openInventoryItemPopup, buttonName, buttonNames[buttonName]))
             layout.add_widget(button)
@@ -60,9 +62,15 @@ class InventoryScreen(BasicScreen):
         """
         inventoryPop = InventoryItemPopup()
         inventoryPop.title = popupTitle
+        useInWorldButton = InventoryItemPopupButton()
+        useInWorldButton.text='Use on item in world'
+        useInInventoryButton = InventoryItemPopupButton()
+        useInInventoryButton.text = 'Use on item in inventory'
         closeButton = ActionPopup.closePopupButton(inventoryPop)
-        closeButton.size_hint_y = 0.3
+        closeButton.size_hint_y = 0.2
         inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription))
+        inventoryPop.inventoryItemLayout.add_widget(useInWorldButton)
+        inventoryPop.inventoryItemLayout.add_widget(useInInventoryButton)
         inventoryPop.inventoryItemLayout.add_widget(closeButton)
         inventoryPop.open()
 
@@ -83,8 +91,24 @@ class InventoryCloseButton(MenuButton):
     """Setup close button for the Inventory screen. Details in inventoryscreen.kv file"""
     pass
 
+class InventoryItemButton(MenuButton):
+
+    def __init__(self,**kwargs):
+
+        super(InventoryItemButton,self).__init__()
+        self.font_size = 0.9*self.font_size
+
+
+
 class InventoryItemPopup(ActionPopup):
     """Setup popup for individual item from inventory Details in inventoryscreen.kv file"""
     pass
+
+class InventoryItemPopupButton(MenuButton):
+    def __init__(self,**kwargs):
+        super(InventoryItemPopupButton,self).__init__()
+        self.font_size = self.font_size*0.5
+
+
 
 

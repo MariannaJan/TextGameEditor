@@ -12,6 +12,7 @@ from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
 from kivy.app import App
 
+
 from kivy.core.window import Window
 
 from dataaccessapi import DataAccessAPI
@@ -139,6 +140,7 @@ class MenuButton(Button):
         self.background_color = ThemeSettings.getCustomButtonBackgroundColor()
         self.color = ThemeSettings.getCustomButtonTextColor()
         self.font_name = FontSettings.fontName
+        self.font_size = Window.height *0.05
 
     def on_press(self):
         """Play the click sound with sound volume from the saved settings on clicking the button."""

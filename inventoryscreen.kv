@@ -12,7 +12,7 @@
     text: 'Inventory'
 	halign: 'center'
 	valign: 'center'
-	size_hint_y: .2
+	size_hint_y: .3
 
 <EmptyInventoryLabel>
     text: 'Empty!'
@@ -25,8 +25,14 @@
 	text: 'Close'
 	on_release: app.root.children[0].current = "gamescreen"
 
+<InventoryItemButton>
+
 <InventoryItemPopup>
     inventoryItemLayout: inventory_item_layout
 
     MenuBoxLayout:
         id: inventory_item_layout
+
+<InventoryItemPopupButton>
+
+    size_hint_y: 0.2
