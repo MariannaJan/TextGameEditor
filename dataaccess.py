@@ -128,9 +128,9 @@ class DataAccess:
         """
         activeObjectInteractions = {}
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
-        for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry in c.fetchall():
-            activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry)
+        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
+        for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked in c.fetchall():
+            activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked)
         return activeObjectInteractions
 
     def getStorylinePageText(self, pageNo):
@@ -467,7 +467,7 @@ class DataAccess:
         base = DataAccess(DataAccess.getChosenStoryDatabase())
         c = base._query('select * from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
         useInWorldData = {}
-        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityZTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry in c.fetchall():
-            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityZTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry)
+        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked in c.fetchall():
+            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked)
 
         return useInWorldData

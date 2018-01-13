@@ -111,11 +111,15 @@ class ActiveReference:
 		closeButton.size_hint = (1,0.3)
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()
+		self.changeCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
 
 	def takeItem(self):
 
 		DataAccessAPI.addItemToInventoryByReference(self.refName)
 		DataAccessAPI.markReferenceAsTaken(self.refName)
+
+	def changeCurrentPage(self,pageName):
+		DataAccessAPI.setCurrentPageNo(pageName)
 
 	def useInventoryItemOnReference(self,refName):
 		itemID = self.objectFormInventory
@@ -124,8 +128,13 @@ class ActiveReference:
 		useIntOnRefPopup = UseItemInWorldPopup()
 		useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
 		useIntOnRefPopup.title = useIntOnRefPopupTitle
-		closeButton = ActionPopup.closePopupButton(text='close')
-		useIntOnRefPopup.use_in_world_layout.add_widget(useIntOnRefPopup)
+		useEffectDescription = StorylineLabel()
+		useEffectDescriptionText = description[refName][1]
+		useEffectDescription.text = useEffectDescriptionText
+		closeButton = ActionPopup.closePopupButton(useIntOnRefPopup)
+		closeButton.size_hint = (1, 0.3)
+		useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
+		useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
 		useIntOnRefPopup.open()
 
 

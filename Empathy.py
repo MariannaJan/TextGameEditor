@@ -51,6 +51,7 @@ class Empathy(App):
 		audio_open_sound = SoundLoader.load(filename=SoundSettings.getAudioFilePath(requestedSound='opening_sound'))
 		try:
 			audio_open_sound.volume = SoundSettings.soundVolume
+			print(audio_open_sound.volume)
 			audio_open_sound.play()
 		except:
 			print("no audio file to load on this path!")
