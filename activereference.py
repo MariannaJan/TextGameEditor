@@ -121,6 +121,12 @@ class ActiveReference:
 		itemID = self.objectFormInventory
 		description = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)
 		print('Item from inventory: ',itemID, 'refernece clicked: ',self.activeReferenceName,description)
+		useIntOnRefPopup = UseItemInWorldPopup()
+		useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
+		useIntOnRefPopup.title = useIntOnRefPopupTitle
+		closeButton = ActionPopup.closePopupButton(text='close')
+		useIntOnRefPopup.use_in_world_layout.add_widget(useIntOnRefPopup)
+		useIntOnRefPopup.open()
 
 
 class InspectPopup(ActionPopup):
