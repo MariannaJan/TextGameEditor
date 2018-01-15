@@ -18,7 +18,7 @@ class GameScreen(BasicScreen):
 		:param refName: name of the clicked reference from the markup text
 		:type refName: string
 		"""
-
+		print('useReference',self,type(self))
 		try:
 			clickedReference = ActiveReference(refName)
 		except:

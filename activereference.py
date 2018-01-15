@@ -6,7 +6,6 @@ from menuinterface import StorylineLabel
 from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
 from menuinterface import ScreenChanging
-from dataaccess import DataAccess
 from kivy.app import App
 
 from kivy.properties import StringProperty
@@ -46,9 +45,6 @@ class ActiveReference:
 				insPop.open()
 			except Exception as e:
 				print(e)
-
-
-
 
 	def interactWithReference(self):
 		"""Open interact popup for the chosen reference."""
@@ -140,7 +136,6 @@ class ActiveReference:
 		DataAccessAPI.setCurrentPageNo(pageName)
 		refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
 		refTextLabel.changeCurrentPage()
-		print(App.get_running_app().root.children[0].children[0].ids['reference_text_label'])
 
 	def useInventoryItemOnReference(self,refName):
 		itemID = self.objectFormInventory
@@ -186,7 +181,9 @@ class RefernceTakenPopup(ActionPopup):
 
 	@staticmethod
 	def goToInventory():
+		App.get_running_app().root.children[0].current_screen.clickInventory()
 		ScreenChanging.goToScreen('inventoryscreen')
+
 
 class UseItemInWorldPopup(ActionPopup):
 	pass
