@@ -33,13 +33,16 @@ class GameScreen(BasicScreen):
 				'inf': self.clickInterface
 			}
 
-			try:
-				possibleUses.get(useFlag,partial(print,'No action selected'))()
-			except:
-				print("Lack of data for the chosen reference in references dictionary",useFlag)
-			finally:
-				self.referenceTextLabel.flag= ""
-
+			possibleUses.get(useFlag, partial(print, 'No action selected'))()
+			self.referenceTextLabel.flag = ""
+			'''
+						try:
+							possibleUses.get(useFlag,partial(print,'No action selected'))()
+						except:
+							print("Lack of data for the chosen reference in references dictionary",useFlag)
+						finally:
+							self.referenceTextLabel.flag= ""
+			'''
 
 	def clickInspect(self):
 		"""Set the chosen action for reference to inspect."""

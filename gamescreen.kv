@@ -136,9 +136,18 @@
         id: use_in_world_layout
 
 		
-			
-	
-		
+<NoInteractionsPopup>
+    noInteractionsPopup: no_interactions_popup
+
+    MenuBoxLayout:
+        id: no_interactions_popup
+
+        CustomLabel:
+            text: 'Nothing to do!'
+
+	    MenuButton:
+	        text: 'Close'
+		    on_press: root.dismiss()
 				
 		
 		

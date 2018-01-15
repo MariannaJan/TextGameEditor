@@ -34,11 +34,21 @@ class ActiveReference:
 		
 	def open_inspect_popup(self):
 		"""Create inspect popup for the chosen reference."""
+		try:
+			inspectTitle = ''.join(('Inspecting ',self.activeReferenceName))
 
-		inspectTitle = ''.join(('Inspecting ',self.activeReferenceName))
-		insPop=InspectPopup(title=inspectTitle)
-		insPop.referenceDescription.text = DataAccessAPI.getReferenceDescription(self, self.refName)
-		insPop.open()	
+		except Exception as e:
+			print(e)
+		else:
+			insPop = InspectPopup(title=inspectTitle)
+			try:
+				insPop.referenceDescription.text = DataAccessAPI.getReferenceDescription(self, self.refName)
+				insPop.open()
+			except Exception as e:
+				print(e)
+
+
+
 
 	def interactWithReference(self):
 		"""Open interact popup for the chosen reference."""
@@ -51,21 +61,28 @@ class ActiveReference:
 	def open_interact_popup(self):
 		"""Create interact popup for the chosen reference with buttons according to the available interactions for the reference."""
 
-
-		interactTitle = ''.join(('Interacting with ',self.activeReferenceName))
-		intPop=InteractPopup(title=interactTitle)
-		print(self.activeReferenceInteractions.keys())
-		if self.activeReferenceInteractions == {}:
-			noInteractionInfo = StorylineLabel()
-			noInteractionInfo.text="I can't do anything with that"
-			intPop.interactPopupLayout.add_widget(noInteractionInfo)
-			intPop.open()
+		try:
+			interactTitle = ''.join(('Interacting with ',self.activeReferenceName))
+		except Exception as e:
+			print(e)
+			ActiveReference.open_no_interactions_popup(self)
 		else:
-			self.interactButtonsGeneration(intPop)
-		closeButton = ActionPopup.closePopupButton(intPop)
-		closeButton.size_hint_y = 0.3
-		intPop.interactPopupLayout.add_widget(closeButton)
-		intPop.open()
+			try:
+				if self.activeReferenceInteractions == {}:
+					ActiveReference.open_no_interactions_popup(self,title=interactTitle)
+					print('no interactions')
+
+				else:
+					print(self.activeReferenceInteractions)
+					intPop = InteractPopup(title=interactTitle)
+					self.interactButtonsGeneration(intPop)
+					closeButton = ActionPopup.closePopupButton(intPop)
+					closeButton.size_hint_y = 0.3
+					intPop.interactPopupLayout.add_widget(closeButton)
+					intPop.open()
+			except Exception as e:
+				print(str(e))
+
 
 	def interactButtonsGeneration(self,intPop):
 		"""Generate interaction buttons according to interactions available for the chosen reference.
@@ -133,14 +150,22 @@ class ActiveReference:
 		useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
 		useIntOnRefPopup.title = useIntOnRefPopupTitle
 		useEffectDescription = StorylineLabel()
-		useEffectDescriptionText = description[refName][1]
-		useEffectDescription.text = useEffectDescriptionText
-		closeButton = ActionPopup.closePopupButton(useIntOnRefPopup)
-		closeButton.size_hint = (1, 0.3)
-		useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
-		useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
-		useIntOnRefPopup.open()
+		try:
+			useEffectDescriptionText = description[refName][1]
+		except Exception as e:
+			print(e)
+			ActiveReference.open_no_interactions_popup(self)
+		else:
+			useEffectDescription.text = useEffectDescriptionText
+			closeButton = ActionPopup.closePopupButton(useIntOnRefPopup)
+			closeButton.size_hint = (1, 0.3)
+			useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
+			useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
+			useIntOnRefPopup.open()
 
+	def open_no_interactions_popup(self,title=''):
+		noInterPop = NoInteractionsPopup(title = title)
+		noInterPop.open()
 
 class InspectPopup(ActionPopup):
 	"""Setup popup for inspecting a reference. Details in gamescreen.kv file."""
@@ -164,6 +189,9 @@ class RefernceTakenPopup(ActionPopup):
 		ScreenChanging.goToScreen('inventoryscreen')
 
 class UseItemInWorldPopup(ActionPopup):
+	pass
+
+class NoInteractionsPopup(ActionPopup):
 	pass
 
 class ReferenceTextLabel(StorylineLabel):
