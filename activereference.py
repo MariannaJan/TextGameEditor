@@ -1,6 +1,7 @@
 """Classes for dealing with the active references from the markup text in game."""
 
 from functools import partial
+from random import *
 from menuinterface import MenuButton
 from menuinterface import StorylineLabel
 from menuinterface import ActionPopup
@@ -189,7 +190,15 @@ class UseItemInWorldPopup(ActionPopup):
 	pass
 
 class NoInteractionsPopup(ActionPopup):
-	pass
+
+	def randomNoInteractionsInfo(self):
+		noInteractionsTexts = (['Nothing to do!',
+								'I cannot do anything with that.',
+								'I have no idea what to do with that...',
+								'Really..?'])
+		noInteractionsText = choice(noInteractionsTexts)
+		return noInteractionsText
+
 
 class ReferenceTextLabel(StorylineLabel):
 

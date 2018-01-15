@@ -143,12 +143,16 @@
     MenuBoxLayout:
         id: no_interactions_popup
 
-        CustomLabel:
-            text: 'Nothing to do!'
+        StorylineLabel:
+            text: root.randomNoInteractionsInfo()
+            valign: 'center'
+            halign: 'center'
+            font_size: self.height * 0.1
 
 	    MenuButton:
 	        text: 'Close'
 		    on_press: root.dismiss()
+		    size_hint_y: 0.3
 				
 		
 		
