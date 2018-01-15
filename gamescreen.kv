@@ -2,11 +2,10 @@
 
 <GameScreen>
 	name: "gamescreen"
-	on_enter:
-	    pageNo=app.startingPage
-	    root.setStoryline(pageNo)
-
 	referenceTextLabel: reference_text_label
+
+	on_enter:
+	    reference_text_label.changeCurrentPage()
 
 	MainMenuButton:
 		pos_hint:{'x': .8, 'y': 0}
@@ -40,13 +39,14 @@
 				text: "Interface"
 				on_release: root.clickInterface()
 				
-	StorylineLabel:
+	ReferenceTextLabel:
 		 
 		id: reference_text_label
 		flag: None
 		pos_hint: {'x': 0, 'y': .2}
 		size_hint: .8,.8
 		on_ref_press:  root.useReference(refName = args[1])
+		text: self.currentPage
 
 	MenuBoxLayout:
 	    orientation: "horizontal"

@@ -1,27 +1,14 @@
 """Create screen for the core gamplay."""
 from functools import partial
 
-from kivy.properties import ObjectProperty
-from kivy.properties import NumericProperty
-
 from activereference import ActiveReference
 from dataaccessapi import DataAccessAPI
 from menuinterface import BasicScreen
-from menuinterface import CustomSlider
+
 
 
 class GameScreen(BasicScreen):
 	"""Setup core gameplay screen. Details in kv file."""
-
-	referenceTextLabel = ObjectProperty(None)
-
-	def setStoryline(self,pageNo):
-		"""Set the text displayed in gamescreen according to the current page ID.
-
-		:param str pageNo: ID of the current page to be displayed on the core gamescreen
-		"""
-
-		self.referenceTextLabel.text = DataAccessAPI.getReferenceStorylineText(self,pageNo)
 
 	def useReference(self, refName, **kwargs):
 		"""Enable choosing of action for the chosen reference. Recognise clicked reference.
@@ -76,7 +63,7 @@ class GameScreen(BasicScreen):
 
 		self.referenceTextLabel.flag = 'inf'
 		print (self.referenceTextLabel.flag)
-		print('Opening interface screen')	
+		print('Opening interface screen',type(self))
 		
 
 

@@ -38,11 +38,12 @@ class MainMenuScreen(BasicScreen):
 			self.backgroundSound.stop()
 		except:
 			print("no audio file to be stopped")
-
-	@classmethod
-	def setupPageNo(cls):
-		pageNo = DataAccessAPI.getCurrentPageNo()
-		return pageNo
+		'''
+			@classmethod
+			def setupPageNo(cls):
+				pageNo = DataAccessAPI.getCurrentPageNo()
+				return pageNo
+		'''
 
 	def newGameConfirmationPopupOpen(self):
 		confirmPop = NewGameConfirmationPopup()

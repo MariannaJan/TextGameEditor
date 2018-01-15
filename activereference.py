@@ -7,8 +7,9 @@ from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
 from menuinterface import ScreenChanging
 from dataaccess import DataAccess
+from kivy.app import App
 
-
+from kivy.properties import StringProperty
 
 
 class ActiveReference:
@@ -90,7 +91,7 @@ class ActiveReference:
 		self.open_interact_result_popup(interaction, interactee)
 		if interaction == 'Take':
 			self.takeItem()
-			intPop.dismiss()
+		intPop.dismiss()
 
 
 	def open_interact_result_popup(self, interaction, interactee):
@@ -120,6 +121,9 @@ class ActiveReference:
 
 	def changeCurrentPage(self,pageName):
 		DataAccessAPI.setCurrentPageNo(pageName)
+		refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
+		refTextLabel.changeCurrentPage()
+		print(App.get_running_app().root.children[0].children[0].ids['reference_text_label'])
 
 	def useInventoryItemOnReference(self,refName):
 		itemID = self.objectFormInventory
@@ -161,3 +165,14 @@ class RefernceTakenPopup(ActionPopup):
 
 class UseItemInWorldPopup(ActionPopup):
 	pass
+
+class ReferenceTextLabel(StorylineLabel):
+
+	currentPage = StringProperty('')
+
+	def changeCurrentPage(self):
+		pageNo = DataAccessAPI.getCurrentPageNo()
+		self.currentPage = DataAccessAPI.getReferenceStorylineText(self,pageNo)
+
+	def on_currentPage(self,*args):
+		print('page change')

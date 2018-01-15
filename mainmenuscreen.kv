@@ -15,13 +15,11 @@
 		    id: new_game
 			text: "New Game"
 			on_release:
-			    app.startingPage = 'page1'
 			    root.newGameConfirmationPopupOpen()
 
 		MenuButton:
 			text: "Continue"
 			on_release:
-				app.startingPage = root.setupPageNo()
 			    root.manager.current = "gamescreen"
 
 		MenuButton:
