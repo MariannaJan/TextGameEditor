@@ -325,7 +325,7 @@ class DataAccess:
 
         :param str itemIDs: IDs of items currently in inventory
         :return: names and descriptions of items currently in inventory
-        :rtype: dict [str,str]
+        :rtype: dict [str,tuple(str,str)]
         """
         itemFeatures = {}
         base = DataAccess(DataAccess.getChosenStoryDatabase())

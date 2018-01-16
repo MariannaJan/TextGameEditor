@@ -134,7 +134,7 @@ class DataAccessAPI:
         """Get the dictionary of items currently in inventory with their descriptions.
 
         :return: gictionary of items currently in inventory with their descriptions
-        :rtype: dict [str,str]
+        :rtype: dict [str,tuple(str,str)]
         """
         inventoryItems = DA.getItemFeatures(itemIDs=DA.getInventoryContentIds())
         return inventoryItems

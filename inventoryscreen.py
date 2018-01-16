@@ -46,7 +46,6 @@ class InventoryScreen(BasicScreen):
         :param layout: Kivy layout to which the buttons are to be added.
         """
         for buttonName in buttonNames:
-            print(buttonNames)
             buttonTitle = buttonName
             button = InventoryItemButton(font_size=10)
             button.text = buttonTitle
@@ -68,6 +67,7 @@ class InventoryScreen(BasicScreen):
         useInWorldButton.bind(on_press = partial(InventoryScreen.useInWorld,itemID=itemDescription[1],popupToClose = inventoryPop))
         useInInventoryButton = InventoryItemPopupButton()
         useInInventoryButton.text = 'Use on item in inventory'
+        useInInventoryButton.bind(on_press = partial(InventoryScreen.useInInventory,itemID = itemDescription[1],popupToClose = inventoryPop))
         closeButton = ActionPopup.closePopupButton(inventoryPop)
         closeButton.size_hint_y = 0.2
         inventoryPop.inventoryItemLayout.add_widget(StorylineLabel(text=itemDescription[0]))
@@ -81,6 +81,24 @@ class InventoryScreen(BasicScreen):
         App.get_running_app().root.children[0].current = 'gamescreen'
         currentPopup = popupToClose
         currentPopup.dismiss()
+
+    def useInInventory(self,itemID,popupToClose):
+        currentPopup = popupToClose
+        currentPopup.dismiss()
+        useItemOnItemPopup = UseItemOnItemPopup(title = itemID)
+
+        usableItems = {k:v for (k,v) in DataAccessAPI.getInventoryItems().items() if v[1]!= itemID}
+        if not usableItems:
+            useItemOnItemPopup.useItemOnItemLayout.add_widget(CustomLabel(text='Sorry'))
+        else:
+            for usableItem in usableItems:
+                itemButton = MenuButton()
+                itemButton.text = usableItem
+                useItemOnItemPopup.useItemOnItemLayout.add_widget(itemButton)
+        closeButton = ActionPopup.closePopupButton(useItemOnItemPopup)
+        closeButton.size_hint_y = 0.2
+        useItemOnItemPopup.useItemOnItemLayout.add_widget(closeButton)
+        useItemOnItemPopup.open()
 
 
 class InventoryTitle(CustomLabel):
@@ -116,6 +134,7 @@ class InventoryItemPopupButton(MenuButton):
         super(InventoryItemPopupButton,self).__init__()
         self.font_size = self.font_size*0.5
 
-
+class UseItemOnItemPopup(ActionPopup):
+    pass
 
 
