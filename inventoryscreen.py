@@ -94,11 +94,17 @@ class InventoryScreen(BasicScreen):
             for usableItem in usableItems:
                 itemButton = MenuButton()
                 itemButton.text = usableItem
+                itemButton.bind(on_press=partial(InventoryScreen.useItemOnItem,itemID = itemID,targetItemID=usableItems[usableItem][1]))
                 useItemOnItemPopup.useItemOnItemLayout.add_widget(itemButton)
         closeButton = ActionPopup.closePopupButton(useItemOnItemPopup)
         closeButton.size_hint_y = 0.2
         useItemOnItemPopup.useItemOnItemLayout.add_widget(closeButton)
         useItemOnItemPopup.open()
+
+    def useItemOnItem(self,itemID,targetItemID):
+        useItemOnItemResultPopup = ActionPopup()
+        useItemOnItemResultPopup.title = ''.join([itemID,targetItemID])
+        useItemOnItemResultPopup.open()
 
 
 class InventoryTitle(CustomLabel):
