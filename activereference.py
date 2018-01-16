@@ -126,14 +126,14 @@ class ActiveReference:
 		closeButton.size_hint = (1,0.3)
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()
-		self.changeCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
+		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
 
 	def takeItem(self):
 
 		DataAccessAPI.addItemToInventoryByReference(self.refName)
 		DataAccessAPI.markReferenceAsTaken(self.refName)
 
-	def changeCurrentPage(self,pageName):
+	def switchCurrentPage(self,pageName):
 		DataAccessAPI.setCurrentPageNo(pageName)
 		refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
 		refTextLabel.changeCurrentPage()
@@ -158,6 +158,12 @@ class ActiveReference:
 			useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
 			useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
 			useIntOnRefPopup.open()
+			print(description[refName][10])
+			if description[refName][10] == 'True':
+				DataAccessAPI.removeUsedItemFromInventory(itemID)
+
+
+
 
 	def open_no_interactions_popup(self,title=''):
 		noInterPop = NoInteractionsPopup(title = title)

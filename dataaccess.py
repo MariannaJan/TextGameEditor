@@ -434,6 +434,11 @@ class DataAccess:
         base._query('delete from Inventory;')
 
     @classmethod
+    def deleteUsedItemFromInventory(cls,ItemID):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from Inventory where InventoryItem = (?);',(ItemID,))
+
+    @classmethod
     def addItemToInventory(cls,itemID):
         base = DataAccess(DataAccess.engineDatabase)
         base._query('insert into Inventory values (?);',(itemID,))
@@ -467,7 +472,7 @@ class DataAccess:
         base = DataAccess(DataAccess.getChosenStoryDatabase())
         c = base._query('select * from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
         useInWorldData = {}
-        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked in c.fetchall():
-            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked)
+        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked, RemoveFromInventoryFlag in c.fetchall():
+            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked, RemoveFromInventoryFlag)
 
         return useInWorldData
