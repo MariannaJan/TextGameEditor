@@ -161,7 +161,7 @@ class ActiveReference:
 			self.switchCurrentPage(pageName=itemFeatures[6])
 			removeFromInvenoryFlag = itemFeatures[10]
 			if removeFromInvenoryFlag.lower() == 'true':
-				DataAccessAPI.removeUsedItemFromInventory(self,itemID)
+				DataAccessAPI.removeUsedItemFromInventory(itemID)
 
 
 
