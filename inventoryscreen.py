@@ -89,7 +89,7 @@ class InventoryScreen(BasicScreen):
 
         usableItems = {k:v for (k,v) in DataAccessAPI.getInventoryItems().items() if v[1]!= itemID}
         if not usableItems:
-            useItemOnItemPopup.useItemOnItemLayout.add_widget(CustomLabel(text='Sorry'))
+            useItemOnItemPopup.useItemOnItemLayout.add_widget(EmptyInventoryLabel(text='No other object in the inventory.'))
         else:
             for usableItem in usableItems:
                 itemButton = MenuButton()
