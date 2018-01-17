@@ -228,3 +228,8 @@ class DataAccessAPI:
     def getInfoOnItemUseInWorld(cls,refName,itemID):
         infoOnItemUseInWorld = DA.getDataOnItemUseInWorld(refName,itemID)
         return infoOnItemUseInWorld
+
+    @classmethod
+    def getInfoOnItemUseOnItem(cls,itemID_1,itemID_2):
+        InfoOnItemUseOnItem = DA.getDataOnItemUseOnItem(itemID_1,itemID_2)
+        return InfoOnItemUseOnItem

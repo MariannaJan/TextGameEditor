@@ -62,11 +62,11 @@ class ActiveReference:
 			interactTitle = ''.join(('Interacting with ',self.activeReferenceName))
 		except Exception as e:
 			print(e)
-			ActiveReference.open_no_interactions_popup(self)
+			ActiveReference.open_no_interactions_popup()
 		else:
 			try:
 				if self.activeReferenceInteractions == {}:
-					ActiveReference.open_no_interactions_popup(self,title=interactTitle)
+					ActiveReference.open_no_interactions_popup(title=interactTitle)
 					print('no interactions')
 
 				else:
@@ -146,7 +146,7 @@ class ActiveReference:
 			useEffectDescriptionText = itemFeatures[1]
 		except Exception as e:
 			print(str(e))
-			ActiveReference.open_no_interactions_popup(self)
+			ActiveReference.open_no_interactions_popup()
 		else:
 			useIntOnRefPopup = UseItemInWorldPopup()
 			useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
@@ -162,8 +162,8 @@ class ActiveReference:
 			removeFromInvenoryFlag = itemFeatures[10]
 			if removeFromInvenoryFlag.lower() == 'true':
 				DataAccessAPI.removeUsedItemFromInventory(itemID)
-
-	def open_no_interactions_popup(self,title=''):
+	@classmethod
+	def open_no_interactions_popup(cls,title=''):
 		noInterPop = NoInteractionsPopup(title = title)
 		noInterPop.open()
 

@@ -465,9 +465,18 @@ class DataAccess:
     @classmethod
     def getDataOnItemUseInWorld(cls,refName,itemID):
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        c = base._query('select * from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
+        c = base._query('select ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked, RemoveFromInventoryFlag from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
         useInWorldData = {}
         for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked, RemoveFromInventoryFlag in c.fetchall():
             useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, MapNo, OptionalJpurnalEntry, PagesLocked, RemoveFromInventoryFlag)
 
         return useInWorldData
+
+    @classmethod
+    def getDataOnItemUseOnItem(cls,itemID1,itemID2):
+        base = DataAccess(DataAccess.getChosenStoryDatabase())
+        c = base._query('select itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,MapNo,OptionalJournalEntry,PagesLocked from InventoryItemsMatch where (ItemID_1 = (?) and ItemID_2 = (?)) or (ItemID_1 = (?) and ItemID_2 = (?));',(itemID1,itemID2,itemID2,itemID1))
+        useItemOnItemData = []
+        for itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,MapNo,OptionalJournalEntry,PagesLocked in c.fetchall():
+            useItemOnItemData = [itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,MapNo,OptionalJournalEntry,PagesLocked]
+        return useItemOnItemData

@@ -94,17 +94,30 @@ class InventoryScreen(BasicScreen):
             for usableItem in usableItems:
                 itemButton = MenuButton()
                 itemButton.text = usableItem
-                itemButton.bind(on_press=partial(InventoryScreen.useItemOnItem,itemID = itemID,targetItemID=usableItems[usableItem][1]))
+                itemButton.bind(on_press=partial(InventoryScreen.useItemOnItem,itemID = itemID,targetItemID=usableItems[usableItem][1],popupToClose=useItemOnItemPopup))
                 useItemOnItemPopup.useItemOnItemLayout.add_widget(itemButton)
         closeButton = ActionPopup.closePopupButton(useItemOnItemPopup)
         closeButton.size_hint_y = 0.2
         useItemOnItemPopup.useItemOnItemLayout.add_widget(closeButton)
         useItemOnItemPopup.open()
 
-    def useItemOnItem(self,itemID,targetItemID):
-        useItemOnItemResultPopup = ActionPopup()
-        useItemOnItemResultPopup.title = ''.join([itemID,targetItemID])
-        useItemOnItemResultPopup.open()
+    def useItemOnItem(self,itemID,targetItemID,popupToClose):
+        currentPopup = popupToClose
+        currentPopup.dismiss()
+        try:
+            infoOnItemUse = DataAccessAPI.getInfoOnItemUseOnItem(itemID,targetItemID)
+            resultDescription = infoOnItemUse[3]
+        except Exception as e:
+            print(e)
+            ActiveReference.open_no_interactions_popup()
+        else:
+            useItemOnItemResultPopup = UseItemOnItemResultPopup()
+            useItemOnItemResultPopup.title = ' '.join(['Use', itemID, 'on', targetItemID])
+            closeButton = ActionPopup.closePopupButton(useItemOnItemResultPopup)
+            closeButton.size_hint_y = 0.2
+            useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
+            useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
+            useItemOnItemResultPopup.open()
 
 
 class InventoryTitle(CustomLabel):
@@ -141,6 +154,9 @@ class InventoryItemPopupButton(MenuButton):
         self.font_size = self.font_size*0.5
 
 class UseItemOnItemPopup(ActionPopup):
+    pass
+
+class UseItemOnItemResultPopup(ActionPopup):
     pass
 
 
