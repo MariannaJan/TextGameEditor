@@ -123,14 +123,14 @@ class DataAccess:
 
         :param refName: name of ther clicked reference from markup
         :type refName: string
-        :return: {string interaction name : tuple(string page ID,string map ID, int empathy, int sanity,string description,optional string journal entry)}
-        :rtype: dict [str,tuple(string,string,int,int,string,string)]
+        :return: {string interaction name : tuple(string page ID,string map ID, int empathy, int sanity,string description,string optional journal entry, string object ID if the object is to be taken)}
+        :rtype: dict [str,tuple(string,string,int,int,string,string,string)]
         """
         activeObjectInteractions = {}
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
-        for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked in c.fetchall():
-            activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked)
+        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
+        for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID in c.fetchall():
+            activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID)
         return activeObjectInteractions
 
     def getStorylinePageText(self, pageNo):
@@ -442,11 +442,6 @@ class DataAccess:
     def addItemToInventory(cls,itemID):
         base = DataAccess(DataAccess.engineDatabase)
         base._query('insert into Inventory values (?);',(itemID,))
-
-    @classmethod
-    def getItemIDbyReference(cls,refName):
-        itemID = cls._getSingleString(cls, DataAccess.getChosenStoryDatabase(), 'select ItemID from TakeItemMatch where Reference = (?)',(refName,))
-        return itemID
 
     @classmethod
     def getTakenReferences(cls):

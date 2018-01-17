@@ -201,10 +201,10 @@ class DataAccessAPI:
         DA.deleteItemsFromInventory()
 
     @classmethod
-    def addItemToInventoryByReference(cls,refName):
-        DA.addItemToInventory(itemID=DA.getItemIDbyReference(refName))
+    def putItemInInventory(cls,itemID):
+        DA.addItemToInventory(itemID)
 
-    classmethod
+    @classmethod
     def removeUsedItemFromInventory(cls,ItemID):
         DA.deleteUsedItemFromInventory(ItemID)
 

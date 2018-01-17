@@ -103,8 +103,10 @@ class ActiveReference:
 		"""
 		intPop = intPop
 		self.open_interact_result_popup(interaction, interactee)
-		if interaction == 'Take':
-			self.takeItem()
+		takenItem = self.activeReferenceInteractions[interaction][9]
+		if takenItem is not None:
+		#if interaction == 'Take':
+			self.takeItem(takenItemID=takenItem)
 		intPop.dismiss()
 
 
@@ -128,9 +130,8 @@ class ActiveReference:
 		intResPop.open()
 		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
 
-	def takeItem(self):
-
-		DataAccessAPI.addItemToInventoryByReference(self.refName)
+	def takeItem(self,takenItemID):
+		DataAccessAPI.putItemInInventory(takenItemID)
 		DataAccessAPI.markReferenceAsTaken(self.refName)
 
 	def switchCurrentPage(self,pageName):
