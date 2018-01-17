@@ -141,17 +141,17 @@ class ActiveReference:
 
 	def useInventoryItemOnReference(self,refName):
 		itemID = self.objectFormInventory
-		itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[refName]
-		useIntOnRefPopup = UseItemInWorldPopup()
-		useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
-		useIntOnRefPopup.title = useIntOnRefPopupTitle
-		useEffectDescription = StorylineLabel()
 		try:
+			itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[refName]
 			useEffectDescriptionText = itemFeatures[1]
 		except Exception as e:
-			print(e)
+			print(str(e))
 			ActiveReference.open_no_interactions_popup(self)
 		else:
+			useIntOnRefPopup = UseItemInWorldPopup()
+			useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
+			useIntOnRefPopup.title = useIntOnRefPopupTitle
+			useEffectDescription = StorylineLabel()
 			useEffectDescription.text = useEffectDescriptionText
 			closeButton = ActionPopup.closePopupButton(useIntOnRefPopup)
 			closeButton.size_hint = (1, 0.3)
@@ -162,9 +162,6 @@ class ActiveReference:
 			removeFromInvenoryFlag = itemFeatures[10]
 			if removeFromInvenoryFlag.lower() == 'true':
 				DataAccessAPI.removeUsedItemFromInventory(itemID)
-
-
-
 
 	def open_no_interactions_popup(self,title=''):
 		noInterPop = NoInteractionsPopup(title = title)
