@@ -111,6 +111,7 @@ class InventoryScreen(BasicScreen):
             print(e)
             ActiveReference.open_no_interactions_popup()
         else:
+
             useItemOnItemResultPopup = UseItemOnItemResultPopup()
             useItemOnItemResultPopup.title = ' '.join(['Use', itemID, 'on', targetItemID])
             closeButton = ActionPopup.closePopupButton(useItemOnItemResultPopup)
@@ -118,7 +119,12 @@ class InventoryScreen(BasicScreen):
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
             useItemOnItemResultPopup.open()
-
+            createdItem = infoOnItemUse[2]
+            DataAccessAPI.putItemInInventory(createdItem)
+            DataAccessAPI.removeUsedItemFromInventory(itemID)
+            DataAccessAPI.removeUsedItemFromInventory(targetItemID)
+            App.get_running_app().root.children[0].current_screen.on_leave()
+            App.get_running_app().root.children[0].current_screen.on_enter()
 
 class InventoryTitle(CustomLabel):
     """Setup title label for the Inventory screen. Details in inventoryscreen.kv file"""
