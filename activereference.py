@@ -14,7 +14,7 @@ from kivy.properties import StringProperty
 
 class ActiveReference:
 	"""Provide methods for interacting with active references from the markup text in game."""
-	objectFormInventory = ''
+	objectFromInventory = ''
 
 	def __init__(self,refName):
 		"""Setup basic variables according to the name of chosen reference."""
@@ -140,10 +140,13 @@ class ActiveReference:
 		refTextLabel.changeCurrentPage()
 
 	def useInventoryItemOnReference(self,refName):
-		itemID = self.objectFormInventory
+		itemID = self.objectFromInventory
+		print('useInventoryItemOnReference',itemID)
+		print(DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID))
 		try:
-			itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[refName]
+			itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[itemID]
 			useEffectDescriptionText = itemFeatures[1]
+			print(useEffectDescriptionText)
 		except Exception as e:
 			print(str(e))
 			ActiveReference.open_no_interactions_popup()

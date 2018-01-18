@@ -77,7 +77,8 @@ class InventoryScreen(BasicScreen):
         inventoryPop.open()
 
     def useInWorld(self,itemID,popupToClose):
-        ActiveReference.objectFormInventory = itemID
+        ActiveReference.objectFromInventory = itemID
+        print('useInWEorld',itemID)
         App.get_running_app().root.children[0].current = 'gamescreen'
         currentPopup = popupToClose
         currentPopup.dismiss()
@@ -120,11 +121,15 @@ class InventoryScreen(BasicScreen):
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
             useItemOnItemResultPopup.open()
             createdItem = infoOnItemUse[2]
-            DataAccessAPI.putItemInInventory(createdItem)
-            DataAccessAPI.removeUsedItemFromInventory(itemID)
-            DataAccessAPI.removeUsedItemFromInventory(targetItemID)
-            App.get_running_app().root.children[0].current_screen.on_leave()
-            App.get_running_app().root.children[0].current_screen.on_enter()
+            InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
+
+    @classmethod
+    def inventoryItemsUpdate(cls,createdItem,itemID,targetItemID):
+        DataAccessAPI.putItemInInventory(createdItem)
+        DataAccessAPI.removeUsedItemFromInventory(itemID)
+        DataAccessAPI.removeUsedItemFromInventory(targetItemID)
+        App.get_running_app().root.children[0].current_screen.on_leave()
+        App.get_running_app().root.children[0].current_screen.on_enter()
 
 class InventoryTitle(CustomLabel):
     """Setup title label for the Inventory screen. Details in inventoryscreen.kv file"""
