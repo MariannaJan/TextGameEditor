@@ -7,9 +7,15 @@ from menuinterface import ScreenChanging
 class JournalScreen(BasicScreen):
 
     def on_enter(self):
-        self.journalScreenLayout.add_widget(CustomLabel(text='Journal',halign='center',valign='center'))
-        self.journalScreenLayout.add_widget(MenuButton(text = 'lol'))
-        self.journalScreenLayout.add_widget(MenuButton(text='Close',on_press = partial(ScreenChanging.goToScreen,'gamescreen')))
+        journalTitle=CustomLabel(text='Journal',halign='center',valign='center')
+        journalTitle.size_hint_y=0.2
+        self.journalScreenLayout.add_widget(journalTitle)
+        journalEntries = ['first','second','third']
+        journalContent = ('\n'.join(journalEntries))
+        self.journalScreenLayout.add_widget(MenuButton(text = journalContent))
+        closeButton = MenuButton(text='Close',on_press = partial(ScreenChanging.goToScreen,'gamescreen'))
+        closeButton.size_hint_y=0.2
+        self.journalScreenLayout.add_widget(closeButton)
 
 
 
