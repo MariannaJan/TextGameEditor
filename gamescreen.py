@@ -4,6 +4,8 @@ from functools import partial
 from activereference import ActiveReference
 from dataaccessapi import DataAccessAPI
 from menuinterface import BasicScreen
+from menuinterface import ActionPopup
+from menuinterface import ScreenChanging
 
 
 
@@ -67,6 +69,9 @@ class GameScreen(BasicScreen):
 		self.referenceTextLabel.flag = 'inf'
 		print (self.referenceTextLabel.flag)
 		print('Opening interface screen',type(self))
+
+		openInterfacePopup = OpenInterfacePopup(title = 'Interface')
+		openInterfacePopup.open()
 		
 
 
@@ -75,3 +80,12 @@ class GameScreen(BasicScreen):
 #	currentEmpathyValue = NumericProperty(0)
 #	currentEmpathyValue = DataAccessAPI.getCurrentEmpathyValue()
 
+class OpenInterfacePopup(ActionPopup):
+
+	def goToAvailableLocations(self):
+		ScreenChanging.goToScreen('availablelocationsscreen')
+		self.dismiss()
+
+	def goToJournal(self):
+		ScreenChanging.goToScreen('journalscreen')
+		self.dismiss()

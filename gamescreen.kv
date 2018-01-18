@@ -154,6 +154,24 @@
 		    on_press: root.dismiss()
 		    size_hint_y: 0.3
 				
-		
+<OpenInterfacePopup>
+
+    openInterfacePopupLayout: open_interface_popup_use_in_world_layout
+
+    MenuBoxLayout:
+        id: open_interface_popup_use_in_world_layout
+
+        MenuButton:
+            text: 'Available Locations'
+            on_press:
+                root.goToAvailableLocations()
+
+        MenuButton:
+            text: 'Journal'
+            on_press: root.goToJournal()
+
+        MenuButton:
+            text: 'Close'
+            on_press: root.dismiss()
 		
 		

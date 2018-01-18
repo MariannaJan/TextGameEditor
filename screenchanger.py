@@ -8,6 +8,10 @@ from gamescreen import GameScreen
 from optionsscreen import OptionsScreen
 # noinspection PyUnresolvedReferences
 from inventoryscreen import InventoryScreen
+# noinspection PyUnresolvedReferences
+from journalscreen import JournalScreen
+# noinspection PyUnresolvedReferences
+from availablelocatiosscreen import AvailableLocationsScreen
 
 
 class ScreenChanger(ScreenManager):
