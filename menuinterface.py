@@ -11,6 +11,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.slider import Slider
 from kivy.core.text import LabelBase
 from kivy.app import App
+from kivy.uix.scrollview import ScrollView
+from kivy.properties import StringProperty
 
 
 from kivy.core.window import Window
@@ -217,3 +219,7 @@ class ScreenChanging:
         screenManager = App.get_running_app().root.children[0]
         screenManager.current = screenName
         print(args)
+
+
+class ScrollableLabel(ScrollView):
+    text = StringProperty('')
