@@ -5,20 +5,17 @@ from kivy.properties import StringProperty
 
 from menuinterface import BasicScreen
 from menuinterface import CustomLabel
-from menuinterface import StorylineLabel
 from menuinterface import MenuButton
 from menuinterface import ScreenChanging
-
 from menuinterface import ScrollableLabel
+from dataaccessapi import DataAccessAPI
 
 class JournalScreen(BasicScreen):
-    #journalContent =StringProperty
 
     def on_enter(self):
 
-
-        journalEntries = ['first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','first','second','third','dagdgadfgad','end']
-        journalContent = ('\n'.join(journalEntries))
+        journalEntries = DataAccessAPI.getJournalContent()
+        journalContent = ('\n\n'.join(journalEntries))
         journalContentField = JournalContentField
         journalContentField.text = journalContent
         closeButton = MenuButton(text='Close')

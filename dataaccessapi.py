@@ -233,3 +233,23 @@ class DataAccessAPI:
     def getInfoOnItemUseOnItem(cls,itemID_1,itemID_2):
         InfoOnItemUseOnItem = DA.getDataOnItemUseOnItem(itemID_1,itemID_2)
         return InfoOnItemUseOnItem
+
+    @classmethod
+    def getJournalContent(cls):
+        journalContent = DA.getJournalEntries()
+        return journalContent
+
+    @classmethod
+    def addJournalEntry(cls,journalEntry):
+        currentEntries=DA.getJournalEntries()
+        if journalEntry != '' and journalEntry not in currentEntries:
+            DA.setJournalEntry(journalEntry)
+
+    @classmethod
+    def clearJournal(cls):
+        DA.removeEntriesFromJournal()
+
+    @classmethod
+    def getPageJournalEntry(cls,pageNo):
+        pageJournalEntry = DA.getStorylineMilestonJournal(pageNo)
+        return pageJournalEntry

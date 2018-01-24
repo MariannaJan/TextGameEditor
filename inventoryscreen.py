@@ -78,7 +78,6 @@ class InventoryScreen(BasicScreen):
 
     def useInWorld(self,itemID,popupToClose):
         ActiveReference.objectFromInventory = itemID
-        print('useInWEorld',itemID)
         App.get_running_app().root.children[0].current = 'gamescreen'
         currentPopup = popupToClose
         currentPopup.dismiss()
@@ -122,6 +121,8 @@ class InventoryScreen(BasicScreen):
             useItemOnItemResultPopup.open()
             createdItem = infoOnItemUse[2]
             InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
+            if infoOnItemUse[10] is not None:
+                DataAccessAPI.addJournalEntry(infoOnItemUse[10])
 
     @classmethod
     def inventoryItemsUpdate(cls,createdItem,itemID,targetItemID):

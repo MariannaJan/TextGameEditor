@@ -56,5 +56,6 @@ class NewGameConfirmationPopup(ActionPopup):
 		pageNo = DataAccessAPI.getNewGamePageNo()
 		DataAccessAPI.clearInventory()
 		DataAccessAPI.clearTakenReferences()
+		DataAccessAPI.clearJournal()
 		DataAccessAPI.setCurrentPageNo(pageNo)
 

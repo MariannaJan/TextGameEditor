@@ -67,10 +67,8 @@ class ActiveReference:
 			try:
 				if self.activeReferenceInteractions == {}:
 					ActiveReference.open_no_interactions_popup(title=interactTitle)
-					print('no interactions')
 
 				else:
-					print(self.activeReferenceInteractions)
 					intPop = InteractPopup(title=interactTitle)
 					self.interactButtonsGeneration(intPop)
 					closeButton = ActionPopup.closePopupButton(intPop)
@@ -105,7 +103,6 @@ class ActiveReference:
 		self.open_interact_result_popup(interaction, interactee)
 		takenItem = self.activeReferenceInteractions[interaction][9]
 		if takenItem is not None:
-		#if interaction == 'Take':
 			self.takeItem(takenItemID=takenItem)
 		intPop.dismiss()
 
@@ -129,6 +126,10 @@ class ActiveReference:
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()
 		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
+		if self.activeReferenceInteractions[interaction][5] is not None:
+			print(self.activeReferenceInteractions[interaction][5])
+			DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction][5])
+
 
 	def takeItem(self,takenItemID):
 		DataAccessAPI.putItemInInventory(takenItemID)
@@ -141,8 +142,6 @@ class ActiveReference:
 
 	def useInventoryItemOnReference(self,refName):
 		itemID = self.objectFromInventory
-		print('useInventoryItemOnReference',itemID)
-		print(DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID))
 		try:
 			itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[itemID]
 			useEffectDescriptionText = itemFeatures[1]
@@ -163,6 +162,9 @@ class ActiveReference:
 			useIntOnRefPopup.open()
 			self.switchCurrentPage(pageName=itemFeatures[6])
 			removeFromInvenoryFlag = itemFeatures[10]
+			journalEntry = itemFeatures[8]
+			if journalEntry is not None:
+				DataAccessAPI.addJournalEntry(journalEntry)
 			if removeFromInvenoryFlag.lower() == 'true':
 				DataAccessAPI.removeUsedItemFromInventory(itemID)
 	@classmethod
@@ -216,4 +218,8 @@ class ReferenceTextLabel(StorylineLabel):
 		self.currentPage = DataAccessAPI.getReferenceStorylineText(self,pageNo)
 
 	def on_currentPage(self,*args):
-		print('page change')
+
+		pageNo = DataAccessAPI.getCurrentPageNo()
+		journalEntry = DataAccessAPI.getPageJournalEntry(pageNo)
+		if journalEntry is not None:
+			DataAccessAPI.addJournalEntry(journalEntry)

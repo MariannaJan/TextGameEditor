@@ -144,7 +144,8 @@ class DataAccess:
         storylinePageText = DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select PageText from Storyline where pageNo = (?)", (pageNo,))
         return storylinePageText
 
-    def getStorylineMilestonJournal(self, pageNo):
+    @classmethod
+    def getStorylineMilestonJournal(cls, pageNo):
         """Retreive from database the text of the milestone juournal entry associated with the given page ID.
 
         :param pageNo: ID of the page
@@ -152,7 +153,7 @@ class DataAccess:
         :return: the text of the milestone juournal entry associated with the given page ID
         :rtype: string
         """
-        storylineMilestonJournal=DataAccess._getSingleString(self,DataAccess.getChosenStoryDatabase(), "select MilestoneJournalEntry from Storyline where pageNo = (?)", (pageNo,))
+        storylineMilestonJournal=DataAccess._getSingleString(cls,DataAccess.getChosenStoryDatabase(), "select MilestoneJournalEntry from Storyline where pageNo = (?)", (pageNo,))
         return storylineMilestonJournal
 
 
@@ -480,3 +481,24 @@ class DataAccess:
         for itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,MapNo,OptionalJournalEntry,PagesLocked in c.fetchall():
             useItemOnItemData = [itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,MapNo,OptionalJournalEntry,PagesLocked]
         return useItemOnItemData
+
+    @classmethod
+    def getJournalEntries(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        c = base._query('select JournalEntry from Journal;')
+        journlEntries = []
+        for JournalEntry in c.fetchall():
+            journlEntries.append(JournalEntry[0])
+        return journlEntries
+
+    @classmethod
+    def setJournalEntry(cls,journalEntry):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('insert into Journal values (?);',(journalEntry,))
+
+    @classmethod
+    def removeEntriesFromJournal(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from Journal;')
+
+
