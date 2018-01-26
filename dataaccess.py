@@ -522,3 +522,8 @@ class DataAccess:
         base = DataAccess(DataAccess.getChosenStoryDatabase())
         locationName = base._query('select mapNo from LocationNames where pageNo = (?)',(pageNo,))
         return locationName.fetchone()[0]
+
+    @classmethod
+    def removeAvailableLocations(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from AvailableLocations;')

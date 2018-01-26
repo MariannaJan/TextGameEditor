@@ -53,6 +53,7 @@ class NewGameConfirmationPopup(ActionPopup):
 
 	@classmethod
 	def startNewGame(cls):
+		DataAccessAPI.clearAvailablePlaces()
 		pageNo = DataAccessAPI.getNewGamePageNo()
 		DataAccessAPI.clearInventory()
 		DataAccessAPI.clearTakenReferences()
