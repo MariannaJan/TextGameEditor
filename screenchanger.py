@@ -12,6 +12,8 @@ from inventoryscreen import InventoryScreen
 from journalscreen import JournalScreen
 # noinspection PyUnresolvedReferences
 from availablelocatiosscreen import AvailableLocationsScreen
+# noinspection PyUnresolvedReferences
+from choosestoryscreen import ChooseStoryScreen
 
 
 class ScreenChanger(ScreenManager):

@@ -1,0 +1,21 @@
+#:kivy 1.10.0
+
+<ChooseStoryScreen>
+    name: 'choosestoryscreen'
+
+    MenuBoxLayout:
+
+        CustomLabel:
+            text: 'Available Stories'
+            valign: 'center'
+            halign: 'center'
+            size_hint_y: .2
+
+        MenuButton:
+            text: 'Empathy'
+            on_press: root.startStory()
+
+        MenuButton:
+            text: 'Close'
+            size_hint_y: .2
+            on_press: root.manager.current = "mainmenuscreen"
