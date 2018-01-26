@@ -1,4 +1,16 @@
 from menuinterface import BasicScreen
+from kivy.properties import ListProperty
+from menuinterface import CustomListItemButton
+from dataaccessapi import DataAccessAPI
 
 class AvailableLocationsScreen(BasicScreen):
-    pass
+
+    locations = ListProperty([])
+
+    def on_enter(self, *args):
+        places = DataAccessAPI.getPlaces()
+        self.locations = places.keys()
+
+
+
+

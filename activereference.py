@@ -223,3 +223,6 @@ class ReferenceTextLabel(StorylineLabel):
 		journalEntry = DataAccessAPI.getPageJournalEntry(pageNo)
 		if journalEntry is not None:
 			DataAccessAPI.addJournalEntry(journalEntry)
+
+		DataAccessAPI.addPlace(pageNo)
+

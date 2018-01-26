@@ -253,3 +253,14 @@ class DataAccessAPI:
     def getPageJournalEntry(cls,pageNo):
         pageJournalEntry = DA.getStorylineMilestonJournal(pageNo)
         return pageJournalEntry
+
+    @classmethod
+    def getPlaces(cls):
+        places = DA.getAvailableLocations()
+        return places
+
+    @classmethod
+    def addPlace(cls,pageNo):
+        currentPlaces = DA.getAvailableLocations().values()
+        if pageNo not in currentPlaces:
+            DA.addAvailableLocation(pageNo=pageNo,mapNo=DA.getLocationName(pageNo))

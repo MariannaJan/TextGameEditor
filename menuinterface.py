@@ -13,6 +13,8 @@ from kivy.core.text import LabelBase
 from kivy.app import App
 from kivy.uix.scrollview import ScrollView
 from kivy.properties import StringProperty
+from kivy.uix.listview import ListView
+from kivy.uix.listview import ListItemButton
 
 
 from kivy.core.window import Window
@@ -223,3 +225,26 @@ class ScreenChanging:
 
 class ScrollableLabel(ScrollView):
     text = StringProperty('')
+
+class CustomListView(ListView):
+
+    def __init__(self,**kwargs):
+        """Set colors for the label. Rest in menuinterface.kv file."""
+        super(CustomListView,self).__init__(**kwargs)
+        with self.canvas.before:
+            Color(rgba=ThemeSettings.getCustomLayoutCanvasColor())
+
+class CustomListItemButton(ListItemButton):
+
+    def __init__(self,**kwargs):
+        super(CustomListItemButton, self).__init__(**kwargs)
+        self.color = ThemeSettings.getCustomButtonTextColor()
+        self.font_name = FontSettings.fontName
+        self.deselected_color = ThemeSettings.getCustomButtonBackgroundColor()
+        self.selected_color = ThemeSettings.getCustomButtonBackgroundColor()
+        self.background_color = ThemeSettings.getCustomButtonBackgroundColor()
+
+
+
+
+

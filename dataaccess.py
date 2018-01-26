@@ -501,4 +501,24 @@ class DataAccess:
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from Journal;')
 
+    @classmethod
+    def getAvailableLocations(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        c = base._query('select mapNo, pageNo from AvailableLocations;')
+        availableLocations = {}
+        for mapNo, pageNo in c.fetchall():
+            availableLocations[mapNo] = pageNo
+        return availableLocations
 
+    @classmethod
+    def addAvailableLocation(cls,pageNo,mapNo):
+        print(pageNo, mapNo)
+        base = DataAccess(DataAccess.engineDatabase)
+
+        base._query('insert into AvailableLocations (pageNo,mapNo) values (?,?);', (pageNo,mapNo))
+
+    @classmethod
+    def getLocationName(cls,pageNo):
+        base = DataAccess(DataAccess.getChosenStoryDatabase())
+        locationName = base._query('select mapNo from LocationNames where pageNo = (?)',(pageNo,))
+        return locationName.fetchone()[0]

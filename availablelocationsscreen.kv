@@ -1,9 +1,37 @@
 #:kivy 1.10.0
 
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
+#: import CustomListItemButton menuinterface.CustomListItemButton
+#: import LocationsButton locationsbutton.LocationsButton
+
 <AvailableLocationsScreen>
+
+    name: 'availablelocationsscreen'
 
     availableLocationsLayout: available_locations_layout
 
     MenuBoxLayout:
 
         id: available_locations_layout
+
+        CustomLabel:
+            text: 'Available Locations'
+            size_hint_y: .2
+            halign: 'center'
+            valign: 'center'
+
+        CustomListView:
+            size_hint_y: .8
+            adapter:
+                ListAdapter(data=root.locations,
+                selection_mode='single',
+                allow_empty_selection=False,
+                cls=LocationsButton)
+
+        MenuButton:
+		    text: "Close"
+		    size_hint_y: .15
+		    on_release:
+			    root.manager.current = "gamescreen"
+
+
