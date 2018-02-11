@@ -1,4 +1,5 @@
 #:kivy 1.10.0
+#: import GameStrings gamestrings.GameStrings
 
 <MainMenuScreen>
 
@@ -7,31 +8,31 @@
 	MenuBoxLayout:
 
 		CustomLabel:
-			text: "Main Menu"
+			text: GameStrings.mainmenutext
 			font_size: self.height*0.6
 			halign: 'center'
 		
 		MenuButton:
 		    id: new_game
-			text: "New Game"
+			text: GameStrings.newgametext
 			on_release:
 			    root.newGameConfirmationPopupOpen()
 
 		MenuButton:
-			text: "Continue"
+			text: GameStrings.continuetext
 			on_release:
 			    root.manager.current = "gamescreen"
 
 		MenuButton:
-			text: "Options"
+			text: GameStrings.optionstext
 			on_release: root.manager.current = "options"
 			
 		MenuButton:
-			text: "Choose Story"
+			text: GameStrings.choosestorytext
 			on_release: root.manager.current = "choosestoryscreen"
 
 		MenuButton:
-			text: "Quit"
+			text: GameStrings.quittext
 			on_release: app.get_running_app().stop()
 
 <NewGameConfirmationPopup>
@@ -40,7 +41,7 @@
     MenuBoxLayout:
 
         CustomLabel:
-            text: 'Do you want to start a new game? All progress will be lost!!!'
+            text: GameStrings.newgameconfirmtext
             font_size: self.height*.1
             halign: 'justify'
 	        valign: 'top'
@@ -50,11 +51,11 @@
             size_hint_y: .5
 
             MenuButton:
-                text: 'Yes'
+                text: GameStrings.yestext
                 on_press:
                     root.startNewGame()
                     root.dismiss()
                     app.root.children[0].current = "gamescreen"
             MenuButton:
-                text: 'No'
+                text: GameStrings.notext
                 on_press: root.dismiss()
