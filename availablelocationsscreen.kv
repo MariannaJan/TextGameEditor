@@ -1,8 +1,10 @@
 #:kivy 1.10.0
 
+#: import GameStrings gamestrings.GameStrings
 #: import ListAdapter kivy.adapters.listadapter.ListAdapter
 #: import CustomListItemButton menuinterface.CustomListItemButton
 #: import LocationsButton locationsbutton.LocationsButton
+
 
 <AvailableLocationsScreen>
 
@@ -15,7 +17,7 @@
         id: available_locations_layout
 
         CustomLabel:
-            text: 'Available Locations'
+            text: GameStrings.availablelocationstext
             size_hint_y: .2
             halign: 'center'
             valign: 'center'
@@ -29,7 +31,7 @@
                 cls=LocationsButton)
 
         MenuButton:
-		    text: "Close"
+		    text: GameStrings.closetext
 		    size_hint_y: .15
 		    on_release:
 			    root.manager.current = "gamescreen"

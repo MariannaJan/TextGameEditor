@@ -1,4 +1,5 @@
 #:kivy 1.10.0
+#: import GameStrings gamestrings.GameStrings
 
 <InventoryScreen>
     name: "inventoryscreen"
@@ -9,20 +10,20 @@
 
 <InventoryTitle>
 
-    text: 'Inventory'
+    text: GameStrings.inventorytext
 	halign: 'center'
 	valign: 'center'
 	size_hint_y: .3
 
 <EmptyInventoryLabel>
-    text: 'Empty!'
+    text: GameStrings.emptytext
     text_size: self.size
     halign: 'center'
 	valign: 'center'
 
 <InventoryCloseButton>
 	size_hint_y: .2
-	text: 'Close'
+	text: GameStrings.closetext
 	on_release: app.root.children[0].current = "gamescreen"
 
 <InventoryItemButton>

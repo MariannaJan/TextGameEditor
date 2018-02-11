@@ -1,4 +1,5 @@
 #:kivy 1.10.0
+#: import GameStrings gamestrings.GameStrings
 
 <ChooseStoryScreen>
     name: 'choosestoryscreen'
@@ -6,7 +7,7 @@
     MenuBoxLayout:
 
         CustomLabel:
-            text: 'Available Stories'
+            text: GameStrings.availablestoriestext
             valign: 'center'
             halign: 'center'
             size_hint_y: .2
@@ -16,6 +17,6 @@
             on_press: root.startStory()
 
         MenuButton:
-            text: 'Close'
+            text: GameStrings.closetext
             size_hint_y: .2
-            on_press: root.manager.current = "mainmenuscreen"
+            on_press: root.manager.current = "mainmenu"

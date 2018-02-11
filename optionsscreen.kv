@@ -1,4 +1,5 @@
 #:kivy 1.10.0
+#: import GameStrings gamestrings.GameStrings
 
 <OptionsScreen>
 
@@ -7,17 +8,17 @@
 	MenuBoxLayout:
 					
 		StorylineLabel:
-			text: "Options"
+			text: GameStrings.optionstext
 			font_size: self.height*0.4
 			halign: 'center'
 
 		MenuButton:
-		    text: "Theme"
+		    text: GameStrings.themetext
 		    on_release:
 		        root.changeTheme()
 
 	    MenuButton:
-	        text: "Sound"
+	        text: GameStrings.soundtext
 	        on_release:
 	            root.adjustSound()
 
@@ -38,7 +39,7 @@
         id: sound_pop
 
         StorylineLabel:
-            text: 'Sound volume:'
+            text: GameStrings.soundvolumetext
             text_size: self.size
             font_size: self.height/4
 
