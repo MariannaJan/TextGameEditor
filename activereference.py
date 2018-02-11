@@ -2,6 +2,8 @@
 
 from functools import partial
 from random import *
+
+from gamestrings import GameStrings
 from menuinterface import MenuButton
 from menuinterface import StorylineLabel
 from menuinterface import ActionPopup
@@ -35,7 +37,7 @@ class ActiveReference:
 	def open_inspect_popup(self):
 		"""Create inspect popup for the chosen reference."""
 		try:
-			inspectTitle = ''.join(('Inspecting ',self.activeReferenceName))
+			inspectTitle = ''.join((GameStrings.inspectingtext,self.activeReferenceName))
 
 		except Exception as e:
 			print(e)
@@ -59,7 +61,7 @@ class ActiveReference:
 		"""Create interact popup for the chosen reference with buttons according to the available interactions for the reference."""
 
 		try:
-			interactTitle = ''.join(('Interacting with ',self.activeReferenceName))
+			interactTitle = ''.join((GameStrings.interactingwithtext,self.activeReferenceName))
 		except Exception as e:
 			print(e)
 			ActiveReference.open_no_interactions_popup()
@@ -151,7 +153,7 @@ class ActiveReference:
 			ActiveReference.open_no_interactions_popup()
 		else:
 			useIntOnRefPopup = UseItemInWorldPopup()
-			useIntOnRefPopupTitle = ' '.join(['Use',itemID,'on',refName])
+			useIntOnRefPopupTitle = GameStrings.useontext.format(itemID,refName)
 			useIntOnRefPopup.title = useIntOnRefPopupTitle
 			useEffectDescription = StorylineLabel()
 			useEffectDescription.text = useEffectDescriptionText
@@ -201,10 +203,7 @@ class UseItemInWorldPopup(ActionPopup):
 class NoInteractionsPopup(ActionPopup):
 
 	def randomNoInteractionsInfo(self):
-		noInteractionsTexts = (['Nothing to do!',
-								'I cannot do anything with that.',
-								'I have no idea what to do with that...',
-								'Really..?'])
+		noInteractionsTexts = GameStrings.nointeractionstext
 		noInteractionsText = choice(noInteractionsTexts)
 		return noInteractionsText
 

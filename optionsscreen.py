@@ -4,6 +4,7 @@ from functools import partial
 from kivy.app import App
 from kivy.core.audio import SoundLoader
 
+from gamestrings import GameStrings
 from dataaccessapi import DataAccessAPI
 from menuinterface import ActionPopup
 from menuinterface import MenuButton
@@ -23,7 +24,7 @@ class OptionsScreen(BasicScreen):
 	def adjustSound(self):
 		"""On button press generate sound adjustment popup."""
 
-		soundPop = SoundPopup(title = 'Adjust sound')
+		soundPop = SoundPopup(title = GameStrings.adjustsoundtext)
 		soundToggleButton = MuteButton()
 		soundToggleButton.text = soundToggleButton.createMuteButtonText(float(SoundSettings.soundVolume))
 		soundPop.soundPopupLayout.add_widget(SoundVolumeSlider())
@@ -43,20 +44,20 @@ class MuteButton(MenuButton):
 			SoundSettings.soundVolume = 0
 			DataAccessAPI.setSoundVolume(0)
 			soundVolumeSlider.value = 0
-			self.text = 'Turn the sound ON'
+			self.text = GameStrings.turnsoundontext
 		elif soundVolume < 0.1:
 			SoundSettings.soundVolume = 1
 			DataAccessAPI.setSoundVolume(1)
 			soundVolumeSlider.value = 1
-			self.text = 'Turn the sound OFF'
+			self.text = GameStrings.turnsoundofftext
 
 	def createMuteButtonText(self,vol):
 		"""Set the mute button text according to the current sound volume."""
 
 		if vol >=0.1:
-			text = 'Turn the sound OFF'
+			text = GameStrings.turnsoundofftext
 		elif vol < 0.1:
-			text = 'Turn the sound ON'
+			text = GameStrings.turnsoundontext
 		return text
 
 	def on_press(self):
@@ -106,7 +107,7 @@ class Themes:
 	def chooseTheme(self):
 		"""Dynamically create choose theme popup according to the data in database."""
 
-		themePop = ThemesPopup(title = 'Choose theme')
+		themePop = ThemesPopup(title = GameStrings.choosethemetext)
 		themes = DataAccessAPI.getThemeChooser()
 
 		for theme in themes:

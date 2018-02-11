@@ -23,3 +23,19 @@ class GameStrings:
     themetext = "Theme"
     soundtext = "Sound"
     soundvolumetext = 'Sound volume:'
+    inspectingtext = 'Inspecting '
+    interactingwithtext = 'Interacting with '
+    useontext = 'Use {} on {}'
+
+    nointeractionstext = ['Nothing to do!',
+                          'I cannot do anything with that.',
+                          'I have no idea what to do with that...',
+                          'Really..?']
+
+    useinworldtext = 'Use on item in world'
+    useininventorytext = 'Use on item in inventory'
+    noothertext ='No other object in the inventory.'
+    adjustsoundtext = 'Adjust sound'
+    turnsoundontext = 'Turn the sound ON'
+    turnsoundofftext = 'Turn the sound OFF'
+    choosethemetext = 'Choose theme'

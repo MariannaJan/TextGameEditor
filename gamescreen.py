@@ -1,6 +1,7 @@
 """Create screen for the core gamplay."""
 from functools import partial
 
+from gamestrings import GameStrings
 from activereference import ActiveReference
 from dataaccessapi import DataAccessAPI
 from menuinterface import BasicScreen
@@ -37,14 +38,6 @@ class GameScreen(BasicScreen):
 
 			possibleUses.get(useFlag, partial(print, 'No action selected'))()
 			self.referenceTextLabel.flag = ""
-			'''
-						try:
-							possibleUses.get(useFlag,partial(print,'No action selected'))()
-						except:
-							print("Lack of data for the chosen reference in references dictionary",useFlag)
-						finally:
-							self.referenceTextLabel.flag= ""
-			'''
 
 	def clickInspect(self):
 		"""Set the chosen action for reference to inspect."""
@@ -70,7 +63,7 @@ class GameScreen(BasicScreen):
 		print (self.referenceTextLabel.flag)
 		print('Opening interface screen',type(self))
 
-		openInterfacePopup = OpenInterfacePopup(title = 'Interface')
+		openInterfacePopup = OpenInterfacePopup(title = GameStrings.interfacetext)
 		openInterfacePopup.open()
 		
 

@@ -3,6 +3,7 @@ from functools import partial
 from kivy.core.window import Window
 from kivy.app import App
 
+from gamestrings import GameStrings
 from menuinterface import BasicScreen
 from menuinterface import StorylineLabel
 from menuinterface import CustomLabel
@@ -21,7 +22,7 @@ class InventoryScreen(BasicScreen):
     def on_enter(self, *args):
         """Dinamically generates the inventory screen."""
 
-        inventoryTitle = InventoryTitle(text='Inventory')
+        inventoryTitle = InventoryTitle(text=GameStrings.inventorytext)
         inventoryClose = InventoryCloseButton()
         self.inventoryLayout.add_widget(inventoryTitle)
         buttonNames = DataAccessAPI.getInventoryItems()
@@ -63,10 +64,10 @@ class InventoryScreen(BasicScreen):
         inventoryPop = InventoryItemPopup()
         inventoryPop.title = popupTitle
         useInWorldButton = InventoryItemPopupButton()
-        useInWorldButton.text='Use on item in world'
+        useInWorldButton.text=GameStrings.useinworldtext
         useInWorldButton.bind(on_press = partial(InventoryScreen.useInWorld,itemID=itemDescription[1],popupToClose = inventoryPop))
         useInInventoryButton = InventoryItemPopupButton()
-        useInInventoryButton.text = 'Use on item in inventory'
+        useInInventoryButton.text = GameStrings.useininventorytext
         useInInventoryButton.bind(on_press = partial(InventoryScreen.useInInventory,itemID = itemDescription[1],popupToClose = inventoryPop))
         closeButton = ActionPopup.closePopupButton(inventoryPop)
         closeButton.size_hint_y = 0.2
@@ -89,7 +90,7 @@ class InventoryScreen(BasicScreen):
 
         usableItems = {k:v for (k,v) in DataAccessAPI.getInventoryItems().items() if v[1]!= itemID}
         if not usableItems:
-            useItemOnItemPopup.useItemOnItemLayout.add_widget(EmptyInventoryLabel(text='No other object in the inventory.'))
+            useItemOnItemPopup.useItemOnItemLayout.add_widget(EmptyInventoryLabel(text=GameStrings.noothertext))
         else:
             for usableItem in usableItems:
                 itemButton = MenuButton()
@@ -113,7 +114,8 @@ class InventoryScreen(BasicScreen):
         else:
 
             useItemOnItemResultPopup = UseItemOnItemResultPopup()
-            useItemOnItemResultPopup.title = ' '.join(['Use', itemID, 'on', targetItemID])
+            useItemOnItemResultPopup.title = GameStrings.useontext.format(itemID,targetItemID)
+            #useItemOnItemResultPopup.title = ' '.join(['Use', itemID, 'on', targetItemID])
             closeButton = ActionPopup.closePopupButton(useItemOnItemResultPopup)
             closeButton.size_hint_y = 0.2
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))

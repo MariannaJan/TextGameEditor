@@ -1,8 +1,6 @@
 from functools import partial
 
-from kivy.uix.scrollview import ScrollView
-from kivy.properties import StringProperty
-
+from gamestrings import GameStrings
 from menuinterface import BasicScreen
 from menuinterface import CustomLabel
 from menuinterface import MenuButton
@@ -18,10 +16,10 @@ class JournalScreen(BasicScreen):
         journalContent = ('\n\n'.join(journalEntries))
         journalContentField = JournalContentField
         journalContentField.text = journalContent
-        closeButton = MenuButton(text='Close')
+        closeButton = MenuButton(text=GameStrings.closetext)
         closeButton.size_hint_y=0.2
         closeButton.bind(on_press=partial(ScreenChanging.goToScreen,'gamescreen'))
-        self.journalScreenLayout.add_widget(CustomLabel(text='Journal',halign='center',valign='center',size_hint_y=0.2 ))
+        self.journalScreenLayout.add_widget(CustomLabel(text=GameStrings.journaltext,halign='center',valign='center',size_hint_y=0.2 ))
         self.journalScreenLayout.add_widget(ScrollableLabel(text=journalContent))
         self.journalScreenLayout.add_widget(closeButton)
 

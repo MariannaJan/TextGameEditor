@@ -19,6 +19,7 @@ from kivy.uix.listview import ListItemButton
 
 from kivy.core.window import Window
 
+from gamestrings import GameStrings
 from dataaccessapi import DataAccessAPI
 
 class FontSettings():
@@ -198,7 +199,7 @@ class ActionPopup(Popup):
     def closePopupButton(popup,*args):
         """Extends MenuButton. Provide a button generation for closing a popup."""
         closeButton = MenuButton()
-        closeButton.text='Close'
+        closeButton.text=GameStrings.closetext
         closeButton.bind(on_press=popup.dismiss)
         return closeButton
 
