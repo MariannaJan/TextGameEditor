@@ -263,7 +263,7 @@ class DataAccessAPI:
     def addPlace(cls,pageNo):
         currentPlaces = DA.getAvailableLocations().values()
         if pageNo not in currentPlaces:
-            DA.addAvailableLocation(pageNo=pageNo,mapNo=DA.getLocationName(pageNo))
+            DA.addAvailableLocation(pageNo=pageNo, locationName=DA.getLocationName(pageNo))
 
     @classmethod
     def clearAvailablePlaces(cls):

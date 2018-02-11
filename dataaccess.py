@@ -504,23 +504,23 @@ class DataAccess:
     @classmethod
     def getAvailableLocations(cls):
         base = DataAccess(DataAccess.engineDatabase)
-        c = base._query('select mapNo, pageNo from AvailableLocations;')
+        c = base._query('select locationName, pageNo from AvailableLocations;')
         availableLocations = {}
-        for mapNo, pageNo in c.fetchall():
-            availableLocations[mapNo] = pageNo
+        for locationName, pageNo in c.fetchall():
+            availableLocations[locationName] = pageNo
         return availableLocations
 
     @classmethod
-    def addAvailableLocation(cls,pageNo,mapNo):
-        print(pageNo, mapNo)
+    def addAvailableLocation(cls, pageNo, locationName):
+        print(pageNo, locationName)
         base = DataAccess(DataAccess.engineDatabase)
 
-        base._query('insert into AvailableLocations (pageNo,mapNo) values (?,?);', (pageNo,mapNo))
+        base._query('insert into AvailableLocations (pageNo,locationName) values (?,?);', (pageNo, locationName))
 
     @classmethod
     def getLocationName(cls,pageNo):
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        locationName = base._query('select mapNo from LocationNames where pageNo = (?)',(pageNo,))
+        locationName = base._query('select locationName from LocationNames where pageNo = (?)',(pageNo,))
         return locationName.fetchone()[0]
 
     @classmethod
