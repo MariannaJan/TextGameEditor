@@ -115,7 +115,6 @@ class InventoryScreen(BasicScreen):
 
             useItemOnItemResultPopup = UseItemOnItemResultPopup()
             useItemOnItemResultPopup.title = GameStrings.useontext.format(itemID,targetItemID)
-            #useItemOnItemResultPopup.title = ' '.join(['Use', itemID, 'on', targetItemID])
             closeButton = ActionPopup.closePopupButton(useItemOnItemResultPopup)
             closeButton.size_hint_y = 0.2
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
@@ -125,6 +124,8 @@ class InventoryScreen(BasicScreen):
             InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
             if infoOnItemUse[10] is not None:
                 DataAccessAPI.addJournalEntry(infoOnItemUse[10])
+            lockedPages = infoOnItemUse[11]
+            ActiveReference.removeLockedPages(lockedPages)
 
     @classmethod
     def inventoryItemsUpdate(cls,createdItem,itemID,targetItemID):

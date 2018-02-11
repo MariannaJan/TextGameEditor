@@ -266,5 +266,9 @@ class DataAccessAPI:
             DA.addAvailableLocation(pageNo=pageNo, locationName=DA.getLocationName(pageNo))
 
     @classmethod
+    def removePlace(cls,pageNo):
+        DA.removeLocation(pageNo)
+
+    @classmethod
     def clearAvailablePlaces(cls):
         DA.removeAvailableLocations()

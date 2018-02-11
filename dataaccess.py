@@ -514,8 +514,12 @@ class DataAccess:
     def addAvailableLocation(cls, pageNo, locationName):
         print(pageNo, locationName)
         base = DataAccess(DataAccess.engineDatabase)
-
         base._query('insert into AvailableLocations (pageNo,locationName) values (?,?);', (pageNo, locationName))
+
+    @classmethod
+    def removeLocation(cls,pageNo):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from AvailableLocations where pageNo=(?);', (pageNo, ))
 
     @classmethod
     def getLocationName(cls,pageNo):
@@ -527,3 +531,5 @@ class DataAccess:
     def removeAvailableLocations(cls):
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from AvailableLocations;')
+
+

@@ -129,9 +129,9 @@ class ActiveReference:
 		intResPop.open()
 		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
 		if self.activeReferenceInteractions[interaction][5] is not None:
-			print(self.activeReferenceInteractions[interaction][5])
 			DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction][5])
-
+		lockedPages = self.activeReferenceInteractions[interaction][8]
+		self.removeLockedPages(lockedPages)
 
 	def takeItem(self,takenItemID):
 		DataAccessAPI.putItemInInventory(takenItemID)
@@ -169,10 +169,20 @@ class ActiveReference:
 				DataAccessAPI.addJournalEntry(journalEntry)
 			if removeFromInvenoryFlag.lower() == 'true':
 				DataAccessAPI.removeUsedItemFromInventory(itemID)
+			lockedPages = itemFeatures[9]
+			ActiveReference.removeLockedPages(lockedPages)
+
+
 	@classmethod
 	def open_no_interactions_popup(cls,title=''):
 		noInterPop = NoInteractionsPopup(title = title)
 		noInterPop.open()
+
+	@classmethod
+	def removeLockedPages(cls,lockedPages):
+		lockedPages = lockedPages.split(',')
+		for page in lockedPages:
+			DataAccessAPI.removePlace(page)
 
 class InspectPopup(ActionPopup):
 	"""Setup popup for inspecting a reference. Details in gamescreen.kv file."""
