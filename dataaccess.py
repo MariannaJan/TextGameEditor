@@ -460,6 +460,11 @@ class DataAccess:
         return empathyDescription
 
     @classmethod
+    def getEmpathyDirection(cls):
+        empathyDirection = cls._getStorySpecificationElement(requestedElement='EmpathyDirection')
+        return empathyDirection
+
+    @classmethod
     def getSanityName(cls):
         sanityName = cls._getStorySpecificationElement(requestedElement='SanityName')
         return sanityName
@@ -468,6 +473,11 @@ class DataAccess:
     def getSanityDescription(cls):
         sanityDescription = cls._getStorySpecificationElement(requestedElement='SanityDescription')
         return sanityDescription
+
+    @classmethod
+    def getSanityDirection(cls):
+        sanityDirection = cls._getStorySpecificationElement(requestedElement='SanityDirection')
+        return sanityDirection
 
     @classmethod
     def deleteItemsFromInventory(cls):
@@ -552,7 +562,6 @@ class DataAccess:
 
     @classmethod
     def addAvailableLocation(cls, pageNo, locationName):
-        print(pageNo, locationName)
         base = DataAccess(DataAccess.engineDatabase)
         base._query('insert into AvailableLocations (pageNo,locationName) values (?,?);', (pageNo, locationName))
 

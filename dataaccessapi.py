@@ -199,12 +199,12 @@ class DataAccessAPI:
     @classmethod
     def setCurrentSanityValue(cls,sanityValue):
         resultingSanityValue = sanityValue + int(DA.getSavedSanityValue())
-        if DataAccessAPI.getMinimumSanity() < resultingSanityValue < DataAccessAPI.getMinimumSanity():
+        if DataAccessAPI.getMinimumSanity() < resultingSanityValue < DataAccessAPI.getMaximumSanity():
             newSanityValue = resultingSanityValue
         elif resultingSanityValue < 0:
             newSanityValue = DataAccessAPI.getMinimumSanity()
         elif resultingSanityValue > 0:
-            newSanityValue = DataAccessAPI.getMinimumSanity()
+            newSanityValue = DataAccessAPI.getMaximumSanity()
         DA.setSavedSanityValue(newSanityValue)
 
     @classmethod
@@ -213,14 +213,14 @@ class DataAccessAPI:
         return newGamePageNo
 
     @classmethod
-    def getNewGameEmpathyValue(cls):
-        newGameEmpathyValue = DA.getStartingEmpathyValue()
-        return newGameEmpathyValue
+    def resetEmpathy(cls):
+        newGameEmpathyValue = int(DA.getStartingEmpathyValue())
+        DA.setSavedEmpathyValue(newGameEmpathyValue)
 
     @classmethod
-    def getNewGameSanityValue(cls):
-        newGameSanityValue = DA.getStartingSanityValue()
-        return newGameSanityValue
+    def resetSanity(cls):
+        newGameSanityValue = int(DA.getStartingSanityValue())
+        DA.setSavedSanityValue(newGameSanityValue)
 
     @classmethod
     def clearInventory(cls):
@@ -375,3 +375,26 @@ class DataAccessAPI:
     def getSanityDescriptionReplacement(cls):
         sanityNameReplacement = DA.getSanityDescription()
         return sanityNameReplacement
+
+    @classmethod
+    def checkTreshold(cls,emp_san_switch,value,treshold):
+        switch = emp_san_switch
+        try:
+            if switch.lowercase() == 'e':
+                direction = DA.getEmpathyDirection()
+            elif switch.lowercase() == 's':
+                direction = DA.getSanityDirection()
+        except Exception as e:
+            print(e,'emp_san_switch must be either e or s')
+        else:
+            try:
+                if direction.lower() == 'above':
+                    if value >= treshold: return True
+                    else: return False
+                elif direction.lower() == 'below':
+                    if value <= treshold: return True
+                    else: return False
+            except Exception as e:
+                print(e,'empathy or sanity direction must be "above" or "below"')
+
+

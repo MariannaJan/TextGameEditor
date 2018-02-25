@@ -128,6 +128,8 @@ class ActiveReference:
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()
 		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction]['pageNo'])
+		ActiveReference.adjustEmpathy(self.activeReferenceInteractions[interaction]['empathyValue'])
+		ActiveReference.adjustSanity(self.activeReferenceInteractions[interaction]['sanityValue'])
 		if self.activeReferenceInteractions[interaction]['optionalJournalEntry'] is not None:
 			DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction]['optionalJournalEntry'])
 		lockedPages = self.activeReferenceInteractions[interaction]['pagesLocked']
@@ -197,7 +199,6 @@ class ActiveReference:
 		app = App.get_running_app()
 		sanityBar = app.root.children[0].current_screen.sanityBar
 		sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
-
 
 class InspectPopup(ActionPopup):
 	"""Setup popup for inspecting a reference. Details in gamescreen.kv file."""

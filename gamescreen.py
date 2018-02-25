@@ -27,14 +27,12 @@ class GameScreen(BasicScreen):
 		:param refName: name of the clicked reference from the markup text
 		:type refName: string
 		"""
-		print('useReference',self,type(self))
 		try:
 			clickedReference = ActiveReference(refName)
 		except:
 			print('No reference in references dictionary.')
 		else:
 			useFlag = self.referenceTextLabel.flag
-			print(refName, useFlag)
 			possibleUses = {
 				'ins': clickedReference.inspectReference,
 				'int': clickedReference.interactWithReference,
@@ -63,18 +61,16 @@ class GameScreen(BasicScreen):
 		"""On button click open additional game interface with map, journal, etc..."""
 
 		self.referenceTextLabel.flag = 'inf'
-		print (self.referenceTextLabel.flag)
-		print('Opening interface screen',type(self))
 		openInterfacePopup = OpenInterfacePopup(title = GameStrings.interfacetext)
 		openInterfacePopup.open()
 
 	def empathyButtonClick(self):
-		ActiveReference.adjustEmpathy(-25)
+		ActiveReference.adjustEmpathy(25)
 		empathyPop = EmpathyPopup()
 		empathyPop.open()
 
 	def sanityButtonClick(self):
-		ActiveReference.adjustSanity(-10)
+		ActiveReference.adjustSanity(10)
 		sanityPop = SanityPopup()
 		sanityPop.open()
 
@@ -91,11 +87,12 @@ class OpenInterfacePopup(ActionPopup):
 
 class EmpathyBar(VerticalBar):
 
-	empathyValue = NumericProperty(DataAccessAPI.getCurrentEmpathyValue())
-	empathyRange = DataAccessAPI.getEmpathyRange()
+    empathyValue = NumericProperty(DataAccessAPI.getCurrentEmpathyValue())
+    empathyRange = DataAccessAPI.getEmpathyRange()
 
-	def on_empathyValue(self,*args):
-		print(self.empathyValue)
+    def on_empathyValue(self, *args):
+        print(self.empathyValue)
+
 
 class SanityBar(VerticalBar):
 

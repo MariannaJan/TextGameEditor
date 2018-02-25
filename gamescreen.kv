@@ -1,15 +1,21 @@
 #:kivy 1.10.0
 #: import GameStrings gamestrings.GameStrings
-
+#: import DataAccessAPI dataaccessapi.DataAccessAPI
 <GameScreen>
 	name: "gamescreen"
 	id: game_screen
 	referenceTextLabel: reference_text_label
 	empathyBar: empathy_bar
+	empathyLabel: empathy_label
 	sanityBar: sanity_bar
+	sanityLabel: sanity_label
 
-	on_enter:
+	on_pre_enter:
 	    reference_text_label.changeCurrentPage()
+	    empathy_bar.value = int(DataAccessAPI.getCurrentEmpathyValue())
+	    empathy_label.text = str(int(empathy_bar.value))
+	    sanity_bar.value = int(DataAccessAPI.getCurrentSanityValue())
+	    sanity_label.text = str(int(sanity_bar.value))
 
 	MainMenuButton:
 		pos_hint:{'x': .8, 'y': 0}
@@ -70,6 +76,7 @@
                 value: self.empathyValue
 
             CustomLabel:
+                id: empathy_label
                 size_hint_y: .1
                 text: str(empathy_bar.empathyValue)
                 font_size: self.height/2
@@ -89,6 +96,7 @@
                 value: self.sanityValue
 
             CustomLabel:
+                id: sanity_label
                 size_hint_y: .1
                 text: str(sanity_bar.sanityValue)
                 font_size: self.height/2

@@ -224,7 +224,7 @@ class ScreenChanging:
     def goToScreen(screenName,*args):
         screenManager = App.get_running_app().root.children[0]
         screenManager.current = screenName
-        print(args)
+
 
 
 
