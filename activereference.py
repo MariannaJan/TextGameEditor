@@ -103,7 +103,7 @@ class ActiveReference:
 		"""
 		intPop = intPop
 		self.open_interact_result_popup(interaction, interactee)
-		takenItem = self.activeReferenceInteractions[interaction][9]
+		takenItem = self.activeReferenceInteractions[interaction]['takeItemID']
 		if takenItem is not None:
 			self.takeItem(takenItemID=takenItem)
 		intPop.dismiss()
@@ -117,7 +117,7 @@ class ActiveReference:
 		"""
 
 		interactResultTitle = ' '.join((interaction,interactee))
-		interactionResultDescription=(self.activeReferenceInteractions[interaction])[4]
+		interactionResultDescription=(self.activeReferenceInteractions[interaction])['interactionDescription']
 		intResPop=InteractResultPopup()
 		intResPop.title =interactResultTitle
 		interactionResultLabel=StorylineLabel()
@@ -127,10 +127,10 @@ class ActiveReference:
 		closeButton.size_hint = (1,0.3)
 		intResPop.interactResultPopupLayout.add_widget(closeButton)
 		intResPop.open()
-		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction][0])
-		if self.activeReferenceInteractions[interaction][5] is not None:
-			DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction][5])
-		lockedPages = self.activeReferenceInteractions[interaction][8]
+		self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction]['pageNo'])
+		if self.activeReferenceInteractions[interaction]['optionalJournalEntry'] is not None:
+			DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction]['optionalJournalEntry'])
+		lockedPages = self.activeReferenceInteractions[interaction]['pagesLocked']
 		self.removeLockedPages(lockedPages)
 
 	def takeItem(self,takenItemID):
@@ -146,8 +146,7 @@ class ActiveReference:
 		itemID = self.objectFromInventory
 		try:
 			itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[itemID]
-			useEffectDescriptionText = itemFeatures[1]
-			print(useEffectDescriptionText)
+			useEffectDescriptionText = itemFeatures['effectDescription']
 		except Exception as e:
 			print(str(e))
 			ActiveReference.open_no_interactions_popup()
@@ -162,14 +161,14 @@ class ActiveReference:
 			useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
 			useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
 			useIntOnRefPopup.open()
-			self.switchCurrentPage(pageName=itemFeatures[6])
-			removeFromInvenoryFlag = itemFeatures[10]
-			journalEntry = itemFeatures[8]
+			self.switchCurrentPage(pageName=itemFeatures['pageNo'])
+			removeFromInvenoryFlag = itemFeatures['removeFromInventoryFlag']
+			journalEntry = itemFeatures['optionalJpurnalEntry']
 			if journalEntry is not None:
 				DataAccessAPI.addJournalEntry(journalEntry)
 			if removeFromInvenoryFlag.lower() == 'true':
 				DataAccessAPI.removeUsedItemFromInventory(itemID)
-			lockedPages = itemFeatures[9]
+			lockedPages = itemFeatures['pagesLocked']
 			ActiveReference.removeLockedPages(lockedPages)
 
 

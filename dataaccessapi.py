@@ -36,7 +36,19 @@ class DataAccessAPI:
         :rtype: dict [str,tuple(string,string,int,int,string,string)]
         """
 
-        referenceInteractions = DA.getActiveObjectInteractions(self,refName)
+        referenceInteractions  = {}
+        interactions = DA.getActiveObjectInteractions(self,refName)
+        for interaction, description in interactions.items():
+            referenceInteractions[interaction] = {'pageNo'                  :description[0],
+                                                  'mapNo'                   :description[1],
+                                                  'empathyValue'            :description[2],
+                                                  'sanityValue'             :description[3],
+                                                  'interactionDescription'  :description[4],
+                                                  'optionalJournalEntry'    :description[5],
+                                                  'empathyTreshold'         :description[6],
+                                                  'sanityTreshold'          :description[7],
+                                                  'pagesLocked'             :description[8],
+                                                  'takeItemID'              :description[9]}
         return referenceInteractions
 
     def getReferenceStorylineText(self,pageNo):
@@ -240,13 +252,40 @@ class DataAccessAPI:
 
     @classmethod
     def getInfoOnItemUseInWorld(cls,refName,itemID):
-        infoOnItemUseInWorld = DA.getDataOnItemUseInWorld(refName,itemID)
+
+        infoOnItemUseInWorld = {}
+        itemUseInWorld = DA.getDataOnItemUseInWorld(refName,itemID)
+        for id,description in itemUseInWorld.items():
+            infoOnItemUseInWorld[id] = {'refName'                   :description[0],
+                                        'effectDescription'         :description[1],
+                                        'sanityValue'               :description[2],
+                                        'empathyValue'              :description[3],
+                                        'sanityTreshold'            :description[4],
+                                        'empathyTreshold'           :description[5],
+                                        'pageNo'                    :description[6],
+                                        'mapNo'                     :description[7],
+                                        'optionalJpurnalEntry'      :description[8],
+                                        'pagesLocked'               :description[9],
+                                        'removeFromInventoryFlag'   :description[10]}
         return infoOnItemUseInWorld
 
     @classmethod
     def getInfoOnItemUseOnItem(cls,itemID_1,itemID_2):
-        InfoOnItemUseOnItem = DA.getDataOnItemUseOnItem(itemID_1,itemID_2)
-        return InfoOnItemUseOnItem
+
+        itemUseOnItem = DA.getDataOnItemUseOnItem(itemID_1,itemID_2)
+        infoOnItemUseOnItem = {'itemID_1'               :itemUseOnItem[0],
+                               'itemID_2'               :itemUseOnItem[1],
+                               'createdObjectID'        :itemUseOnItem[2],
+                               'effectDescription'      :itemUseOnItem[3],
+                               'sanityValue'            :itemUseOnItem[4],
+                               'empathyValue'           :itemUseOnItem[5],
+                               'sanityTreshold'         :itemUseOnItem[6],
+                               'empathyTreshold'        :itemUseOnItem[7],
+                               'pageNo'                 :itemUseOnItem[8],
+                               'mapNo'                  :itemUseOnItem[9],
+                               'optionalJournalEntry'   :itemUseOnItem[10],
+                               'pagesLocked'            :itemUseOnItem[11]}
+        return infoOnItemUseOnItem
 
     @classmethod
     def getJournalContent(cls):

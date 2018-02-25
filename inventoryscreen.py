@@ -107,7 +107,7 @@ class InventoryScreen(BasicScreen):
         currentPopup.dismiss()
         try:
             infoOnItemUse = DataAccessAPI.getInfoOnItemUseOnItem(itemID,targetItemID)
-            resultDescription = infoOnItemUse[3]
+            resultDescription = infoOnItemUse['effectDescription']
         except Exception as e:
             print(e)
             ActiveReference.open_no_interactions_popup()
@@ -120,11 +120,11 @@ class InventoryScreen(BasicScreen):
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
             useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
             useItemOnItemResultPopup.open()
-            createdItem = infoOnItemUse[2]
+            createdItem = infoOnItemUse['createdObjectID']
             InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
-            if infoOnItemUse[10] is not None:
-                DataAccessAPI.addJournalEntry(infoOnItemUse[10])
-            lockedPages = infoOnItemUse[11]
+            if infoOnItemUse['optionalJournalEntry'] is not None:
+                DataAccessAPI.addJournalEntry(infoOnItemUse['optionalJournalEntry'])
+            lockedPages = infoOnItemUse['pagesLocked']
             ActiveReference.removeLockedPages(lockedPages)
 
     @classmethod
