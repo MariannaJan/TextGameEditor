@@ -5,6 +5,8 @@
 	name: "gamescreen"
 	id: game_screen
 	referenceTextLabel: reference_text_label
+	empathyBar: empathy_bar
+	sanityBar: sanity_bar
 
 	on_enter:
 	    reference_text_label.changeCurrentPage()
@@ -59,17 +61,39 @@
 
             MenuButton:
                 size_hint_y: .1
-                text: "S"
-            VerticalBar:
+                text: root.empathyName
+                on_press: root.empathyButtonClick()
+
+            EmpathyBar:
+                id: empathy_bar
+                range: self.empathyRange
+                value: self.empathyValue
+
+            CustomLabel:
+                size_hint_y: .1
+                text: str(empathy_bar.empathyValue)
+                font_size: self.height/2
+                halign: 'center'
+                valign: 'center'
 
         MenuBoxLayout:
 
             MenuButton:
                 size_hint_y: .1
-                text: "E"
+                text: root.sanityName
+                on_press: root.sanityButtonClick()
 
-            VerticalBar:
+            SanityBar:
+                id: sanity_bar
+                range: self.sanityRange
+                value: self.sanityValue
 
+            CustomLabel:
+                size_hint_y: .1
+                text: str(sanity_bar.sanityValue)
+                font_size: self.height/2
+                halign: 'center'
+                valign: 'center'
 
 
 		
@@ -174,5 +198,31 @@
         MenuButton:
             text: GameStrings.closetext
             on_press: root.dismiss()
-		
-		
+
+<EmpathyPopup>
+
+    title: ''
+
+    MenuBoxLayout:
+
+        StorylineLabel:
+            text: root.empathyDescription
+
+        MenuButton:
+            text: GameStrings.closetext
+            on_press: root.dismiss()
+            size_hint_y: .2
+
+<SanityPopup>
+
+    title: ''
+
+    MenuBoxLayout:
+
+        StorylineLabel:
+            text: root.sanityDescription
+
+        MenuButton:
+            text: GameStrings.closetext
+            on_press: root.dismiss()
+            size_hint_y: .2

@@ -180,9 +180,25 @@ class ActiveReference:
 
 	@classmethod
 	def removeLockedPages(cls,lockedPages):
-		lockedPages = lockedPages.split(',')
-		for page in lockedPages:
-			DataAccessAPI.removePlace(page)
+		if lockedPages is not None:
+			lockedPages = lockedPages.split(',')
+			for page in lockedPages:
+				DataAccessAPI.removePlace(page)
+
+	@classmethod
+	def adjustEmpathy(cls,emapthyValue):
+		DataAccessAPI.setCurrentEmpathyValue(emapthyValue)
+		app = App.get_running_app()
+		empathyBar = app.root.children[0].current_screen.empathyBar
+		empathyBar.empathyValue = DataAccessAPI.getCurrentEmpathyValue()
+
+	@classmethod
+	def adjustSanity(cls,sanityValue):
+		DataAccessAPI.setCurrentSanityValue(sanityValue)
+		app = App.get_running_app()
+		sanityBar = app.root.children[0].current_screen.sanityBar
+		sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
+
 
 class InspectPopup(ActionPopup):
 	"""Setup popup for inspecting a reference. Details in gamescreen.kv file."""

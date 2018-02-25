@@ -161,11 +161,18 @@ class DataAccessAPI:
         :rtype: int """
 
         currentEmpathyValue = DA.getSavedEmpathyValue()
-        return currentEmpathyValue
+        return int(currentEmpathyValue)
 
     @classmethod
     def setCurrentEmpathyValue(cls,empathyValue):
-        DA.setSavedEmpathyValue(empathyValue)
+        resultingEmpathyValue = empathyValue + int(DA.getSavedEmpathyValue())
+        if DataAccessAPI.getMinimumEmpathy() < resultingEmpathyValue < DataAccessAPI.getMaximumEmpathy():
+            newEmpathyValue = resultingEmpathyValue
+        elif empathyValue < 0:
+            newEmpathyValue = DataAccessAPI.getMinimumEmpathy()
+        elif empathyValue > 0:
+            newEmpathyValue = DataAccessAPI.getMaximumEmpathy()
+        DA.setSavedEmpathyValue(newEmpathyValue)
 
     @classmethod
     def getCurrentSanityValue(cls):
@@ -175,11 +182,18 @@ class DataAccessAPI:
         :rtype: int """
 
         currentSanityValue = DA.getSavedSanityValue()
-        return currentSanityValue
+        return int(currentSanityValue)
 
     @classmethod
     def setCurrentSanityValue(cls,sanityValue):
-        DA.setSavedSanityValue(sanityValue)
+        resultingSanityValue = sanityValue + int(DA.getSavedSanityValue())
+        if DataAccessAPI.getMinimumSanity() < resultingSanityValue < DataAccessAPI.getMinimumSanity():
+            newSanityValue = resultingSanityValue
+        elif resultingSanityValue < 0:
+            newSanityValue = DataAccessAPI.getMinimumSanity()
+        elif resultingSanityValue > 0:
+            newSanityValue = DataAccessAPI.getMinimumSanity()
+        DA.setSavedSanityValue(newSanityValue)
 
     @classmethod
     def getNewGamePageNo(cls):
@@ -272,3 +286,53 @@ class DataAccessAPI:
     @classmethod
     def clearAvailablePlaces(cls):
         DA.removeAvailableLocations()
+
+    @classmethod
+    def getMinimumEmpathy(cls):
+        minimumEmpathy = DA.getMinimumEmpathyValue()
+        return int(minimumEmpathy)
+
+    @classmethod
+    def getMaximumEmpathy(cls):
+        maximumEmpathy = DA.getMaximumEmpathyValue()
+        return int(maximumEmpathy)
+
+    @classmethod
+    def getEmpathyRange(cls):
+        empathyRange = (int(DA.getMinimumEmpathyValue()),int(DA.getMaximumEmpathyValue()))
+        return empathyRange
+
+    @classmethod
+    def getMinimumSanity(cls):
+        minimumSanity = DA.getMinimumSanityValue()
+        return int(minimumSanity)
+
+    @classmethod
+    def getMaximumSanity(cls):
+        maximumSanity = DA.getMaximumSanityValue()
+        return int(maximumSanity)
+
+    @classmethod
+    def getSanityRange(cls):
+        sanityRange = (int(DA.getMinimumSanityValue()),int(DA.getMaximumSanityValue()))
+        return sanityRange
+
+    @classmethod
+    def getEmpathyNameReplacement(cls):
+        empathyNameReplacement = DA.getEmpathyName()
+        return empathyNameReplacement
+
+    @classmethod
+    def getEmpathyDescriptionReplacement(cls):
+        empathyDescriptionReplacemet = DA.getEmpathyDescription()
+        return empathyDescriptionReplacemet
+
+    @classmethod
+    def getSanityNameReplacement(cls):
+        sanityNameReplacement = DA.getSanityName()
+        return sanityNameReplacement
+
+    @classmethod
+    def getSanityDescriptionReplacement(cls):
+        sanityNameReplacement = DA.getSanityDescription()
+        return sanityNameReplacement

@@ -178,6 +178,9 @@ class CustomLabel(Label):
         self.font_size = Window.height *.08
         self.color = ThemeSettings.getCustomButtonTextColor()
 
+class ScrollableLabel(ScrollView):
+    text = StringProperty('')
+
 class StorylineLabel(CustomLabel):
     """Basic template for ingame label - text widget."""
     def __init__(self,**kwargs):
@@ -224,8 +227,7 @@ class ScreenChanging:
         print(args)
 
 
-class ScrollableLabel(ScrollView):
-    text = StringProperty('')
+
 
 class CustomListView(ListView):
 

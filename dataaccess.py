@@ -430,6 +430,46 @@ class DataAccess:
         return startingSanityValue
 
     @classmethod
+    def getMinimumEmpathyValue(cls):
+        minimumEmpathyValue = cls._getStorySpecificationElement(requestedElement='MinimumEmpathy')
+        return minimumEmpathyValue
+
+    @classmethod
+    def getMaximumEmpathyValue(cls):
+        maximumEmpathyValue = cls._getStorySpecificationElement(requestedElement='MaximumEmpathy')
+        return maximumEmpathyValue
+
+    @classmethod
+    def getMinimumSanityValue(cls):
+        minimumSanityValue = cls._getStorySpecificationElement(requestedElement='MinimumSanity')
+        return minimumSanityValue
+
+    @classmethod
+    def getMaximumSanityValue(cls):
+        maximumSanityValue = cls._getStorySpecificationElement(requestedElement='MaximumSanity')
+        return maximumSanityValue
+
+    @classmethod
+    def getEmpathyName(cls):
+        empathyName = cls._getStorySpecificationElement(requestedElement='EmpathyName')
+        return empathyName
+
+    @classmethod
+    def getEmpathyDescription(cls):
+        empathyDescription = cls._getStorySpecificationElement(requestedElement='EmpathyDescription')
+        return empathyDescription
+
+    @classmethod
+    def getSanityName(cls):
+        sanityName = cls._getStorySpecificationElement(requestedElement='SanityName')
+        return sanityName
+
+    @classmethod
+    def getSanityDescription(cls):
+        sanityDescription = cls._getStorySpecificationElement(requestedElement='SanityDescription')
+        return sanityDescription
+
+    @classmethod
     def deleteItemsFromInventory(cls):
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from Inventory;')
