@@ -150,30 +150,33 @@ class ActiveReference:
         try:
             itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[itemID]
             useEffectDescriptionText = itemFeatures['effectDescription']
+            print(itemFeatures['empathyTreshold'])
         except Exception as e:
             print(str(e))
             ActiveReference.open_no_interactions_popup()
         else:
-            useIntOnRefPopup = UseItemInWorldPopup()
-            useIntOnRefPopupTitle = GameStrings.useontext.format(itemID,refName)
-            useIntOnRefPopup.title = useIntOnRefPopupTitle
-            useEffectDescription = StorylineLabel()
-            useEffectDescription.text = useEffectDescriptionText
-            closeButton = ActionPopup.closePopupButton(useIntOnRefPopup)
-            closeButton.size_hint = (1, 0.3)
-            useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
-            useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
-            useIntOnRefPopup.open()
-            self.switchCurrentPage(pageName=itemFeatures['pageNo'])
-            removeFromInvenoryFlag = itemFeatures['removeFromInventoryFlag']
-            journalEntry = itemFeatures['optionalJpurnalEntry']
-            if journalEntry is not None:
-                DataAccessAPI.addJournalEntry(journalEntry)
-            if removeFromInvenoryFlag.lower() == 'true':
-                DataAccessAPI.removeUsedItemFromInventory(itemID)
-            lockedPages = itemFeatures['pagesLocked']
-            ActiveReference.removeLockedPages(lockedPages)
-
+            if DataAccessAPI.checkIfDisabled(empathyTreshold=itemFeatures['empathyTreshold'],sanityTreshold=itemFeatures['sanityTreshold']):
+                ActiveReference.open_no_interactions_popup()
+            else:
+                useIntOnRefPopup = UseItemInWorldPopup()
+                useIntOnRefPopupTitle = GameStrings.useontext.format(itemID, refName)
+                useIntOnRefPopup.title = useIntOnRefPopupTitle
+                useEffectDescription = StorylineLabel()
+                useEffectDescription.text = useEffectDescriptionText
+                closeButton = ActionPopup.closePopupButton(useIntOnRefPopup)
+                closeButton.size_hint = (1, 0.3)
+                useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
+                useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
+                useIntOnRefPopup.open()
+                self.switchCurrentPage(pageName=itemFeatures['pageNo'])
+                removeFromInvenoryFlag = itemFeatures['removeFromInventoryFlag']
+                journalEntry = itemFeatures['optionalJpurnalEntry']
+                if journalEntry is not None:
+                    DataAccessAPI.addJournalEntry(journalEntry)
+                if removeFromInvenoryFlag.lower() == 'true':
+                    DataAccessAPI.removeUsedItemFromInventory(itemID)
+                lockedPages = itemFeatures['pagesLocked']
+                ActiveReference.removeLockedPages(lockedPages)
 
     @classmethod
     def open_no_interactions_popup(cls,title=''):

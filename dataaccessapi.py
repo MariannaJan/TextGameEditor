@@ -384,7 +384,6 @@ class DataAccessAPI:
             'e': DA.getEmpathyDirection(),
             's': DA.getSanityDirection()}
         direction = (switches.get(switch,partial(print, 'emp_san_switch must be either e or s'))).lower()
-        lambda x: True if x % 2 == 0 else False
         directions = {
             'above': lambda: True if value >= treshold else False,
             'below': lambda: True if value <= treshold else False}

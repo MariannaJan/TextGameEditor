@@ -112,20 +112,22 @@ class InventoryScreen(BasicScreen):
             print(e)
             ActiveReference.open_no_interactions_popup()
         else:
-
-            useItemOnItemResultPopup = UseItemOnItemResultPopup()
-            useItemOnItemResultPopup.title = GameStrings.useontext.format(itemID,targetItemID)
-            closeButton = ActionPopup.closePopupButton(useItemOnItemResultPopup)
-            closeButton.size_hint_y = 0.2
-            useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
-            useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
-            useItemOnItemResultPopup.open()
-            createdItem = infoOnItemUse['createdObjectID']
-            InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
-            if infoOnItemUse['optionalJournalEntry'] is not None:
-                DataAccessAPI.addJournalEntry(infoOnItemUse['optionalJournalEntry'])
-            lockedPages = infoOnItemUse['pagesLocked']
-            ActiveReference.removeLockedPages(lockedPages)
+            if DataAccessAPI.checkIfDisabled(empathyTreshold=infoOnItemUse['empathyTreshold'],sanityTreshold=infoOnItemUse['sanityTreshold']):
+                ActiveReference.open_no_interactions_popup()
+            else:
+                useItemOnItemResultPopup = UseItemOnItemResultPopup()
+                useItemOnItemResultPopup.title = GameStrings.useontext.format(itemID,targetItemID)
+                closeButton = ActionPopup.closePopupButton(useItemOnItemResultPopup)
+                closeButton.size_hint_y = 0.2
+                useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
+                useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
+                useItemOnItemResultPopup.open()
+                createdItem = infoOnItemUse['createdObjectID']
+                InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
+                if infoOnItemUse['optionalJournalEntry'] is not None:
+                    DataAccessAPI.addJournalEntry(infoOnItemUse['optionalJournalEntry'])
+                lockedPages = infoOnItemUse['pagesLocked']
+                ActiveReference.removeLockedPages(lockedPages)
 
     @classmethod
     def inventoryItemsUpdate(cls,createdItem,itemID,targetItemID):
