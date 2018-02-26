@@ -65,12 +65,10 @@ class GameScreen(BasicScreen):
 		openInterfacePopup.open()
 
 	def empathyButtonClick(self):
-		ActiveReference.adjustEmpathy(25)
 		empathyPop = EmpathyPopup()
 		empathyPop.open()
 
 	def sanityButtonClick(self):
-		ActiveReference.adjustSanity(10)
 		sanityPop = SanityPopup()
 		sanityPop.open()
 

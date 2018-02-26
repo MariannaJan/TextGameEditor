@@ -7,7 +7,7 @@ class AvailableLocationsScreen(BasicScreen):
 
     locations = ListProperty([])
 
-    def on_enter(self, *args):
+    def on_pre_enter(self, *args):
         places = DataAccessAPI.getPlaces()
         self.locations = places.keys()
 

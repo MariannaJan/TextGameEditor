@@ -10,7 +10,7 @@ from dataaccessapi import DataAccessAPI
 
 class JournalScreen(BasicScreen):
 
-    def on_enter(self):
+    def on_pre_enter(self):
 
         journalEntries = DataAccessAPI.getJournalContent()
         journalContent = ('\n\n'.join(journalEntries))

@@ -1,4 +1,5 @@
 from dataaccess import DataAccess as DA
+from functools import partial
 
 class DataAccessAPI:
     """API for getting the necessary data, separating the mechanism of data base access from providing necessary data."""
@@ -178,7 +179,7 @@ class DataAccessAPI:
     @classmethod
     def setCurrentEmpathyValue(cls,empathyValue):
         resultingEmpathyValue = empathyValue + int(DA.getSavedEmpathyValue())
-        if DataAccessAPI.getMinimumEmpathy() < resultingEmpathyValue < DataAccessAPI.getMaximumEmpathy():
+        if (DataAccessAPI.getMinimumEmpathy() < resultingEmpathyValue < DataAccessAPI.getMaximumEmpathy()) or empathyValue == 0:
             newEmpathyValue = resultingEmpathyValue
         elif empathyValue < 0:
             newEmpathyValue = DataAccessAPI.getMinimumEmpathy()
@@ -377,24 +378,23 @@ class DataAccessAPI:
         return sanityNameReplacement
 
     @classmethod
-    def checkTreshold(cls,emp_san_switch,value,treshold):
-        switch = emp_san_switch
-        try:
-            if switch.lowercase() == 'e':
-                direction = DA.getEmpathyDirection()
-            elif switch.lowercase() == 's':
-                direction = DA.getSanityDirection()
-        except Exception as e:
-            print(e,'emp_san_switch must be either e or s')
-        else:
-            try:
-                if direction.lower() == 'above':
-                    if value >= treshold: return True
-                    else: return False
-                elif direction.lower() == 'below':
-                    if value <= treshold: return True
-                    else: return False
-            except Exception as e:
-                print(e,'empathy or sanity direction must be "above" or "below"')
+    def _checkTreshold(cls, emp_san_switch, value, treshold):
+        switch = emp_san_switch.lower()
+        switches = {
+            'e': DA.getEmpathyDirection(),
+            's': DA.getSanityDirection()}
+        direction = (switches.get(switch,partial(print, 'emp_san_switch must be either e or s'))).lower()
+        lambda x: True if x % 2 == 0 else False
+        directions = {
+            'above': lambda: True if value >= treshold else False,
+            'below': lambda: True if value <= treshold else False}
+        ifTresholdMet = directions.get(direction, partial(print, 'emp_san_switch must be either e or s'))()
+        return ifTresholdMet
 
+    @classmethod
+    def checkIfDisabled(cls,empathyTreshold,sanityTreshold):
+        empathyCondition = DataAccessAPI._checkTreshold('e', value=DataAccessAPI.getCurrentEmpathyValue(), treshold=empathyTreshold)
+        sanityCondition = DataAccessAPI._checkTreshold('s', value=DataAccessAPI.getCurrentSanityValue(), treshold=sanityTreshold)
+        if (empathyCondition and sanityCondition)==False:
+            return True
 
