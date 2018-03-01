@@ -51,6 +51,7 @@ class DataAccessAPI:
                                                   'pagesLocked'             :description[8],
                                                   'takeItemID'              :description[9],
                                                   'OneTimeInteractionFlag'  :description[10]}
+
         return referenceInteractions
 
     def getReferenceStorylineText(self,pageNo):
@@ -412,3 +413,24 @@ class DataAccessAPI:
     @classmethod
     def clearUsedInteractions(cls):
         DA.removeUsedInteractions()
+
+    @classmethod
+    def getAvailableInteractions(cls,refName,interactions):
+        availableInteractions = interactions.copy()
+        for interaction in interactions:
+            oneTimeFlag = interactions[interaction]['OneTimeInteractionFlag']
+            try:
+                if oneTimeFlag.lower() == 'true':
+                    if (refName,interaction) in DA.getOneTimeInteractions():
+                        del availableInteractions[interaction]
+            except Exception as e:
+                print(e)
+        return availableInteractions
+
+    @classmethod
+    def removeFromAvailableInteractions(cls,refName, interaction):
+        DA.setOneTimeInteraction(refName, interaction)
+
+    @classmethod
+    def clearOneTimeInteractions(cls):
+        DA.removeOneTimeInteractions()

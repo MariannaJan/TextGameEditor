@@ -23,7 +23,7 @@ class ActiveReference:
 
         self.refName = refName
         self.activeReferenceName = DataAccessAPI.getReferenceName(self, refName)
-        self.activeReferenceInteractions = DataAccessAPI.getReferenceInteractions(self, refName)
+        self.activeReferenceInteractions = DataAccessAPI.getAvailableInteractions(refName=self.refName,interactions=DataAccessAPI.getReferenceInteractions(self, refName))
 
     def inspectReference(self):
         """Open inspect popup for the chosen reference."""
@@ -68,6 +68,7 @@ class ActiveReference:
             ActiveReference.open_no_interactions_popup()
         else:
             try:
+                #if DataAccessAPI.getAvailableInteractions(refName=self.refName,interactions=self.activeReferenceInteractions) == {}:
                 if self.activeReferenceInteractions == {}:
                     ActiveReference.open_no_interactions_popup(title=interactTitle)
 
@@ -134,6 +135,11 @@ class ActiveReference:
             DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction]['optionalJournalEntry'])
         lockedPages = self.activeReferenceInteractions[interaction]['pagesLocked']
         self.removeLockedPages(lockedPages)
+        try:
+            if self.activeReferenceInteractions[interaction]['OneTimeInteractionFlag'].lower()=='true':
+                DataAccessAPI.removeFromAvailableInteractions(self.refName,interaction)
+        except Exception as e:
+            print(e)
 
     def takeItem(self,takenItemID):
         DataAccessAPI.putItemInInventory(takenItemID)

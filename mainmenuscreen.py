@@ -57,5 +57,6 @@ class NewGameConfirmationPopup(ActionPopup):
 		DataAccessAPI.clearJournal()
 		DataAccessAPI.clearUsedInteractions()
 		DataAccessAPI.setCurrentPageNo(pageNo)
+		DataAccessAPI.clearOneTimeInteractions()
 		collect()
 

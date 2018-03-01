@@ -599,3 +599,22 @@ class DataAccess:
     def removeUsedInteractions(cls):
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from usedInteractions;')
+
+    @classmethod
+    def setOneTimeInteraction(cls, refName, interaction):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('insert into oneTimeInteractions (refName,interaction) values (?,?);', (refName, interaction))
+
+    @classmethod
+    def getOneTimeInteractions(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        c = base._query('select refName,interaction from oneTimeInteractions;')
+        usedInteractions = []
+        for refName, interaction in c.fetchall():
+            usedInteractions.append((refName, interaction))
+        return usedInteractions
+
+    @classmethod
+    def removeOneTimeInteractions(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from oneTimeInteractions;')
