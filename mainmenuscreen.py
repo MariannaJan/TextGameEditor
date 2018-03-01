@@ -1,4 +1,5 @@
 """Starting screen of the game."""
+from gc import collect
 
 from kivy.core.audio import SoundLoader
 from menuinterface import BasicScreen
@@ -54,5 +55,7 @@ class NewGameConfirmationPopup(ActionPopup):
 		DataAccessAPI.clearInventory()
 		DataAccessAPI.clearTakenReferences()
 		DataAccessAPI.clearJournal()
+		DataAccessAPI.clearUsedInteractions()
 		DataAccessAPI.setCurrentPageNo(pageNo)
+		collect()
 

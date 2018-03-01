@@ -49,7 +49,8 @@ class DataAccessAPI:
                                                   'empathyTreshold'         :description[6],
                                                   'sanityTreshold'          :description[7],
                                                   'pagesLocked'             :description[8],
-                                                  'takeItemID'              :description[9]}
+                                                  'takeItemID'              :description[9],
+                                                  'OneTimeInteractionFlag'  :description[10]}
         return referenceInteractions
 
     def getReferenceStorylineText(self,pageNo):
@@ -397,3 +398,17 @@ class DataAccessAPI:
         if (empathyCondition and sanityCondition)==False:
             return True
 
+    @classmethod
+    def checkIfFirstUse(cls,refName,interaction):
+        if (refName,interaction) in DA.getUsedInteractions():
+            return False
+        else:
+            return True
+
+    @classmethod
+    def markInteractionAsUsed(cls,refName,interaction):
+        DA.setUsedInteractionFlag(refName,interaction)
+
+    @classmethod
+    def clearUsedInteractions(cls):
+        DA.removeUsedInteractions()

@@ -60,3 +60,6 @@ class Empathy(App):
 
 if __name__=="__main__":
 	Empathy().run()
+
+#TODO: dialogues
+#TODO: story choosing

@@ -129,8 +129,7 @@ class ActiveReference:
         intResPop.interactResultPopupLayout.add_widget(closeButton)
         intResPop.open()
         self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction]['pageNo'])
-        ActiveReference.adjustEmpathy(self.activeReferenceInteractions[interaction]['empathyValue'])
-        ActiveReference.adjustSanity(self.activeReferenceInteractions[interaction]['sanityValue'])
+        self.adjustBars(refName=self.refName,interaction=interaction)
         if self.activeReferenceInteractions[interaction]['optionalJournalEntry'] is not None:
             DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction]['optionalJournalEntry'])
         lockedPages = self.activeReferenceInteractions[interaction]['pagesLocked']
@@ -189,6 +188,12 @@ class ActiveReference:
             lockedPages = lockedPages.split(',')
             for page in lockedPages:
                 DataAccessAPI.removePlace(page)
+
+    def adjustBars(self,refName,interaction):
+        if DataAccessAPI.checkIfFirstUse(refName=refName,interaction=interaction):
+            ActiveReference.adjustEmpathy(self.activeReferenceInteractions[interaction]['empathyValue'])
+            ActiveReference.adjustSanity(self.activeReferenceInteractions[interaction]['sanityValue'])
+            DataAccessAPI.markInteractionAsUsed(refName, interaction)
 
     @classmethod
     def adjustEmpathy(cls,emapthyValue):

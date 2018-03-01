@@ -128,9 +128,9 @@ class DataAccess:
         """
         activeObjectInteractions = {}
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
-        for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID in c.fetchall():
-            activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID)
+        c=base._query("select Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID,OneTimeInteractionFlag from Interactions where ReferenceDictionary_Reference =(?)", (refName,))
+        for Name,Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID,OneTimeInteractionFlag in c.fetchall():
+            activeObjectInteractions[Name]=(Storyline_PageNo,MapNo,EmpathyValue,SanityValue,Description,OptionalJournalEntry,EmpathyTreshold,SanityTreshold,PagesLocked,TakeItemID,OneTimeInteractionFlag)
         return activeObjectInteractions
 
     def getStorylinePageText(self, pageNo):
@@ -581,4 +581,21 @@ class DataAccess:
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from AvailableLocations;')
 
+    @classmethod
+    def setUsedInteractionFlag(cls,refName,interaction):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('insert into usedInteractions (refName,interaction) values (?,?);', (refName,interaction))
 
+    @classmethod
+    def getUsedInteractions(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        c = base._query('select refName,interaction from usedInteractions;')
+        usedInteractions = []
+        for refName,interaction in c.fetchall():
+            usedInteractions.append((refName,interaction))
+        return usedInteractions
+
+    @classmethod
+    def removeUsedInteractions(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        base._query('delete from usedInteractions;')
