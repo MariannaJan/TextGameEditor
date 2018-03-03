@@ -41,16 +41,17 @@ class DataAccessAPI:
         interactions = DA.getActiveObjectInteractions(self,refName)
         for interaction, description in interactions.items():
             referenceInteractions[interaction] = {'pageNo'                  :description[0],
-                                                  'mapNo'                   :description[1],
-                                                  'empathyValue'            :description[2],
-                                                  'sanityValue'             :description[3],
-                                                  'interactionDescription'  :description[4],
-                                                  'optionalJournalEntry'    :description[5],
-                                                  'empathyTreshold'         :description[6],
-                                                  'sanityTreshold'          :description[7],
-                                                  'pagesLocked'             :description[8],
-                                                  'takeItemID'              :description[9],
-                                                  'OneTimeInteractionFlag'  :description[10]}
+                                                  'empathyValue'            :description[1],
+                                                  'sanityValue'             :description[2],
+                                                  'interactionDescription'  :description[3],
+                                                  'optionalJournalEntry'    :description[4],
+                                                  'empathyTreshold'         :description[5],
+                                                  'sanityTreshold'          :description[6],
+                                                  'pagesLocked'             :description[7],
+                                                  'takeItemID'              :DataAccessAPI._splitByComma(description[8]),
+                                                  'OneTimeInteractionFlag'  :DataAccessAPI._changeToBool(description[9]),
+                                                  'RemoveItemId'            :DataAccessAPI._splitByComma(description[10]),
+                                                  'PurgeInventoryFlag'      :DataAccessAPI._changeToBool(description[11])}
 
         return referenceInteractions
 
@@ -266,10 +267,9 @@ class DataAccessAPI:
                                         'sanityTreshold'            :description[4],
                                         'empathyTreshold'           :description[5],
                                         'pageNo'                    :description[6],
-                                        'mapNo'                     :description[7],
-                                        'optionalJpurnalEntry'      :description[8],
-                                        'pagesLocked'               :description[9],
-                                        'removeFromInventoryFlag'   :description[10]}
+                                        'optionalJournalEntry'      :description[7],
+                                        'pagesLocked'               :description[8],
+                                        'removeFromInventoryFlag'   :DataAccessAPI._changeToBool(description[9])}
         return infoOnItemUseInWorld
 
     @classmethod
@@ -285,9 +285,8 @@ class DataAccessAPI:
                                'sanityTreshold'         :itemUseOnItem[6],
                                'empathyTreshold'        :itemUseOnItem[7],
                                'pageNo'                 :itemUseOnItem[8],
-                               'mapNo'                  :itemUseOnItem[9],
-                               'optionalJournalEntry'   :itemUseOnItem[10],
-                               'pagesLocked'            :itemUseOnItem[11]}
+                               'optionalJournalEntry'   :itemUseOnItem[9],
+                               'pagesLocked'            :itemUseOnItem[10]}
         return infoOnItemUseOnItem
 
     @classmethod
@@ -418,13 +417,9 @@ class DataAccessAPI:
     def getAvailableInteractions(cls,refName,interactions):
         availableInteractions = interactions.copy()
         for interaction in interactions:
-            oneTimeFlag = interactions[interaction]['OneTimeInteractionFlag']
-            try:
-                if oneTimeFlag.lower() == 'true':
-                    if (refName,interaction) in DA.getOneTimeInteractions():
-                        del availableInteractions[interaction]
-            except Exception as e:
-                print(e)
+            if interactions[interaction]['OneTimeInteractionFlag']:
+                if (refName,interaction) in DA.getOneTimeInteractions():
+                    del availableInteractions[interaction]
         return availableInteractions
 
     @classmethod
@@ -434,3 +429,17 @@ class DataAccessAPI:
     @classmethod
     def clearOneTimeInteractions(cls):
         DA.removeOneTimeInteractions()
+
+    @classmethod
+    def _changeToBool(cls, stringToConvert):
+        if str(stringToConvert).lower() == 'true':
+            return True
+        else:
+            return False
+
+    @classmethod
+    def _splitByComma(cls,stringToSplit):
+        if stringToSplit is not None:
+            splitted = stringToSplit.split(',')
+        else: splitted = []
+        return splitted

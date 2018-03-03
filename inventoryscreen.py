@@ -19,7 +19,7 @@ from gamescreen import GameScreen
 class InventoryScreen(BasicScreen):
     """Setup the screen for inventory."""
 
-    def on_pre_enter(self, *args):
+    def on_enter(self, *args):
         """Dinamically generates the inventory screen."""
 
         inventoryTitle = InventoryTitle(text=GameStrings.inventorytext)

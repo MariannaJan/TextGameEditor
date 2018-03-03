@@ -29,8 +29,9 @@ class GameScreen(BasicScreen):
 		"""
 		try:
 			clickedReference = ActiveReference(refName)
-		except:
+		except Exception as e:
 			print('No reference in references dictionary.')
+			print(e)
 		else:
 			useFlag = self.referenceTextLabel.flag
 			possibleUses = {

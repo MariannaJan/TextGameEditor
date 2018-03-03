@@ -106,8 +106,8 @@ class ActiveReference:
         intPop = intPop
         self.open_interact_result_popup(interaction, interactee)
         takenItem = self.activeReferenceInteractions[interaction]['takeItemID']
-        if takenItem is not None:
-            self.takeItem(takenItemID=takenItem)
+        if takenItem !=[]:
+            self.takeItem(takenItemIDs=takenItem)
         intPop.dismiss()
 
 
@@ -135,14 +135,17 @@ class ActiveReference:
             DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction]['optionalJournalEntry'])
         lockedPages = self.activeReferenceInteractions[interaction]['pagesLocked']
         self.removeLockedPages(lockedPages)
-        try:
-            if self.activeReferenceInteractions[interaction]['OneTimeInteractionFlag'].lower()=='true':
-                DataAccessAPI.removeFromAvailableInteractions(self.refName,interaction)
-        except Exception as e:
-            print(e)
+        if self.activeReferenceInteractions[interaction]['OneTimeInteractionFlag']:
+            DataAccessAPI.removeFromAvailableInteractions(self.refName,interaction)
+        if self.activeReferenceInteractions[interaction]['RemoveItemId'] != []:
+            for itemID in self.activeReferenceInteractions[interaction]['RemoveItemId']:
+                DataAccessAPI.removeUsedItemFromInventory(itemID)
+        if self.activeReferenceInteractions[interaction]['PurgeInventoryFlag']:
+            DataAccessAPI.clearInventory()
 
-    def takeItem(self,takenItemID):
-        DataAccessAPI.putItemInInventory(takenItemID)
+    def takeItem(self,takenItemIDs):
+        for takenItemID in takenItemIDs:
+            DataAccessAPI.putItemInInventory(takenItemID)
         DataAccessAPI.markReferenceAsTaken(self.refName)
 
     def switchCurrentPage(self,pageName):
@@ -155,7 +158,6 @@ class ActiveReference:
         try:
             itemFeatures = DataAccessAPI.getInfoOnItemUseInWorld(refName,itemID)[itemID]
             useEffectDescriptionText = itemFeatures['effectDescription']
-            print(itemFeatures['empathyTreshold'])
         except Exception as e:
             print(str(e))
             ActiveReference.open_no_interactions_popup()
@@ -174,11 +176,10 @@ class ActiveReference:
                 useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
                 useIntOnRefPopup.open()
                 self.switchCurrentPage(pageName=itemFeatures['pageNo'])
-                removeFromInvenoryFlag = itemFeatures['removeFromInventoryFlag']
-                journalEntry = itemFeatures['optionalJpurnalEntry']
+                journalEntry = itemFeatures['optionalJournalEntry']
                 if journalEntry is not None:
                     DataAccessAPI.addJournalEntry(journalEntry)
-                if removeFromInvenoryFlag.lower() == 'true':
+                if itemFeatures['removeFromInventoryFlag']:
                     DataAccessAPI.removeUsedItemFromInventory(itemID)
                 lockedPages = itemFeatures['pagesLocked']
                 ActiveReference.removeLockedPages(lockedPages)
