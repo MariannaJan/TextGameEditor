@@ -129,26 +129,28 @@ class ActiveReference:
         closeButton.size_hint = (1,0.3)
         intResPop.interactResultPopupLayout.add_widget(closeButton)
         intResPop.open()
-        self.switchCurrentPage(pageName=self.activeReferenceInteractions[interaction]['pageNo'])
-        self.adjustBars(refName=self.refName,interaction=interaction)
-        if self.activeReferenceInteractions[interaction]['optionalJournalEntry'] is not None:
-            DataAccessAPI.addJournalEntry(self.activeReferenceInteractions[interaction]['optionalJournalEntry'])
-        lockedPages = self.activeReferenceInteractions[interaction]['pagesLocked']
-        self.removeLockedPages(lockedPages)
-        if self.activeReferenceInteractions[interaction]['OneTimeInteractionFlag']:
-            DataAccessAPI.removeFromAvailableInteractions(self.refName,interaction)
-        if self.activeReferenceInteractions[interaction]['RemoveItemId'] != []:
-            for itemID in self.activeReferenceInteractions[interaction]['RemoveItemId']:
-                DataAccessAPI.removeUsedItemFromInventory(itemID)
-        if self.activeReferenceInteractions[interaction]['PurgeInventoryFlag']:
-            DataAccessAPI.clearInventory()
+        ActiveReference.activateInteractionEffects(interactionInfo=self.activeReferenceInteractions[interaction],refName=self.refName,interactionName=interaction)
+
+    @classmethod
+    def removeLockedPages(cls,lockedPages):
+        if lockedPages is not None:
+            lockedPages = lockedPages.split(',')
+            for page in lockedPages:
+                DataAccessAPI.removePlace(page)
 
     def takeItem(self,takenItemIDs):
         for takenItemID in takenItemIDs:
             DataAccessAPI.putItemInInventory(takenItemID)
         DataAccessAPI.markReferenceAsTaken(self.refName)
 
-    def switchCurrentPage(self,pageName):
+    @classmethod
+    def receiveItem(cls,takenItemIDs):
+        if takenItemIDs !=[]:
+            for takenItemID in takenItemIDs:
+                DataAccessAPI.putItemInInventory(takenItemID)
+
+    @classmethod
+    def switchCurrentPage(cls,pageName):
         DataAccessAPI.setCurrentPageNo(pageName)
         refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
         refTextLabel.changeCurrentPage()
@@ -175,14 +177,8 @@ class ActiveReference:
                 useIntOnRefPopup.useInWorldLayout.add_widget(useEffectDescription)
                 useIntOnRefPopup.useInWorldLayout.add_widget(closeButton)
                 useIntOnRefPopup.open()
-                self.switchCurrentPage(pageName=itemFeatures['pageNo'])
-                journalEntry = itemFeatures['optionalJournalEntry']
-                if journalEntry is not None:
-                    DataAccessAPI.addJournalEntry(journalEntry)
-                if itemFeatures['removeFromInventoryFlag']:
-                    DataAccessAPI.removeUsedItemFromInventory(itemID)
-                lockedPages = itemFeatures['pagesLocked']
-                ActiveReference.removeLockedPages(lockedPages)
+                ActiveReference.activateInteractionEffects(interactionInfo=itemFeatures)
+                ActiveReference.receiveItem(takenItemIDs=itemFeatures['takeItemID'])
 
     @classmethod
     def open_no_interactions_popup(cls,title=''):
@@ -190,17 +186,11 @@ class ActiveReference:
         noInterPop.open()
 
     @classmethod
-    def removeLockedPages(cls,lockedPages):
-        if lockedPages is not None:
-            lockedPages = lockedPages.split(',')
-            for page in lockedPages:
-                DataAccessAPI.removePlace(page)
-
-    def adjustBars(self,refName,interaction):
+    def adjustBars(cls,refName='',interaction='',interactionName=''):
         if DataAccessAPI.checkIfFirstUse(refName=refName,interaction=interaction):
-            ActiveReference.adjustEmpathy(self.activeReferenceInteractions[interaction]['empathyValue'])
-            ActiveReference.adjustSanity(self.activeReferenceInteractions[interaction]['sanityValue'])
-            DataAccessAPI.markInteractionAsUsed(refName, interaction)
+            ActiveReference.adjustEmpathy(interaction['empathyValue'])
+            ActiveReference.adjustSanity(interaction['sanityValue'])
+            DataAccessAPI.markInteractionAsUsed(refName, interactionName)
 
     @classmethod
     def adjustEmpathy(cls,emapthyValue):
@@ -215,6 +205,26 @@ class ActiveReference:
         app = App.get_running_app()
         sanityBar = app.root.children[0].current_screen.sanityBar
         sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
+
+    @classmethod
+    def activateInteractionEffects(cls,interactionInfo,refName='',interactionName=''):
+        ActiveReference.switchCurrentPage(pageName=interactionInfo['pageNo'])
+        ActiveReference.adjustBars(refName=refName, interaction=interactionInfo, interactionName=interactionName)
+        if interactionInfo['optionalJournalEntry'] is not None:
+            DataAccessAPI.addJournalEntry(interactionInfo['optionalJournalEntry'])
+        lockedPages = interactionInfo['pagesLocked']
+        ActiveReference.removeLockedPages(lockedPages)
+        if interactionInfo['RemoveItemId'] != []:
+            for itemID in interactionInfo['RemoveItemId']:
+                DataAccessAPI.removeUsedItemFromInventory(itemID)
+                print(itemID)
+        if interactionInfo['PurgeInventoryFlag']:
+            DataAccessAPI.clearInventory()
+        try:
+            if interactionInfo['OneTimeInteractionFlag']:
+                DataAccessAPI.removeFromAvailableInteractions(refName, interactionName)
+        except Exception as e:
+            print(e)
 
 class InspectPopup(ActionPopup):
     """Setup popup for inspecting a reference. Details in gamescreen.kv file."""

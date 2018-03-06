@@ -269,7 +269,9 @@ class DataAccessAPI:
                                         'pageNo'                    :description[6],
                                         'optionalJournalEntry'      :description[7],
                                         'pagesLocked'               :description[8],
-                                        'removeFromInventoryFlag'   :DataAccessAPI._changeToBool(description[9])}
+                                        'PurgeInventoryFlag'        :DataAccessAPI._changeToBool(description[9]),
+                                        'RemoveItemId'              :DataAccessAPI._splitByComma(description[10]),
+                                        'takeItemID'                :DataAccessAPI._splitByComma(description[11])}
         return infoOnItemUseInWorld
 
     @classmethod
@@ -443,3 +445,4 @@ class DataAccessAPI:
             splitted = stringToSplit.split(',')
         else: splitted = []
         return splitted
+

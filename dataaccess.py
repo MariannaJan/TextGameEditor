@@ -516,10 +516,10 @@ class DataAccess:
     @classmethod
     def getDataOnItemUseInWorld(cls,refName,itemID):
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        c = base._query('select ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, OptionalJournalEntry, PagesLocked, RemoveFromInventoryFlag from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
+        c = base._query('select ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, OptionalJournalEntry, PagesLocked, PurgeInventoryFlag, RemoveItemId, takeItemID from InventoryItemUseRefMatch where RefName = (?) and ItemID = (?);',(refName,itemID))
         useInWorldData = {}
-        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, OptionalJournalEntry, PagesLocked, RemoveFromInventoryFlag in c.fetchall():
-            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, OptionalJournalEntry, PagesLocked, RemoveFromInventoryFlag)
+        for ItemID, RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, OptionalJournalEntry, PagesLocked, PurgeInventoryFlag, RemoveItemId, takeItemID in c.fetchall():
+            useInWorldData[ItemID] = (RefName, EffectDescription, Sanity, Empathy, SanityTreshold, EmpathyTreshold, PageNo, OptionalJournalEntry, PagesLocked, PurgeInventoryFlag, RemoveItemId, takeItemID)
 
         return useInWorldData
 
