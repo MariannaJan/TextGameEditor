@@ -123,6 +123,7 @@ class InventoryScreen(BasicScreen):
                 useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
                 useItemOnItemResultPopup.open()
                 ActiveReference.activateInteractionEffects(interactionInfo=infoOnItemUse)
+                ActiveReference.receiveItem(takenItemIDs=infoOnItemUse['takeItemID'])
                 InventoryScreen.inventoryItemsUpdate()
 
     @classmethod

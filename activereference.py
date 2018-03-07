@@ -198,22 +198,19 @@ class ActiveReference:
     @classmethod
     def adjustEmpathy(cls,emapthyValue):
         DataAccessAPI.setCurrentEmpathyValue(emapthyValue)
-        try:
-            app = App.get_running_app()
+        app = App.get_running_app()
+        if type(app.root.children[0].current_screen) == 'GameScreen':
             empathyBar = app.root.children[0].current_screen.empathyBar
             empathyBar.empathyValue = DataAccessAPI.getCurrentEmpathyValue()
-        except Exception as e:
-            print(e)
+
 
     @classmethod
     def adjustSanity(cls,sanityValue):
         DataAccessAPI.setCurrentSanityValue(sanityValue)
-        try:
-            app = App.get_running_app()
+        app = App.get_running_app()
+        if type(app.root.children[0].current_screen) == 'GameScreen':
             sanityBar = app.root.children[0].current_screen.sanityBar
             sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
-        except Exception as e:
-            print(e)
 
     @classmethod
     def activateInteractionEffects(cls,interactionInfo,refName='',interactionName=''):
@@ -226,7 +223,6 @@ class ActiveReference:
         if interactionInfo['RemoveItemId'] != []:
             for itemID in interactionInfo['RemoveItemId']:
                 DataAccessAPI.removeUsedItemFromInventory(itemID)
-                print(itemID)
         if interactionInfo['PurgeInventoryFlag']:
             DataAccessAPI.clearInventory()
         try:
