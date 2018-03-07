@@ -187,7 +187,7 @@ class ActiveReference:
 
     @classmethod
     def adjustBars(cls,refName='',interaction='',interactionName=''):
-        if DataAccessAPI.checkIfFirstUse(refName=refName,interaction=interaction):
+        if DataAccessAPI.checkIfFirstUse(refName=refName,interaction=interactionName):
             ActiveReference.adjustEmpathy(interaction['empathyValue'])
             ActiveReference.adjustSanity(interaction['sanityValue'])
             DataAccessAPI.markInteractionAsUsed(refName, interactionName)
