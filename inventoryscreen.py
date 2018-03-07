@@ -122,18 +122,11 @@ class InventoryScreen(BasicScreen):
                 useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(StorylineLabel(text=resultDescription))
                 useItemOnItemResultPopup.useItemOnItemResultLayout.add_widget(closeButton)
                 useItemOnItemResultPopup.open()
-                createdItem = infoOnItemUse['createdObjectID']
-                InventoryScreen.inventoryItemsUpdate(createdItem,itemID,targetItemID)
-                if infoOnItemUse['optionalJournalEntry'] is not None:
-                    DataAccessAPI.addJournalEntry(infoOnItemUse['optionalJournalEntry'])
-                lockedPages = infoOnItemUse['pagesLocked']
-                ActiveReference.removeLockedPages(lockedPages)
+                ActiveReference.activateInteractionEffects(interactionInfo=infoOnItemUse)
+                InventoryScreen.inventoryItemsUpdate()
 
     @classmethod
-    def inventoryItemsUpdate(cls,createdItem,itemID,targetItemID):
-        DataAccessAPI.putItemInInventory(createdItem)
-        DataAccessAPI.removeUsedItemFromInventory(itemID)
-        DataAccessAPI.removeUsedItemFromInventory(targetItemID)
+    def inventoryItemsUpdate(cls):
         App.get_running_app().root.children[0].current_screen.on_leave()
         App.get_running_app().root.children[0].current_screen.on_enter()
 

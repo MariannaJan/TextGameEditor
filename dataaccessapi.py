@@ -280,7 +280,7 @@ class DataAccessAPI:
         itemUseOnItem = DA.getDataOnItemUseOnItem(itemID_1,itemID_2)
         infoOnItemUseOnItem = {'itemID_1'               :itemUseOnItem[0],
                                'itemID_2'               :itemUseOnItem[1],
-                               'createdObjectID'        :itemUseOnItem[2],
+                               'takeItemID'             :DataAccessAPI._splitByComma(itemUseOnItem[2]),
                                'effectDescription'      :itemUseOnItem[3],
                                'sanityValue'            :itemUseOnItem[4],
                                'empathyValue'           :itemUseOnItem[5],
@@ -288,7 +288,9 @@ class DataAccessAPI:
                                'empathyTreshold'        :itemUseOnItem[7],
                                'pageNo'                 :itemUseOnItem[8],
                                'optionalJournalEntry'   :itemUseOnItem[9],
-                               'pagesLocked'            :itemUseOnItem[10]}
+                               'pagesLocked'            :itemUseOnItem[10],
+                               'RemoveItemId'           :DataAccessAPI._splitByComma(itemUseOnItem[11]),
+                               'PurgeInventoryFlag'     :DataAccessAPI._changeToBool(itemUseOnItem[12])}
         return infoOnItemUseOnItem
 
     @classmethod
@@ -402,6 +404,8 @@ class DataAccessAPI:
 
     @classmethod
     def checkIfFirstUse(cls,refName,interaction):
+        if refName == '' or interaction == '':
+            return True
         if (refName,interaction) in DA.getUsedInteractions():
             return False
         else:

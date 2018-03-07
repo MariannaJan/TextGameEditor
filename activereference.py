@@ -152,8 +152,11 @@ class ActiveReference:
     @classmethod
     def switchCurrentPage(cls,pageName):
         DataAccessAPI.setCurrentPageNo(pageName)
-        refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
-        refTextLabel.changeCurrentPage()
+        try:
+            refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
+            refTextLabel.changeCurrentPage()
+        except Exception as e:
+            print(e)
 
     def useInventoryItemOnReference(self,refName):
         itemID = self.objectFromInventory
@@ -195,16 +198,22 @@ class ActiveReference:
     @classmethod
     def adjustEmpathy(cls,emapthyValue):
         DataAccessAPI.setCurrentEmpathyValue(emapthyValue)
-        app = App.get_running_app()
-        empathyBar = app.root.children[0].current_screen.empathyBar
-        empathyBar.empathyValue = DataAccessAPI.getCurrentEmpathyValue()
+        try:
+            app = App.get_running_app()
+            empathyBar = app.root.children[0].current_screen.empathyBar
+            empathyBar.empathyValue = DataAccessAPI.getCurrentEmpathyValue()
+        except Exception as e:
+            print(e)
 
     @classmethod
     def adjustSanity(cls,sanityValue):
         DataAccessAPI.setCurrentSanityValue(sanityValue)
-        app = App.get_running_app()
-        sanityBar = app.root.children[0].current_screen.sanityBar
-        sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
+        try:
+            app = App.get_running_app()
+            sanityBar = app.root.children[0].current_screen.sanityBar
+            sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
+        except Exception as e:
+            print(e)
 
     @classmethod
     def activateInteractionEffects(cls,interactionInfo,refName='',interactionName=''):

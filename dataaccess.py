@@ -526,10 +526,10 @@ class DataAccess:
     @classmethod
     def getDataOnItemUseOnItem(cls,itemID1,itemID2):
         base = DataAccess(DataAccess.getChosenStoryDatabase())
-        c = base._query('select itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,OptionalJournalEntry,PagesLocked from InventoryItemsMatch where (ItemID_1 = (?) and ItemID_2 = (?)) or (ItemID_1 = (?) and ItemID_2 = (?));',(itemID1,itemID2,itemID2,itemID1))
+        c = base._query('select itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,OptionalJournalEntry,PagesLocked,RemoveItemId,PurgeInventoryFlag from InventoryItemsMatch where (ItemID_1 = (?) and ItemID_2 = (?)) or (ItemID_1 = (?) and ItemID_2 = (?));',(itemID1,itemID2,itemID2,itemID1))
         useItemOnItemData = []
-        for itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,OptionalJournalEntry,PagesLocked in c.fetchall():
-            useItemOnItemData = [itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,OptionalJournalEntry,PagesLocked]
+        for itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,OptionalJournalEntry,PagesLocked,RemoveItemId,PurgeInventoryFlag in c.fetchall():
+            useItemOnItemData = [itemID_1,itemID_2, CreatedObjectID,EffectDescription,Sanity,Empathy,SanityTreshold,EmpathyTreshold,PageNo,OptionalJournalEntry,PagesLocked,RemoveItemId,PurgeInventoryFlag]
         return useItemOnItemData
 
     @classmethod
