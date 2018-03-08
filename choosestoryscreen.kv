@@ -1,5 +1,6 @@
 #:kivy 1.10.0
 #: import GameStrings gamestrings.GameStrings
+#: import StoriesButton customlistbuttons.StoriesButton
 
 <ChooseStoryScreen>
     name: 'choosestoryscreen'
@@ -12,9 +13,14 @@
             halign: 'center'
             size_hint_y: .2
 
-        MenuButton:
-            text: 'Empathy'
-            on_press: root.startStory()
+        CustomListView:
+            id: story_chooser_view
+            size_hint_y: .8
+            adapter:
+                ListAdapter(data=root.stories,
+                selection_mode='single',
+                allow_empty_selection=False,
+                cls=StoriesButton)
 
         MenuButton:
             text: GameStrings.closetext

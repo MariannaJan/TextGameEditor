@@ -68,10 +68,8 @@ class ActiveReference:
             ActiveReference.open_no_interactions_popup()
         else:
             try:
-                #if DataAccessAPI.getAvailableInteractions(refName=self.refName,interactions=self.activeReferenceInteractions) == {}:
                 if self.activeReferenceInteractions == {}:
                     ActiveReference.open_no_interactions_popup(title=interactTitle)
-
                 else:
                     intPop = InteractPopup(title=interactTitle)
                     self.interactButtonsGeneration(intPop)
@@ -152,11 +150,9 @@ class ActiveReference:
     @classmethod
     def switchCurrentPage(cls,pageName):
         DataAccessAPI.setCurrentPageNo(pageName)
-        try:
+        if App.get_running_app().root.children[0].children[0].name == 'gamescreen':
             refTextLabel = App.get_running_app().root.children[0].children[0].ids['reference_text_label']
             refTextLabel.changeCurrentPage()
-        except Exception as e:
-            print(e)
 
     def useInventoryItemOnReference(self,refName):
         itemID = self.objectFromInventory
@@ -225,11 +221,8 @@ class ActiveReference:
                 DataAccessAPI.removeUsedItemFromInventory(itemID)
         if interactionInfo['PurgeInventoryFlag']:
             DataAccessAPI.clearInventory()
-        try:
-            if interactionInfo['OneTimeInteractionFlag']:
-                DataAccessAPI.removeFromAvailableInteractions(refName, interactionName)
-        except Exception as e:
-            print(e)
+        if interactionInfo.get('OneTimeInteractionFlag',False):
+            DataAccessAPI.removeFromAvailableInteractions(refName, interactionName)
 
 class InspectPopup(ActionPopup):
     """Setup popup for inspecting a reference. Details in gamescreen.kv file."""
@@ -279,6 +272,5 @@ class ReferenceTextLabel(StorylineLabel):
         journalEntry = DataAccessAPI.getPageJournalEntry(pageNo)
         if journalEntry is not None:
             DataAccessAPI.addJournalEntry(journalEntry)
-
         DataAccessAPI.addPlace(pageNo)
 

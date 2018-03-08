@@ -36,11 +36,13 @@
 			on_release: app.get_running_app().stop()
 
 <NewGameConfirmationPopup>
+    popupText: popup_text
     title: ''
 
     MenuBoxLayout:
 
         CustomLabel:
+            id: popup_text
             text: GameStrings.newgameconfirmtext
             font_size: self.height*.1
             halign: 'justify'

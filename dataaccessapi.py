@@ -344,8 +344,15 @@ class DataAccessAPI:
 
     @classmethod
     def getEmpathyRange(cls):
-        empathyRange = (int(DA.getMinimumEmpathyValue()),int(DA.getMaximumEmpathyValue()))
-        return empathyRange
+        try:
+            empathyRange = (int(DA.getMinimumEmpathyValue()),int(DA.getMaximumEmpathyValue()))
+
+        except Exception as e:
+            print(e)
+            return (0, 100)
+        else:
+            return empathyRange
+
 
     @classmethod
     def getMinimumSanity(cls):
@@ -359,13 +366,20 @@ class DataAccessAPI:
 
     @classmethod
     def getSanityRange(cls):
-        sanityRange = (int(DA.getMinimumSanityValue()),int(DA.getMaximumSanityValue()))
-        return sanityRange
+        try:
+            sanityRange = (int(DA.getMinimumSanityValue()),int(DA.getMaximumSanityValue()))
+        except Exception as e:
+            print(e)
+            return(0,100)
+        else:
+            return sanityRange
 
     @classmethod
     def getEmpathyNameReplacement(cls):
         empathyNameReplacement = DA.getEmpathyName()
-        return empathyNameReplacement
+        if empathyNameReplacement is not None:
+            return empathyNameReplacement
+        return ''
 
     @classmethod
     def getEmpathyDescriptionReplacement(cls):
@@ -375,7 +389,9 @@ class DataAccessAPI:
     @classmethod
     def getSanityNameReplacement(cls):
         sanityNameReplacement = DA.getSanityName()
-        return sanityNameReplacement
+        if sanityNameReplacement is not None:
+            return sanityNameReplacement
+        return ''
 
     @classmethod
     def getSanityDescriptionReplacement(cls):
@@ -450,3 +466,17 @@ class DataAccessAPI:
         else: splitted = []
         return splitted
 
+    @classmethod
+    def getAvailableStoriesNames(cls):
+        stories = []
+        for story in DA.getAvailableStories():
+            stories.append(DA.getStoryTitle(story))
+        return stories
+
+    @classmethod
+    def getStories(cls):
+        return list(map(str,DA.getAvailableStories()))
+
+    @classmethod
+    def getStoryDesc(cls,databaseFile):
+        return DA.getStoryDescription(databaseFile=databaseFile)

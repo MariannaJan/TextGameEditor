@@ -1,4 +1,5 @@
 import sqlite3
+from pathlib import Path
 
 
 
@@ -21,7 +22,7 @@ class DataAccess:
         self.databaseName = databaseName
         try:
             with open(databaseName):
-                with sqlite3.connect(databaseName) as self.conn:
+                with sqlite3.connect(str(databaseName)) as self.conn:
                     self.conn.row_factory = sqlite3.Row
                     self.cur = self.conn.cursor()
         except IOError as e:
@@ -343,8 +344,9 @@ class DataAccess:
         :return: name of the database for the chosen story
         :rtype: str
         """
+        storiesFolder = Path('Stories')
         chosenStoryDatabase = cls._getSavedSetting('chosenGameDatabase')
-        return chosenStoryDatabase
+        return storiesFolder / chosenStoryDatabase
 
     @classmethod
     def _getSavedGameStateElement(cls,requestedElement):
@@ -412,7 +414,19 @@ class DataAccess:
     def _getStorySpecificationElement(cls,requestedElement):
         queryText = ''.join(['select ', requestedElement, ' from StorySpecification'])
         storySpecificationElement = cls._getSingleString(cls, DataAccess.getChosenStoryDatabase(), queryText)
+        if storySpecificationElement is None:
+            print('missiang element:',requestedElement)
         return storySpecificationElement
+
+    @classmethod
+    def getStoryTitle(cls,databaseFile):
+        storyTitle = cls._getSingleString(cls, databaseName=databaseFile,queryText='select StoryName from StorySpecification' )
+        return storyTitle
+
+    @classmethod
+    def getStoryDescription(cls,databaseFile):
+        storyDescription = cls._getSingleString(cls, databaseName=databaseFile,queryText='select StoryDescription from StorySpecification')
+        return storyDescription
 
     @classmethod
     def getStoryFirstPageNo(cls):
@@ -618,3 +632,8 @@ class DataAccess:
     def removeOneTimeInteractions(cls):
         base = DataAccess(DataAccess.engineDatabase)
         base._query('delete from oneTimeInteractions;')
+
+    @classmethod
+    def getAvailableStories(cls):
+        stories = [story for story in Path('Stories').iterdir() if story.is_file() and story.name.endswith('.db')]
+        return stories
