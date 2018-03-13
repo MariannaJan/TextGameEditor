@@ -39,3 +39,4 @@ class GameStrings:
     turnsoundontext = 'Turn the sound ON'
     turnsoundofftext = 'Turn the sound OFF'
     choosethemetext = 'Choose theme'
+    mustchoosestorytext = 'You need to choose a story.\nDo you want to do it now?'

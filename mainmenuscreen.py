@@ -1,12 +1,14 @@
 """Starting screen of the game."""
 from gc import collect
+from functools import wraps
 
 from kivy.core.audio import SoundLoader
+from kivy.app import App
 from menuinterface import BasicScreen
 from menuinterface import SoundSettings
 from menuinterface import ActionPopup
 from dataaccessapi import DataAccessAPI
-
+from dataaccess import DataAccess
 
 class MainMenuScreen(BasicScreen):
 	"""Create main menu for the game. The complete setup in kv file."""
@@ -41,8 +43,21 @@ class MainMenuScreen(BasicScreen):
 			print("no audio file to be stopped")
 
 	def newGameConfirmationPopupOpen(self):
-		confirmPop = NewGameConfirmationPopup()
-		confirmPop.open()
+		if DataAccess.checkIfStoryExists():
+			confirmPop = NewGameConfirmationPopup()
+			confirmPop.open()
+		else:
+			mustChoosePop = MustChooseStoryPopup()
+			mustChoosePop.open()
+
+	def continueGame(self):
+		if DataAccess.checkIfStoryExists():
+			App.get_running_app().root.children[0].current = "gamescreen"
+		else:
+			mustChoosePop = MustChooseStoryPopup()
+			mustChoosePop.open()
+
+
 
 class NewGameConfirmationPopup(ActionPopup):
 
@@ -60,4 +75,5 @@ class NewGameConfirmationPopup(ActionPopup):
 		DataAccessAPI.clearOneTimeInteractions()
 		collect()
 
-
+class MustChooseStoryPopup(ActionPopup):
+	pass

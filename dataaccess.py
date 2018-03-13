@@ -26,8 +26,8 @@ class DataAccess:
                     self.conn.row_factory = sqlite3.Row
                     self.cur = self.conn.cursor()
         except IOError as e:
-            print(e)
-            print('No database to open!')
+            print(e,'No database to open!')
+            DataAccess._setSavedSetting('chosenGameDatabase','')
 
     def _query(self, queryText, *args):
         """Internal method for simplifying making queries to database.
@@ -41,6 +41,8 @@ class DataAccess:
         """
         try:
             self.cur.execute(queryText,*args)
+        except Exception as e:
+            print(e)
         except Exception as e:
             print(e)
             print('database error - cannot execute query')
@@ -639,5 +641,16 @@ class DataAccess:
 
     @classmethod
     def getAvailableStories(cls):
-        stories = [story for story in Path('Stories').iterdir() if story.is_file() and story.name.endswith('.db')]
-        return stories
+        try:
+            stories = [story for story in Path('Stories').iterdir() if story.is_file() and story.name.endswith('.db')]
+            return stories
+        except Exception as e:
+            print(e)
+            return []
+
+    @classmethod
+    def checkIfStoryExists(cls):
+        if cls._getSavedSetting('chosenGameDatabase') in ('None',''):
+            return False
+        else:
+            return True

@@ -264,7 +264,10 @@ class ReferenceTextLabel(StorylineLabel):
 
     def changeCurrentPage(self):
         pageNo = DataAccessAPI.getCurrentPageNo()
-        self.currentPage = DataAccessAPI.getReferenceStorylineText(self,pageNo)
+        try:
+            self.currentPage = DataAccessAPI.getReferenceStorylineText(self,pageNo)
+        except Exception as e:
+            print(e, type(e))
 
     def on_currentPage(self,*args):
 

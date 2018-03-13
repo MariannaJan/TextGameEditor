@@ -21,7 +21,7 @@
 		MenuButton:
 			text: GameStrings.continuetext
 			on_release:
-			    root.manager.current = "gamescreen"
+			    root.continueGame()
 
 		MenuButton:
 			text: GameStrings.optionstext
@@ -58,6 +58,30 @@
                     root.startNewGame()
                     root.dismiss()
                     app.root.children[0].current = "gamescreen"
+            MenuButton:
+                text: GameStrings.notext
+                on_press: root.dismiss()
+
+<MustChooseStoryPopup>
+    title: ''
+
+    MenuBoxLayout:
+
+        CustomLabel:
+            text: GameStrings.mustchoosestorytext
+            font_size: self.height*.1
+            halign: 'justify'
+	        valign: 'top'
+
+        MenuBoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .5
+
+            MenuButton:
+                text: GameStrings.yestext
+                on_press:
+                    root.dismiss()
+                    app.root.children[0].current = 'choosestoryscreen'
             MenuButton:
                 text: GameStrings.notext
                 on_press: root.dismiss()
