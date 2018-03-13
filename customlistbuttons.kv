@@ -5,3 +5,26 @@
 <LocationsButton>
 <StoriesButton>
 
+<StoryDescriptionPopup>
+    popupText: popup_text
+    title: ''
+
+    MenuBoxLayout:
+
+        ScrollableLabel:
+            id: popup_text
+            text: GameStrings.newgameconfirmtext
+
+        MenuBoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: .5
+
+            MenuButton:
+                text: GameStrings.yestext
+                on_press:
+                    root.startStory()
+                    root.dismiss()
+                    app.root.children[0].current = "gamescreen"
+            MenuButton:
+                text: GameStrings.notext
+                on_press: root.dismiss()

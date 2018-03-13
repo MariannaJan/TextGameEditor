@@ -60,3 +60,4 @@ class NewGameConfirmationPopup(ActionPopup):
 		DataAccessAPI.clearOneTimeInteractions()
 		collect()
 
+

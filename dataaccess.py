@@ -349,6 +349,10 @@ class DataAccess:
         return storiesFolder / chosenStoryDatabase
 
     @classmethod
+    def setChosenStoryDatabase(cls,database):
+        cls._setSavedSetting('chosenGameDatabase',database)
+
+    @classmethod
     def _getSavedGameStateElement(cls,requestedElement):
         """Internal method for getting elements of the state of saved game.
 

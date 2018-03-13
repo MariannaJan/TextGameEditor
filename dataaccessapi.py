@@ -1,5 +1,6 @@
 from dataaccess import DataAccess as DA
 from functools import partial
+import os
 
 class DataAccessAPI:
     """API for getting the necessary data, separating the mechanism of data base access from providing necessary data."""
@@ -480,3 +481,7 @@ class DataAccessAPI:
     @classmethod
     def getStoryDesc(cls,databaseFile):
         return DA.getStoryDescription(databaseFile=databaseFile)
+
+    @classmethod
+    def setChosenStory(cls,database):
+        DA.setChosenStoryDatabase(database=os.path.split(database)[1])
