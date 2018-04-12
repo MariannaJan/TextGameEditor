@@ -1,6 +1,5 @@
 """Starting screen of the game."""
 from gc import collect
-from functools import wraps
 
 from kivy.core.audio import SoundLoader
 from kivy.app import App
@@ -42,7 +41,8 @@ class MainMenuScreen(BasicScreen):
 		except:
 			print("no audio file to be stopped")
 
-	def newGameConfirmationPopupOpen(self):
+	@classmethod
+	def newGameConfirmationPopupOpen(cls):
 		if DataAccess.checkIfStoryExists():
 			confirmPop = NewGameConfirmationPopup()
 			confirmPop.open()
@@ -50,14 +50,13 @@ class MainMenuScreen(BasicScreen):
 			mustChoosePop = MustChooseStoryPopup()
 			mustChoosePop.open()
 
-	def continueGame(self):
+	@classmethod
+	def continueGame(cls):
 		if DataAccess.checkIfStoryExists():
 			App.get_running_app().root.children[0].current = "gamescreen"
 		else:
 			mustChoosePop = MustChooseStoryPopup()
 			mustChoosePop.open()
-
-
 
 class NewGameConfirmationPopup(ActionPopup):
 
