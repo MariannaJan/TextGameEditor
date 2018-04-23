@@ -1,9 +1,10 @@
 from dataaccess import DataAccess as DA
-from functools import partial
+from functools import partial, lru_cache
 import os
 
 class DataAccessAPI:
     """API for getting the necessary data, separating the mechanism of data base access from providing necessary data."""
+
 
     def getReferenceName(self, refName):
         """Get the display name of the clicked reference.
@@ -17,6 +18,7 @@ class DataAccessAPI:
         referenceName = DA.getActiveObjectName(self,refName)
         return referenceName
 
+
     def getReferenceDescription(self,refName):
         """Get the display description of the clicked reference.
 
@@ -28,6 +30,7 @@ class DataAccessAPI:
 
         referenceDescription = DA.getActiveObjectDescription(self,refName)
         return referenceDescription
+
 
     def getReferenceInteractions(self,refName):
         """Get possible interactions for the clicked reference and their details.
@@ -55,6 +58,7 @@ class DataAccessAPI:
                                                   'PurgeInventoryFlag'      :DataAccessAPI._changeToBool(description[11])}
 
         return referenceInteractions
+
 
     def getReferenceStorylineText(self,pageNo):
         """Get the text with active references for the current gamplay page.
@@ -183,7 +187,7 @@ class DataAccessAPI:
     @classmethod
     def setCurrentEmpathyValue(cls,empathyValue):
         resultingEmpathyValue = empathyValue + int(DA.getSavedEmpathyValue())
-        if (DataAccessAPI.getMinimumEmpathy() < resultingEmpathyValue < DataAccessAPI.getMaximumEmpathy()) or empathyValue == 0:
+        if (DataAccessAPI.getMinimumEmpathy() <= resultingEmpathyValue <= DataAccessAPI.getMaximumEmpathy()) or empathyValue == 0:
             newEmpathyValue = resultingEmpathyValue
         elif empathyValue < 0:
             newEmpathyValue = DataAccessAPI.getMinimumEmpathy()
@@ -204,7 +208,7 @@ class DataAccessAPI:
     @classmethod
     def setCurrentSanityValue(cls,sanityValue):
         resultingSanityValue = sanityValue + int(DA.getSavedSanityValue())
-        if DataAccessAPI.getMinimumSanity() < resultingSanityValue < DataAccessAPI.getMaximumSanity():
+        if DataAccessAPI.getMinimumSanity() <= resultingSanityValue <= DataAccessAPI.getMaximumSanity() or sanityValue == 0:
             newSanityValue = resultingSanityValue
         elif resultingSanityValue < 0:
             newSanityValue = DataAccessAPI.getMinimumSanity()

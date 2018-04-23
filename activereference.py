@@ -195,18 +195,20 @@ class ActiveReference:
     def adjustEmpathy(cls,emapthyValue):
         DataAccessAPI.setCurrentEmpathyValue(emapthyValue)
         app = App.get_running_app()
-        if type(app.root.children[0].current_screen) == 'GameScreen':
+        if app.root.children[0].current_screen.name == 'gamescreen':
             empathyBar = app.root.children[0].current_screen.empathyBar
-            empathyBar.empathyValue = DataAccessAPI.getCurrentEmpathyValue()
+            newEmp = DataAccessAPI.getCurrentEmpathyValue()
+            empathyBar.empathyValue = newEmp
 
 
     @classmethod
     def adjustSanity(cls,sanityValue):
         DataAccessAPI.setCurrentSanityValue(sanityValue)
         app = App.get_running_app()
-        if type(app.root.children[0].current_screen) == 'GameScreen':
+        if app.root.children[0].current_screen.name == 'gamescreen':
             sanityBar = app.root.children[0].current_screen.sanityBar
-            sanityBar.sanityValue = DataAccessAPI.getCurrentSanityValue()
+            newSan = DataAccessAPI.getCurrentSanityValue()
+            sanityBar.sanityValue = newSan
 
     @classmethod
     def activateInteractionEffects(cls,interactionInfo,refName='',interactionName=''):
