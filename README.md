@@ -1,1 +1,8 @@
 ![MainMenu](/../screenshots/Screenshots/MainMenu.PNG?raw=true "Main Menu")
+![GameScreen](/../screenshots/Screenshots/GameScreen.PNG?raw=true "Game Screen")
+![InspectPopup](/../screenshots/Screenshots/InspectPopup.PNG?raw=true "Inspect Popup")
+![InteractPopup](/../screenshots/Screenshots/InteractPopup.PNG?raw=true "Interact Popup")
+![InventoryScreen](/../screenshots/Screenshots/InventoryScreen.PNG?raw=true "Inventory Screen")
+![InventoryItem](/../screenshots/Screenshots/InventoryItem.PNG?raw=true "Inventory Item")
+![LocationsScreen](/../screenshots/Screenshots/LocationsScreen.PNG?raw=true "Locations Screen")
+![JournalScreen](/../screenshots/Screenshots/JournalScreen.PNG?raw=true "Journal Screen")
