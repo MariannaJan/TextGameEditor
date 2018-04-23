@@ -23,6 +23,12 @@
                 cls=StoriesButton)
 
         MenuButton:
+            text: GameStrings.findmorestoriestext
+            font_size: 20
+            size_hint_y: .1
+            on_press: root.openBrowser()
+
+        MenuButton:
             text: GameStrings.closetext
             size_hint_y: .2
             on_press: root.manager.current = "mainmenu"

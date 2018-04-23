@@ -4,6 +4,8 @@ from dataaccessapi import DataAccessAPI
 from kivy.app import App
 from customlistbuttons import StoriesButton
 
+import webbrowser
+
 
 
 class ChooseStoryScreen(BasicScreen):
@@ -19,4 +21,5 @@ class ChooseStoryScreen(BasicScreen):
         for i in range(storyChooserView.get_count()):
             storyChooserView.get_view(i).setStoryDatabase(DataAccessAPI.getStories()[i])
 
-
+    def openBrowser(self):
+        webbrowser.open(DataAccessAPI.getGameUrls()['storiesPage'])

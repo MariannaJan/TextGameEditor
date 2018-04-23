@@ -485,3 +485,12 @@ class DataAccessAPI:
     @classmethod
     def setChosenStory(cls,database):
         DA.setChosenStoryDatabase(database=os.path.split(database)[1])
+
+    @classmethod
+    def getGameUrls(cls):
+        gameUrls =  { 'storiesPage'     : DA.getUrlData()[0],
+                      'storiesDirect'   : DA.getUrlData()[1],
+                      'websiteText'     : DA.getUrlData()[2]
+        }
+        return gameUrls
+

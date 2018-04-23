@@ -1,4 +1,8 @@
+from dataaccessapi import DataAccessAPI
+
 class GameStrings:
+
+    storiesWebsite = DataAccessAPI.getGameUrls()['websiteText']
 
     mainmenutext = "Main Menu"
     newgametext = "New Game"
@@ -40,3 +44,4 @@ class GameStrings:
     turnsoundofftext = 'Turn the sound OFF'
     choosethemetext = 'Choose theme'
     mustchoosestorytext = 'You need to choose a story.\nDo you want to do it now?'
+    findmorestoriestext = 'You can find more stories on {}'.format(storiesWebsite)

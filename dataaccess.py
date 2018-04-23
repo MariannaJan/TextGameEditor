@@ -654,3 +654,10 @@ class DataAccess:
             return False
         else:
             return True
+
+    @classmethod
+    def getUrlData(cls):
+        base = DataAccess(DataAccess.engineDatabase)
+        c = base._query('select getStoriesFromPage,getStoriesDirectly,storiesWebpageText from Urls;')
+        urlData = c.fetchone()
+        return list(urlData)
